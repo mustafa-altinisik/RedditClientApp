@@ -52,8 +52,8 @@ class MainViewController: UIViewController{
     }
 
     @IBAction func trendingsButton(_ sender: Any) {
-        makeRedditAPICall(subreddit: "trend", maximumNumberOfPosts: 50)
-        subreddit = "trend"
+        makeRedditAPICall(subreddit: "trendingsubreddits", maximumNumberOfPosts: 50)
+        subreddit = "trendings"
     }
 
     @IBAction func technologyButtonPressed(_ sender: Any) {
