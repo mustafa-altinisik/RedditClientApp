@@ -32,5 +32,10 @@ class TrendingCarouselCell: UICollectionViewCell {
         
         imageView.frame = contentView.bounds
         textLabel.frame = CGRect(x: 0, y: contentView.bounds.size.height - 30, width: contentView.bounds.size.width, height: 30)
+        //Add boundaries to whole cell
+        contentView.layer.borderWidth = 1.0
+        contentView.layer.borderColor = UIColor.black.cgColor
+        contentView.layer.cornerRadius = 8.0
+        
     }
 }
