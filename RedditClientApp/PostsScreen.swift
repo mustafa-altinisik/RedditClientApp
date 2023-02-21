@@ -52,8 +52,7 @@ extension PostsScreen: UITableViewDataSource {
         cell.postTitle.text = post.title
         
         DispatchQueue.global().async {
-            let data = try? Data(contentsOf: imageURL!)
-            if let data = data {
+            if let url = imageURL, let data = try? Data(contentsOf: url) {
                 if let image = UIImage(data: data) {
                     DispatchQueue.main.async {
                         if let imageView = imageView {
