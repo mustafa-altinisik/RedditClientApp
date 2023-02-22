@@ -12,6 +12,8 @@ class MainViewController: UIViewController{
     var subreddit = ""
     
     var redditPosts : [RedditPost] = []
+    var trengingPosts : [RedditPost] = []
+
     
     struct RedditResponse: Codable {
       let data: RedditData
@@ -47,38 +49,45 @@ class MainViewController: UIViewController{
         subreddit = searchBar.text!
         if subreddit != "" {
             searchBar.text = ""
-            makeRedditAPICall(subreddit: subreddit, maximumNumberOfPosts: 50)
+            makeRedditAPICall(subreddit: subreddit, maximumNumberOfPosts: 50, willItBeUsedForViewController: false)
+            showPostsScreen()
         }
     }
 
     @IBAction func trendingsButton(_ sender: Any) {
-        makeRedditAPICall(subreddit: "trendingsubreddits", maximumNumberOfPosts: 50)
+        makeRedditAPICall(subreddit: "trendingsubreddits", maximumNumberOfPosts: 50, willItBeUsedForViewController: false)
         subreddit = "trendings"
+        showPostsScreen()
     }
 
     @IBAction func technologyButtonPressed(_ sender: Any) {
-        makeRedditAPICall(subreddit: "technology", maximumNumberOfPosts: 50)
+        makeRedditAPICall(subreddit: "technology", maximumNumberOfPosts: 50, willItBeUsedForViewController: false)
         subreddit = "technology"
+        showPostsScreen()
     }
 
     @IBAction func photographyButtonPressed(_ sender: Any) {
-        makeRedditAPICall(subreddit: "photography", maximumNumberOfPosts: 50)
+        makeRedditAPICall(subreddit: "photography", maximumNumberOfPosts: 50, willItBeUsedForViewController: false)
         subreddit = "photography"
+        showPostsScreen()
     }
 
     @IBAction func scienceButtonPressed(_ sender: Any) {
-        makeRedditAPICall(subreddit: "science", maximumNumberOfPosts: 50)
+        makeRedditAPICall(subreddit: "science", maximumNumberOfPosts: 50, willItBeUsedForViewController: false)
         subreddit = "science"
+        showPostsScreen()
     }
 
     @IBAction func computersButtonPressed(_ sender: Any) {
-        makeRedditAPICall(subreddit: "computers", maximumNumberOfPosts: 50)
+        makeRedditAPICall(subreddit: "computers", maximumNumberOfPosts: 50, willItBeUsedForViewController: false)
         subreddit = "computers"
+        showPostsScreen()
     }
 
     @IBAction func newsButtonPressed(_ sender: Any) {
-        makeRedditAPICall(subreddit: "news", maximumNumberOfPosts: 50)
+        makeRedditAPICall(subreddit: "news", maximumNumberOfPosts: 50, willItBeUsedForViewController: false)
         subreddit = "news"
+        showPostsScreen()
     }
 
     //This function is used to show the posts screen
@@ -99,7 +108,7 @@ class MainViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        makeRedditAPICall(subreddit: "turkey", maximumNumberOfPosts: 50, willItBeUsedForViewController: true)
         trendingsCollectionView.dataSource = self
         trendingsCollectionView.delegate = self
         trendingsCollectionView.register(TrendingCarouselCell.self, forCellWithReuseIdentifier: reuseIdentifier)
@@ -116,18 +125,21 @@ class MainViewController: UIViewController{
     }
 
     //This function is used to make the API call and put the data into redditPosts array
-    func makeRedditAPICall(subreddit: String, maximumNumberOfPosts: Int) {
+    func makeRedditAPICall(subreddit: String, maximumNumberOfPosts: Int, willItBeUsedForViewController: Bool) {
       let url = URL(string: "https://www.reddit.com/r/\(subreddit)/top.json?limit=\(maximumNumberOfPosts)")!
       let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
         if let data = data {
           let decoder = JSONDecoder()
           do {
             let redditResponse = try decoder.decode(RedditResponse.self, from: data)
-              self.redditPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
+              if(willItBeUsedForViewController){
+                  self.trengingPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
+              }else{
+                  self.redditPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
+              }
               print(self.redditPosts)
-              self.showPostsScreen()
           } catch {
-            print("Error decoding JSON: \(error)")
+              print("Error decoding JSON: \(error.localizedDescription)")
           }
         }
       }
@@ -137,13 +149,34 @@ class MainViewController: UIViewController{
 
 //MARK: - Extension below contains functions related to the collection view that displays the trending posts.
 extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+        return trengingPosts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TrendingCarouselCell
-        cell.textLabel.text = items[indexPath.row]
+        
+        let data = trengingPosts[indexPath.row]
+        let imageURL = URL(string: data.imageURL)
+        let imageView = cell.imageView
+        
+        cell.textLabel.text = data.title
+        
+        DispatchQueue.global().async {
+            if let url = imageURL, let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        //if let imageView = imageView {
+                            imageView.image = image
+                        //}
+                    }
+                }
+            }
+        }
+        
         return cell
     }
     
