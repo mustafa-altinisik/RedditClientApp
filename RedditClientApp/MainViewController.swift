@@ -57,37 +57,31 @@ class MainViewController: UIViewController{
     @IBAction func trendingsButton(_ sender: Any) {
         makeRedditAPICall(subreddit: "trendingsubreddits", maximumNumberOfPosts: 50, willItBeUsedForViewController: false)
         subreddit = "trendings"
-        showPostsScreen()
     }
 
     @IBAction func technologyButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "technology", maximumNumberOfPosts: 50, willItBeUsedForViewController: false)
         subreddit = "technology"
-        showPostsScreen()
     }
 
     @IBAction func photographyButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "photography", maximumNumberOfPosts: 50, willItBeUsedForViewController: false)
         subreddit = "photography"
-        showPostsScreen()
     }
 
     @IBAction func scienceButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "science", maximumNumberOfPosts: 50, willItBeUsedForViewController: false)
         subreddit = "science"
-        showPostsScreen()
     }
 
     @IBAction func computersButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "computers", maximumNumberOfPosts: 50, willItBeUsedForViewController: false)
         subreddit = "computers"
-        showPostsScreen()
     }
 
     @IBAction func newsButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "news", maximumNumberOfPosts: 50, willItBeUsedForViewController: false)
         subreddit = "news"
-        showPostsScreen()
     }
 
     //This function is used to show the posts screen
@@ -136,6 +130,7 @@ class MainViewController: UIViewController{
                   self.trengingPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
               }else{
                   self.redditPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
+                  self.showPostsScreen()
               }
               print(self.redditPosts)
           } catch {
