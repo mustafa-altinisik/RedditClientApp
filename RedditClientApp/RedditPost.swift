@@ -12,10 +12,12 @@ struct RedditPost {
   let imageURL: String
   let title: String
   let description: String
+  let permalink: String
 
-  init(imageURL: String, title: String, description: String) {
+  init(imageURL: String, title: String, description: String, permalink: String) {
     self.imageURL = imageURL
     self.title = title
     self.description = description
+    self.permalink = permalink
   }
 }

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 //This class is used to display the posts of a subreddit
-class PostsScreen: UIViewController, UITableViewDelegate {
+class PostsScreen: UIViewController {
     
     @IBOutlet weak var subredditLabel: UILabel!
     @IBOutlet weak var postsTable: UITableView!
@@ -28,11 +28,12 @@ class PostsScreen: UIViewController, UITableViewDelegate {
         subredditName = "r/" + subredditName
         subredditLabel.text = subredditName
         postsTable.dataSource = self
+        postsTable.delegate = self
     }
 }
 
 //MARK: - This extension contains the functions that are used to display the posts on the posts screen
-extension PostsScreen: UITableViewDataSource {
+extension PostsScreen: UITableViewDataSource, UITableViewDelegate {
     //This function returns the number of posts that will be displayed on the posts screen
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return postsArray.count
@@ -65,4 +66,14 @@ extension PostsScreen: UITableViewDataSource {
         }
         return cell
     }
+    
+    //This function opens the post on the reddit website when the user taps on a post
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let post = postsArray[indexPath.row]
+        if let url = URL(string: "https://www.reddit.com/" + post.permalink) {
+            UIApplication.shared.open(url)
+        }
+    }
 }
+
+

@@ -19,7 +19,6 @@ class MainViewController: UIViewController{
     //This array is used to store the posts that will be displayed on the trending posts carousel in the main screen
     var trengingPosts : [RedditPost] = []
 
-    
     struct RedditResponse: Codable {
       let data: RedditData
     }
@@ -36,16 +35,18 @@ class MainViewController: UIViewController{
       let thumbnail: String
       let title: String
       let selftext: String
+      let permalink: String
         
     enum CodingKeys: String, CodingKey {
         case thumbnail
         case title
         case selftext
+        case permalink
       }
 
       //This function is used to convert the data from the API call to RedditPost struct
       func toRedditPost() -> RedditPost {
-        return RedditPost(imageURL: thumbnail, title: title, description: selftext)
+        return RedditPost(imageURL: thumbnail, title: title, description: selftext, permalink: permalink)
       }
     }
     
