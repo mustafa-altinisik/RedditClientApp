@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MF4-rw-Zoh" userLabel="trendingsCollectionView">
-                                <rect key="frame" x="16" y="101.33333333333331" width="361" height="200"/>
+                                <rect key="frame" x="16" y="101.33333333333331" width="361" height="200.00000000000006"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="w0S-Y1-xqs"/>
@@ -224,7 +224,7 @@
         <!--Posts Screen-->
         <scene sceneID="yQs-4q-xUH">
             <objects>
-                <viewController storyboardIdentifier="postsScreen" id="mVU-gP-Trs" customClass="PostsScreen" customModule="Reddit_Client_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="postsScreen" id="mVU-gP-Trs" customClass="PostsScreen" customModule="RedditClientApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Vkj-YG-Rd8">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -302,11 +302,6 @@
                                     <action selector="backButtonTapped:" destination="mVU-gP-Trs" eventType="touchUpInside" id="rnv-XB-mXf"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C6b-1S-SbC">
-                                <rect key="frame" x="321" y="60" width="52" height="35"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="star" catalog="system" title=""/>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Za0-ES-BJp">
                                 <rect key="frame" x="161.33333333333334" y="67" width="70.333333333333343" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -317,7 +312,6 @@
                         <viewLayoutGuide key="safeArea" id="8y7-eG-xOD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="C6b-1S-SbC" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="1" id="3be-Up-P4w"/>
                             <constraint firstItem="IxB-nq-7OS" firstAttribute="leading" secondItem="8y7-eG-xOD" secondAttribute="leading" constant="10" id="BQB-ws-pyk"/>
                             <constraint firstItem="IxB-nq-7OS" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="1" id="G99-FA-Och"/>
                             <constraint firstItem="TLR-fh-J6O" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="44" id="L5P-Gh-yqu"/>
@@ -327,7 +321,6 @@
                             <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="IxB-nq-7OS" secondAttribute="trailing" symbolic="YES" id="Xjl-Yf-CpX"/>
                             <constraint firstItem="Za0-ES-BJp" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="8" id="fpg-9B-cGT"/>
                             <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="TLR-fh-J6O" secondAttribute="trailing" id="gC8-eM-X4N"/>
-                            <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="C6b-1S-SbC" secondAttribute="trailing" constant="20" id="xfF-hK-oew"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uB2-1y-GrF"/>
@@ -349,7 +342,6 @@
         <image name="iphone" catalog="system" width="112" height="128"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="ruler" catalog="system" width="128" height="57"/>
-        <image name="star" catalog="system" width="128" height="116"/>
         <image name="terminal" catalog="system" width="128" height="93"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -8,36 +8,37 @@
 import Foundation
 import UIKit
 
+//This class is used to display the posts of a subreddit
 class PostsScreen: UIViewController, UITableViewDelegate {
     
     @IBOutlet weak var subredditLabel: UILabel!
+    @IBOutlet weak var postsTable: UITableView!
     
+    //postsArray comes from the MainViewController, it contains the posts of the subreddit that the user has selected
+    var postsArray : [RedditPost] = []
+    var subredditName : String = ""
+
+    //This function dissmisses the posts screen when the user presses the back button
     @IBAction func backButtonTapped(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
-    
-    var postsArray : [RedditPost] = []
-    var favoriteSubreddits : [String] = []
 
-    
-    var subredditName : String = ""
-    @IBOutlet weak var postsTable: UITableView!
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         subredditName = "r/" + subredditName
         subredditLabel.text = subredditName
-        print(subredditName)
         postsTable.dataSource = self
     }
 }
 
+//MARK: - This extension contains the functions that are used to display the posts on the posts screen
 extension PostsScreen: UITableViewDataSource {
+    //This function returns the number of posts that will be displayed on the posts screen
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return postsArray.count
     }
     
+    //This function puts the data of the posts into the cells of the posts screen
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = postsTable.dequeueReusableCell(withIdentifier: "postCell") as! PostsTVC        
         let post = postsArray[indexPath.row]
@@ -47,10 +48,10 @@ extension PostsScreen: UITableViewDataSource {
         
         imageView?.contentMode = .scaleAspectFit
 
-        
         cell.postDescription.text = post.description
         cell.postTitle.text = post.title
         
+        //DispatchQueue.global().async is used to download the images in the background.
         DispatchQueue.global().async {
             if let url = imageURL, let data = try? Data(contentsOf: url) {
                 if let image = UIImage(data: data) {
