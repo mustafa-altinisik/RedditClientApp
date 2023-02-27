@@ -51,7 +51,7 @@ class MainViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        makeRedditAPICall(subreddit: "turkey", maximumNumberOfPosts: 50, willItBeUsedForCarousel: true)
+        makeRedditAPICall(subreddit: "turkey", maximumNumberOfPosts: 10, willItBeUsedForCarousel: true)
         trendingsCollectionView.dataSource = self
         trendingsCollectionView.delegate = self
         trendingsCollectionView.register(TrendingCarouselCell.self, forCellWithReuseIdentifier: "CarouselCell")
@@ -195,13 +195,18 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         let currentIndex = trendingsCollectionView.contentOffset.x / trendingsCollectionView.bounds.size.width
         let nextIndex = round(currentIndex)
 
+        // Check if the next index is within the range of the number of items in the section
+        let numberOfItemsInSection = trendingsCollectionView.numberOfItems(inSection: 0)
+        guard nextIndex >= 0 && nextIndex < Double(numberOfItemsInSection) else {
+            return
+        }
+
         // Scroll to the next item with animation
         let indexPath = IndexPath(item: Int(nextIndex), section: 0)
         trendingsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         //Make a short vibration when fully scrolled
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
-        
     }
 }
 
