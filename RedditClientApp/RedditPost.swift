@@ -7,6 +7,7 @@
 
 import Foundation
 
+//This struct is used to store the data of a single post
 struct RedditPost {
   let imageURL: String
   let title: String

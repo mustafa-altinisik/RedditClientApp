@@ -7,6 +7,7 @@
 
 import UIKit
 
+//This class contains the outlets that are used to display a single post cell on the posts screen.
 class PostsTVC: UITableViewCell {
 
     @IBOutlet weak var postTitle: UILabel!

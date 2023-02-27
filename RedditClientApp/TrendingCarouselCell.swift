@@ -7,11 +7,15 @@
 
 import UIKit
 
+//This class is used to create a single cell for the trending posts carousel in the main screen.
+//The design is done programmatically.
 class TrendingCarouselCell: UICollectionViewCell {
     
+    //Create the image view and the label that will be used to display the image and the title of the post.
     let imageView = UIImageView()
     let textLabel = UILabel()
     
+    //This function initializes the cell with the given frame.
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -27,12 +31,12 @@ class TrendingCarouselCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //This function sets the properties of the cell.
     override func layoutSubviews() {
         super.layoutSubviews()
         
         imageView.frame = contentView.bounds
         textLabel.frame = CGRect(x: 0, y: contentView.bounds.size.height - 30, width: contentView.bounds.size.width, height: 30)
-        //Add boundaries to whole cell
         contentView.layer.borderWidth = 1.0
         contentView.layer.borderColor = UIColor.black.cgColor
         contentView.layer.cornerRadius = 8.0
