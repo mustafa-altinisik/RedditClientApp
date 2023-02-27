@@ -23,7 +23,10 @@ class TrendingCarouselCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         contentView.addSubview(imageView)
         
+        textLabel.numberOfLines = 0
         textLabel.textAlignment = .center
+        textLabel.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        textLabel.textColor = .white
         contentView.addSubview(textLabel)
     }
     
@@ -36,7 +39,10 @@ class TrendingCarouselCell: UICollectionViewCell {
         super.layoutSubviews()
         
         imageView.frame = contentView.bounds
-        textLabel.frame = CGRect(x: 0, y: contentView.bounds.size.height - 30, width: contentView.bounds.size.width, height: 30)
+        //Make textLabels height 30% of the cell's height.
+        //Here is a good explanation of CGRect: https://stackoverflow.com/questions/30658045/difference-between-cgsize-and-cgrect
+        textLabel.frame = CGRect(x: 0, y: contentView.bounds.size.height - (contentView.bounds.size.height * 0.3),
+                                 width: contentView.bounds.size.width, height: contentView.bounds.size.height * 0.3)
         contentView.layer.borderWidth = 1.0
         contentView.layer.borderColor = UIColor.black.cgColor
         contentView.layer.cornerRadius = 8.0
