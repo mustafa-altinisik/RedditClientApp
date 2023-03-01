@@ -70,10 +70,12 @@ extension PostsScreen: UITableViewDataSource, UITableViewDelegate {
     //This function opens the post on the reddit website when the user taps on a post
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let post = postsArray[indexPath.row]
-        if let url = URL(string: "https://www.reddit.com/" + post.permalink) {
+        if let permalink = post.permalink.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+           let url = URL(string: "https://www.reddit.com/\(permalink)") {
             UIApplication.shared.open(url)
         }
     }
+
 }
 
 

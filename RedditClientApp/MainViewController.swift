@@ -17,7 +17,7 @@ class MainViewController: UIViewController{
     //This array is used to store the posts that will be displayed on the posts screen
     var redditPosts : [RedditPost] = []
     //This array is used to store the posts that will be displayed on the trending posts carousel in the main screen
-    var trengingPosts : [RedditPost] = []
+    var trendingPosts : [RedditPost] = []
 
     struct RedditResponse: Codable {
       let data: RedditData
@@ -134,7 +134,7 @@ class MainViewController: UIViewController{
             let redditResponse = try decoder.decode(RedditResponse.self, from: data)
               //If the data will be used for the trending posts carousel, the data will be put into the trengingPosts array and reddit posts screen will not be shown.
               if(willItBeUsedForCarousel){
-                  self.trengingPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
+                  self.trendingPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
               }else{
                   //If the data will be used for the posts screen, the data will be put into the redditPosts array and the posts screen will be shown.
                   self.redditPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
@@ -152,11 +152,11 @@ class MainViewController: UIViewController{
 }
 
 //MARK: - Extension below contains functions related to the collection view that displays the trending posts.
-extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate{
     
     //This function is used to determine the number of items in the collection view.
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return trengingPosts.count
+        return trendingPosts.count
     }
     
     //This function is used to determine the content of each cell in the collection view.
@@ -164,7 +164,7 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CarouselCell", for: indexPath) as! TrendingCarouselCell
         //Data is the data that will be put into the cell.
-        let data = trengingPosts[indexPath.row]
+        let data = trendingPosts[indexPath.row]
         
         let imageURL = URL(string: data.imageURL)
         let imageView = cell.imageView
@@ -208,6 +208,15 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
         //Make a short vibration when fully scrolled
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
+    }
+    
+    //This function opens the post on the reddit website when the user taps on a post in the collection view.
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let post = trendingPosts[indexPath.row]
+        if let permalink = post.permalink.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+           let url = URL(string: "https://www.reddit.com/\(permalink)") {
+            UIApplication.shared.open(url)
+        }
     }
 }
 
