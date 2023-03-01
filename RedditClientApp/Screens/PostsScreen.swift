@@ -14,7 +14,7 @@ class PostsScreen: UIViewController {
     @IBOutlet weak var subredditLabel: UILabel!
     @IBOutlet weak var postsTable: UITableView!
     
-    //postsArray comes from the MainViewController, it contains the posts of the subreddit that the user has selected
+    //postsArray comes from the HomeScreen, it contains the posts of the subreddit that the user has selected
     var postsArray : [RedditPost] = []
     var subredditName : String = ""
 
@@ -41,7 +41,7 @@ extension PostsScreen: UITableViewDataSource, UITableViewDelegate {
     
     //This function puts the data of the posts into the cells of the posts screen
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = postsTable.dequeueReusableCell(withIdentifier: "postCell") as! PostsTVC        
+        let cell = postsTable.dequeueReusableCell(withIdentifier: "postCell") as! PostsTableViewCell        
         let post = postsArray[indexPath.row]
 
         let imageURL = URL(string: post.imageURL)

@@ -8,7 +8,7 @@
 import UIKit
 
 
-class MainViewController: UIViewController{
+class HomeScreen: UIViewController{
     
     @IBOutlet private weak var trendingsCollectionView: UICollectionView!
     @IBOutlet weak var searchBar: UITextField!
@@ -152,7 +152,7 @@ class MainViewController: UIViewController{
 }
 
 //MARK: - Extension below contains functions related to the collection view that displays the trending posts.
-extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate{
+extension HomeScreen: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate{
     
     //This function is used to determine the number of items in the collection view.
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -221,10 +221,10 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
 }
 
 //MARK: - Extension below contains functions that are used to hide the keyboard when the user taps outside of the text field.
-extension MainViewController {
+extension HomeScreen {
   func hideKeyboardWhenTappedAround() {
     let tap = UITapGestureRecognizer(
-      target: self, action: #selector(MainViewController.dismissKeyboard))
+      target: self, action: #selector(HomeScreen.dismissKeyboard))
     tap.cancelsTouchesInView = false
     view.addGestureRecognizer(tap)
   }
