@@ -12,13 +12,13 @@
         <!--Home Screen-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="HomeScreen" customModule="RedditClientApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mainScreen" id="BYZ-38-t0r" customClass="HomeScreen" customModule="RedditClientApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MF4-rw-Zoh" userLabel="trendingsCollectionView">
-                                <rect key="frame" x="16" y="101.33333333333331" width="361" height="200.00000000000006"/>
+                                <rect key="frame" x="16" y="101.33333333333331" width="361" height="200"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="w0S-Y1-xqs"/>
@@ -204,17 +204,18 @@
                             <constraint firstItem="MF4-rw-Zoh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="RDo-QU-gcm"/>
                             <constraint firstItem="1bu-1i-bM2" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Rbs-F4-ddI"/>
                             <constraint firstItem="1bu-1i-bM2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="UvU-Y7-Vh6"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wQ9-n1-s3i" secondAttribute="trailing" constant="294" id="Xq2-Nn-JDh"/>
                             <constraint firstItem="D87-wM-NPL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="bYW-wN-NiR"/>
                             <constraint firstItem="D87-wM-NPL" firstAttribute="centerY" secondItem="1bu-1i-bM2" secondAttribute="centerY" id="iO9-7B-x1M"/>
                             <constraint firstItem="b5c-2Y-JhJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="m7K-YI-5CB"/>
-                            <constraint firstItem="wQ9-n1-s3i" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="o1F-bf-skk"/>
+                            <constraint firstItem="wQ9-n1-s3i" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="o1F-bf-skk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MF4-rw-Zoh" secondAttribute="trailing" constant="16" id="p5I-9x-9Ci"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="searchBar" destination="1bu-1i-bM2" id="ghd-rG-fnW"/>
                         <outlet property="trendingsCollectionView" destination="MF4-rw-Zoh" id="i90-sf-7vq"/>
-                        <segue destination="mVU-gP-Trs" kind="custom" identifier="toPostsScreen" id="Whh-1d-L6D"/>
+                        <segue destination="mVU-gP-Trs" kind="custom" identifier="toPostsScreen" customClass="toPostsScreen" customModule="RedditClientApp" customModuleProvider="target" id="Whh-1d-L6D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -230,7 +231,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="TLR-fh-J6O">
-                                <rect key="frame" x="0.0" y="103" width="393" height="715"/>
+                                <rect key="frame" x="0.0" y="133" width="393" height="685"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="postCell" rowHeight="100" id="w0g-cb-qpK" customClass="PostsTableViewCell" customModule="RedditClientApp" customModuleProvider="target">
@@ -294,8 +295,8 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IxB-nq-7OS">
-                                <rect key="frame" x="10" y="60" width="51" height="35"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IxB-nq-7OS" userLabel="backButton">
+                                <rect key="frame" x="10" y="60" width="51" height="34"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="arrowshape.backward" catalog="system"/>
                                 <connections>
@@ -303,8 +304,20 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Za0-ES-BJp">
-                                <rect key="frame" x="161.33333333333334" y="67" width="70.333333333333343" height="21"/>
+                                <rect key="frame" x="161.66666666666666" y="67" width="70" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" title="Safe Search" translatesAutoresizingMaskIntoConstraints="NO" id="jCj-yk-cHe" userLabel="safeSearch">
+                                <rect key="frame" x="326" y="62" width="51" height="31"/>
+                                <connections>
+                                    <action selector="safeSearchSwitchValueChanged:" destination="mVU-gP-Trs" eventType="valueChanged" id="ZIb-0X-BHK"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Safe Search" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UJR-M0-yZA">
+                                <rect key="frame" x="328" y="96" width="49" height="28.666666666666671"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -312,26 +325,38 @@
                         <viewLayoutGuide key="safeArea" id="8y7-eG-xOD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="UJR-M0-yZA" firstAttribute="top" secondItem="jCj-yk-cHe" secondAttribute="bottom" constant="3" id="2Hm-MK-ffT"/>
+                            <constraint firstItem="UJR-M0-yZA" firstAttribute="width" secondItem="jCj-yk-cHe" secondAttribute="width" id="4ec-Z5-AYt"/>
+                            <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="jCj-yk-cHe" secondAttribute="trailing" constant="18" id="732-Ub-koS"/>
                             <constraint firstItem="IxB-nq-7OS" firstAttribute="leading" secondItem="8y7-eG-xOD" secondAttribute="leading" constant="10" id="BQB-ws-pyk"/>
+                            <constraint firstItem="jCj-yk-cHe" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="3" id="Blm-oW-3Y9"/>
                             <constraint firstItem="IxB-nq-7OS" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="1" id="G99-FA-Och"/>
-                            <constraint firstItem="TLR-fh-J6O" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="44" id="L5P-Gh-yqu"/>
+                            <constraint firstItem="TLR-fh-J6O" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="74" id="L5P-Gh-yqu"/>
                             <constraint firstItem="Za0-ES-BJp" firstAttribute="centerX" secondItem="Vkj-YG-Rd8" secondAttribute="centerX" id="OMt-x6-fP3"/>
                             <constraint firstItem="8y7-eG-xOD" firstAttribute="bottom" secondItem="TLR-fh-J6O" secondAttribute="bottom" id="T6d-Co-0nY"/>
                             <constraint firstItem="TLR-fh-J6O" firstAttribute="leading" secondItem="8y7-eG-xOD" secondAttribute="leading" id="Vnz-dp-Upi"/>
+                            <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="UJR-M0-yZA" secondAttribute="trailing" constant="16" id="WtS-d9-f5G"/>
                             <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="IxB-nq-7OS" secondAttribute="trailing" symbolic="YES" id="Xjl-Yf-CpX"/>
+                            <constraint firstItem="UJR-M0-yZA" firstAttribute="top" secondItem="jCj-yk-cHe" secondAttribute="bottom" constant="3" id="a70-Zp-E0T"/>
+                            <constraint firstItem="UJR-M0-yZA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8y7-eG-xOD" secondAttribute="leading" symbolic="YES" id="dU5-GQ-coR"/>
                             <constraint firstItem="Za0-ES-BJp" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="8" id="fpg-9B-cGT"/>
                             <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="TLR-fh-J6O" secondAttribute="trailing" id="gC8-eM-X4N"/>
+                            <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="UJR-M0-yZA" secondAttribute="trailing" constant="16" id="ndC-1Z-W8y"/>
+                            <constraint firstItem="jCj-yk-cHe" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="3" id="noG-eu-X9B"/>
+                            <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="jCj-yk-cHe" secondAttribute="trailing" constant="18" id="qGN-do-yds"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uB2-1y-GrF"/>
                     <connections>
                         <outlet property="postsTable" destination="TLR-fh-J6O" id="JjM-H2-YH1"/>
+                        <outlet property="safeSearchSwitch" destination="jCj-yk-cHe" id="QQt-mo-COq"/>
                         <outlet property="subredditLabel" destination="Za0-ES-BJp" id="pAW-vS-yPq"/>
+                        <segue destination="BYZ-38-t0r" kind="custom" identifier="toMainScreen" customClass="toMainScreen" customModule="RedditClientApp" customModuleProvider="target" id="uHT-YD-FeC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s0X-Ka-rIK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="863" y="-2"/>
+            <point key="canvasLocation" x="624" y="-2"/>
         </scene>
     </scenes>
     <resources>

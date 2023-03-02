@@ -16,8 +16,16 @@ class HomeScreen: UIViewController{
     var subreddit = ""
     //This array is used to store the posts that will be displayed on the posts screen
     var redditPosts : [RedditPost] = []
+
     //This array is used to store the posts that will be displayed on the trending posts carousel in the main screen
     var trendingPosts : [RedditPost] = []
+
+
+    //Defaults is used to save the user's preference for safe search
+    let defaults = UserDefaults.standard
+    //This preference also applies to the HomeScreen's viewController
+    var doesUserWantSafeSearch: Bool = false
+
 
     struct RedditResponse: Codable {
       let data: RedditData
@@ -36,22 +44,25 @@ class HomeScreen: UIViewController{
       let title: String
       let selftext: String
       let permalink: String
+      let over_18: Bool
         
     enum CodingKeys: String, CodingKey {
         case thumbnail
         case title
         case selftext
         case permalink
+        case over_18
       }
 
       //This function is used to convert the data from the API call to RedditPost struct
       func toRedditPost() -> RedditPost {
-        return RedditPost(imageURL: thumbnail, title: title, description: selftext, permalink: permalink)
+          return RedditPost(imageURL: thumbnail, title: title, description: selftext, permalink: permalink, over_18: over_18)
       }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
         makeRedditAPICall(subreddit: "turkey", maximumNumberOfPosts: 10, willItBeUsedForCarousel: true)
         trendingsCollectionView.dataSource = self
         trendingsCollectionView.delegate = self
@@ -134,7 +145,7 @@ class HomeScreen: UIViewController{
             let redditResponse = try decoder.decode(RedditResponse.self, from: data)
               //If the data will be used for the trending posts carousel, the data will be put into the trengingPosts array and reddit posts screen will not be shown.
               if(willItBeUsedForCarousel){
-                  self.trendingPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
+                    self.trendingPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
               }else{
                   //If the data will be used for the posts screen, the data will be put into the redditPosts array and the posts screen will be shown.
                   self.redditPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
@@ -148,6 +159,24 @@ class HomeScreen: UIViewController{
       }
       //The task is resumed to start the API call.
       task.resume()
+    }
+    
+
+    func filterSafePosts(posts: [RedditPost]) -> [RedditPost] {
+        var safePosts : [RedditPost] = []
+        for post in posts {
+            if post.over_18 == false {
+                safePosts.append(post)
+            }else{
+                var updatedPost = post
+                updatedPost.title = "Not Safe"
+                updatedPost.description = "Please change your search preferences to see."
+                updatedPost.imageURL = "assets/over_18.jpeg"
+                updatedPost.permalink = ""
+                safePosts.append(updatedPost)
+            }
+        }
+        return safePosts
     }
 }
 
@@ -163,14 +192,19 @@ extension HomeScreen: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CarouselCell", for: indexPath) as! TrendingCarouselCell
-        //Data is the data that will be put into the cell.
-        let data = trendingPosts[indexPath.row]
         
+        if(doesUserWantSafeSearch){
+            trendingPosts = filterSafePosts(posts: trendingPosts)
+        }
+        
+
+        let data = trendingPosts[indexPath.row]
+                    
         let imageURL = URL(string: data.imageURL)
         let imageView = cell.imageView
-        
+            
         cell.textLabel.text = data.title
-        
+            
         //The image is downloaded in the background and then displayed in the main thread.
         DispatchQueue.global().async {
             if let url = imageURL, let data = try? Data(contentsOf: url) {
@@ -213,9 +247,11 @@ extension HomeScreen: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
     //This function opens the post on the reddit website when the user taps on a post in the collection view.
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let post = trendingPosts[indexPath.row]
-        if let permalink = post.permalink.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-           let url = URL(string: "https://www.reddit.com/\(permalink)") {
-            UIApplication.shared.open(url)
+        if post.permalink != ""{
+            if let permalink = post.permalink.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+               let url = URL(string: "https://www.reddit.com/\(permalink)") {
+                UIApplication.shared.open(url)
+            }
         }
     }
 }
