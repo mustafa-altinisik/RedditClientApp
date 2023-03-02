@@ -13,24 +13,63 @@ class PostsScreen: UIViewController {
     
     @IBOutlet weak var subredditLabel: UILabel!
     @IBOutlet weak var postsTable: UITableView!
+    @IBOutlet weak var favoriteButton: UIButton!
     
     //postsArray comes from the HomeScreen, it contains the posts of the subreddit that the user has selected
     var postsArray : [RedditPost] = []
     var subredditName : String = ""
     
+    //This array is used to store favorite subreddits
+    var favoriteSubreddits : [String] = []
+    //Create an array to hold predefined categories to exclude from the favorite subreddits
+    let subredditsToBeExcluded : [String] = ["trendings", "technology", "photography", "science", "computers", "news"]
     
     //Show main screen with the segue "toMainScreen"
     @IBAction func backButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "toMainScreen", sender: self)
     }
 
+    @IBAction func favoriteButtonTapped(_ sender: Any) {
+        if(favoriteSubreddits.contains(subredditName)){
+            //Remove the subreddit from the favoriteSubreddits array
+            favoriteSubreddits.removeAll(where: {$0 == subredditName})
+            //Change the image of the favorite button to an empty star
+            favoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
+        }else{
+            //Add the subreddit to the favoriteSubreddits array
+            favoriteSubreddits.append(subredditName)
+            //Change the image of the favorite button to a filled star
+            favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        }
+            
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toMainScreen" {
+            let destinationVC = segue.destination as! HomeScreen
+            destinationVC.favoriteSubreddits = self.favoriteSubreddits
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        subredditName = "r/" + subredditName
-        subredditLabel.text = subredditName
+
+        //Traverse the favoriteSubreddits array and check if the subredditName is in the array, if it is, make the favorite button filled star.
+        if favoriteSubreddits.contains(subredditName) {
+            //Make the favorite button red
+            favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        }
+
+        //If subredditName is in the subredditsToBeExluded array, make the favorite button invisible
+        if subredditsToBeExcluded.contains(subredditName) {
+            favoriteButton.isHidden = true
+        }
+        
+        var subredditNameToBeDisplayed = "r/" + subredditName
+        subredditLabel.text = subredditNameToBeDisplayed
         postsTable.dataSource = self
         postsTable.delegate = self
+
 
     }
 }

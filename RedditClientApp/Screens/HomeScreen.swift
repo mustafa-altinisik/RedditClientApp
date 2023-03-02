@@ -13,7 +13,12 @@ class HomeScreen: UIViewController{
     @IBOutlet private weak var trendingsCollectionView: UICollectionView!
     @IBOutlet weak var searchBar: UITextField!
     @IBOutlet weak var safeSearchSwitch: UISwitch!
+    @IBOutlet weak var favoritesTable: UITableView!
     
+    //This array is used to store favorite subreddits
+    var favoriteSubreddits : [String] = []
+
+    //This is the subreddit that will be displayed on the posts screen
     var subreddit = ""
     
     //This is the subreddit that will be displayed on the trending posts carousel in the main screen
@@ -70,6 +75,7 @@ class HomeScreen: UIViewController{
         doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
         safeSearchSwitch.isOn = doesUserWantSafeSearch
         makeRedditAPICall(subreddit: subredditToBeDisplayedOnTrendingPostsViewCell, maximumNumberOfPosts: 10, willItBeUsedForCarousel: true)
+        favoritesTable.dataSource = self
         trendingsCollectionView.dataSource = self
         trendingsCollectionView.delegate = self
         trendingsCollectionView.register(TrendingCarouselCell.self, forCellWithReuseIdentifier: "CarouselCell")
@@ -133,6 +139,7 @@ class HomeScreen: UIViewController{
             }
             vc.postsArray = self.redditPosts
             vc.subredditName = self.subreddit
+            vc.favoriteSubreddits = self.favoriteSubreddits
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true)
         }
@@ -282,6 +289,24 @@ extension HomeScreen {
   @objc func dismissKeyboard() {
     view.endEditing(true)
   }
+}
+
+
+extension HomeScreen: UITableViewDataSource{
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return favoriteSubreddits.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = favoritesTable.dequeueReusableCell(withIdentifier: "favoritesCell") as! FavoritesTableViewCell
+        
+        let favoriteSubreddit = favoriteSubreddits[indexPath.row]
+        let favoriteSubredditString = "r/" + favoriteSubreddit.description
+        cell.favoriteSubredditLabel.text = favoriteSubredditString
+        
+        return cell
+    }
 }
 
 

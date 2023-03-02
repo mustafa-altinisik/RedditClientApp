@@ -200,19 +200,52 @@
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D87-wM-NPL" userLabel="searchButton">
-                                <rect key="frame" x="260" y="74" width="49.666666666666686" height="34.333333333333343"/>
+                                <rect key="frame" x="260" y="74" width="49.666666666666686" height="34"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system" title=""/>
                                 <connections>
                                     <action selector="searchButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ox8-2p-dMs"/>
                                 </connections>
                             </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="GuN-sq-CJO" userLabel="favoritesTableView">
+                                <rect key="frame" x="16" y="632.33333333333337" width="365" height="185.66666666666663"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="favoritesCell" rowHeight="30" id="0mJ-3L-zDt" userLabel="favoritesTableViewCell" customClass="FavoritesTableViewCell" customModule="RedditClientApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="365" height="30"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0mJ-3L-zDt" id="dtY-Mv-4T8">
+                                            <rect key="frame" x="0.0" y="0.0" width="365" height="30"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gHU-E4-sSZ" userLabel="favoriteSubredditLabel">
+                                                    <rect key="frame" x="12" y="5" width="341" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="favoriteSubredditLabel" destination="gHU-E4-sSZ" id="npz-kL-vzV"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favorite Subreddits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yf7-XM-HId">
+                                <rect key="frame" x="16" y="604" width="147.33333333333334" height="20.333333333333371"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="b5c-2Y-JhJ" firstAttribute="top" secondItem="wQ9-n1-s3i" secondAttribute="bottom" constant="7.6699999999999999" id="6zf-Po-Lb8"/>
                             <constraint firstItem="MF4-rw-Zoh" firstAttribute="top" secondItem="1bu-1i-bM2" secondAttribute="bottom" constant="38" id="87k-6z-FuG"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="GuN-sq-CJO" secondAttribute="bottom" id="8Fz-nN-XJX"/>
                             <constraint firstItem="YqK-l1-pXp" firstAttribute="leading" secondItem="Fgr-TE-27F" secondAttribute="leading" id="9wW-bY-xG4"/>
                             <constraint firstItem="YqK-l1-pXp" firstAttribute="trailing" secondItem="MF4-rw-Zoh" secondAttribute="trailing" id="AI3-12-Wgh"/>
                             <constraint firstItem="wQ9-n1-s3i" firstAttribute="top" secondItem="MF4-rw-Zoh" secondAttribute="bottom" constant="8" symbolic="YES" id="AYL-BF-D7f"/>
@@ -223,9 +256,12 @@
                             <constraint firstItem="MF4-rw-Zoh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="RDo-QU-gcm"/>
                             <constraint firstItem="1bu-1i-bM2" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="Rbs-F4-ddI"/>
                             <constraint firstItem="MF4-rw-Zoh" firstAttribute="top" secondItem="YqK-l1-pXp" secondAttribute="bottom" constant="19.333333333333314" id="RrU-2A-8ht"/>
+                            <constraint firstItem="Yf7-XM-HId" firstAttribute="top" secondItem="b5c-2Y-JhJ" secondAttribute="bottom" constant="22" id="S3g-V8-dAX"/>
                             <constraint firstItem="1bu-1i-bM2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="UvU-Y7-Vh6"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wQ9-n1-s3i" secondAttribute="trailing" constant="294" id="Xq2-Nn-JDh"/>
+                            <constraint firstItem="Yf7-XM-HId" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Yby-M1-z15"/>
                             <constraint firstItem="D87-wM-NPL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="bYW-wN-NiR"/>
+                            <constraint firstItem="GuN-sq-CJO" firstAttribute="top" secondItem="Yf7-XM-HId" secondAttribute="bottom" constant="8" id="clj-DF-lJ0"/>
                             <constraint firstItem="YqK-l1-pXp" firstAttribute="top" secondItem="Fgr-TE-27F" secondAttribute="bottom" constant="3" id="dG9-Mr-Wru"/>
                             <constraint firstItem="D87-wM-NPL" firstAttribute="centerY" secondItem="1bu-1i-bM2" secondAttribute="centerY" id="iO9-7B-x1M"/>
                             <constraint firstItem="YqK-l1-pXp" firstAttribute="top" secondItem="Fgr-TE-27F" secondAttribute="bottom" constant="3" id="kHs-Ao-4s9"/>
@@ -233,9 +269,12 @@
                             <constraint firstItem="b5c-2Y-JhJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="m7K-YI-5CB"/>
                             <constraint firstItem="wQ9-n1-s3i" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="o1F-bf-skk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MF4-rw-Zoh" secondAttribute="trailing" constant="16" id="p5I-9x-9Ci"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="GuN-sq-CJO" secondAttribute="trailing" constant="12" id="tUu-Zb-T66"/>
+                            <constraint firstItem="GuN-sq-CJO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="zKI-nQ-A7B"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="favoritesTable" destination="GuN-sq-CJO" id="JHb-pg-6O9"/>
                         <outlet property="safeSearchSwitch" destination="Fgr-TE-27F" id="PBk-fW-kVO"/>
                         <outlet property="searchBar" destination="1bu-1i-bM2" id="ghd-rG-fnW"/>
                         <outlet property="trendingsCollectionView" destination="MF4-rw-Zoh" id="i90-sf-7vq"/>
@@ -333,10 +372,19 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="07a-td-zC1" userLabel="favoriteButton">
+                                <rect key="frame" x="325" y="59" width="52" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="star" catalog="system"/>
+                                <connections>
+                                    <action selector="favoriteButtonTapped:" destination="mVU-gP-Trs" eventType="touchUpInside" id="eGe-cs-6t4"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="8y7-eG-xOD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="07a-td-zC1" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" id="9FS-UP-uMQ"/>
                             <constraint firstItem="IxB-nq-7OS" firstAttribute="leading" secondItem="8y7-eG-xOD" secondAttribute="leading" constant="10" id="BQB-ws-pyk"/>
                             <constraint firstItem="IxB-nq-7OS" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="1" id="G99-FA-Och"/>
                             <constraint firstItem="TLR-fh-J6O" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="74" id="L5P-Gh-yqu"/>
@@ -346,10 +394,12 @@
                             <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="IxB-nq-7OS" secondAttribute="trailing" symbolic="YES" id="Xjl-Yf-CpX"/>
                             <constraint firstItem="Za0-ES-BJp" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="8" id="fpg-9B-cGT"/>
                             <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="TLR-fh-J6O" secondAttribute="trailing" id="gC8-eM-X4N"/>
+                            <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="07a-td-zC1" secondAttribute="trailing" constant="16" id="uL4-uW-Trw"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uB2-1y-GrF"/>
                     <connections>
+                        <outlet property="favoriteButton" destination="07a-td-zC1" id="l9u-7J-5OU"/>
                         <outlet property="postsTable" destination="TLR-fh-J6O" id="JjM-H2-YH1"/>
                         <outlet property="subredditLabel" destination="Za0-ES-BJp" id="pAW-vS-yPq"/>
                         <segue destination="BYZ-38-t0r" kind="custom" identifier="toMainScreen" customClass="toMainScreen" customModule="RedditClientApp" customModuleProvider="target" id="uHT-YD-FeC"/>
@@ -357,7 +407,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s0X-Ka-rIK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="624" y="-2"/>
+            <point key="canvasLocation" x="623.66412213740455" y="-2.1126760563380285"/>
         </scene>
     </scenes>
     <resources>
@@ -368,6 +418,7 @@
         <image name="iphone" catalog="system" width="112" height="128"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="ruler" catalog="system" width="128" height="57"/>
+        <image name="star" catalog="system" width="128" height="116"/>
         <image name="terminal" catalog="system" width="128" height="93"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
