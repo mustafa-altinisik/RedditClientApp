@@ -13,54 +13,17 @@ class PostsScreen: UIViewController {
     
     @IBOutlet weak var subredditLabel: UILabel!
     @IBOutlet weak var postsTable: UITableView!
-    @IBOutlet weak var safeSearchSwitch: UISwitch!
     
     //postsArray comes from the HomeScreen, it contains the posts of the subreddit that the user has selected
     var postsArray : [RedditPost] = []
     var subredditName : String = ""
     
-    //Defaults is used to save the user's preference for safe search
-    let defaults = UserDefaults.standard
-    //This preference also applies to the HomeScreen's viewController
-    var doesUserWantSafeSearch: Bool = false
     
-    func filterSafePosts(posts: [RedditPost]) -> [RedditPost] {
-        var safePosts : [RedditPost] = []
-        for post in posts {
-            if post.over_18 == false {
-                safePosts.append(post)
-            }else{
-                var updatedPost = post
-                updatedPost.title = "Not Safe"
-                updatedPost.description = "Please change your search preferences to see."
-                updatedPost.imageURL = ""
-                updatedPost.permalink = ""
-                safePosts.append(updatedPost)
-                //Create an instance of HomeScreen
-                let homeScreen = HomeScreen()
-                homeScreen.makeRedditAPICall(subreddit: subredditName, maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
-
-
-            }
-        }
-        return safePosts
-    }
-
-
     //Show main screen with the segue "toMainScreen"
     @IBAction func backButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "toMainScreen", sender: self)
     }
 
-
-    @IBAction func safeSearchSwitchValueChanged(_ sender: Any) {
-        //Get the current value of the safe search switch and save it to doesUserWantSafeSearch
-        doesUserWantSafeSearch = safeSearchSwitch.isOn
-        defaults.set(doesUserWantSafeSearch, forKey: "safeSearch")
-        defaults.synchronize()   
-        //Reload the whole screen to show the posts with the new safe search preference
-        postsTable.reloadData()    
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,9 +32,6 @@ class PostsScreen: UIViewController {
         postsTable.dataSource = self
         postsTable.delegate = self
 
-        //Get the user's preference for safe search from the defaults and set the value of the safe search switch accordingly
-        doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
-        safeSearchSwitch.isOn = doesUserWantSafeSearch
     }
 }
 
@@ -85,10 +45,6 @@ extension PostsScreen: UITableViewDataSource, UITableViewDelegate {
     //This function puts the data of the posts into the cells of the posts screen
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = postsTable.dequeueReusableCell(withIdentifier: "postCell") as! PostsTableViewCell
-        
-        if(doesUserWantSafeSearch){
-            postsArray = filterSafePosts(posts: postsArray)
-        }
         
         let post = postsArray[indexPath.row]
 

@@ -12,8 +12,13 @@ class HomeScreen: UIViewController{
     
     @IBOutlet private weak var trendingsCollectionView: UICollectionView!
     @IBOutlet weak var searchBar: UITextField!
+    @IBOutlet weak var safeSearchSwitch: UISwitch!
     
     var subreddit = ""
+    
+    //This is the subreddit that will be displayed on the trending posts carousel in the main screen
+    var subredditToBeDisplayedOnTrendingPostsViewCell = "turkey"
+    
     //This array is used to store the posts that will be displayed on the posts screen
     var redditPosts : [RedditPost] = []
 
@@ -21,10 +26,10 @@ class HomeScreen: UIViewController{
     var trendingPosts : [RedditPost] = []
 
 
-    //Defaults is used to save the user's preference for safe search
+    //doesUserWantSafeSearch is used to determine if the user wants to see the safe search posts or not, it is stored in the user defaults
     let defaults = UserDefaults.standard
-    //This preference also applies to the HomeScreen's viewController
     var doesUserWantSafeSearch: Bool = false
+    var hasSafeSearchValueChanged = false
 
 
     struct RedditResponse: Codable {
@@ -63,13 +68,23 @@ class HomeScreen: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
-        makeRedditAPICall(subreddit: "turkey", maximumNumberOfPosts: 10, willItBeUsedForCarousel: true)
+        safeSearchSwitch.isOn = doesUserWantSafeSearch
+        makeRedditAPICall(subreddit: subredditToBeDisplayedOnTrendingPostsViewCell, maximumNumberOfPosts: 10, willItBeUsedForCarousel: true)
         trendingsCollectionView.dataSource = self
         trendingsCollectionView.delegate = self
         trendingsCollectionView.register(TrendingCarouselCell.self, forCellWithReuseIdentifier: "CarouselCell")
         self.hideKeyboardWhenTappedAround()
     }
-
+    
+    //This function is triggered when the user changes the safe search switch, it saves the value to the user defaults and refreshes the trending posts carousel.
+    @IBAction func safeSearchValueHasChanged(_ sender: Any) {
+        doesUserWantSafeSearch = safeSearchSwitch.isOn
+        defaults.set(doesUserWantSafeSearch, forKey: "safeSearch")
+        defaults.synchronize()
+        hasSafeSearchValueChanged = true
+        trendingsCollectionView.reloadData()
+    }
+    
 //MARK: - IBActions below are used to make the API call and display the posts page when the user presses one of the buttons.
     @IBAction func searchButtonPressed(_ sender: Any) {
         subreddit = searchBar.text!
@@ -113,6 +128,9 @@ class HomeScreen: UIViewController{
     func showPostsScreen(){
         DispatchQueue.main.async {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "postsScreen") as! PostsScreen
+            if(self.doesUserWantSafeSearch){
+                self.redditPosts = self.filterSafePosts(posts: self.redditPosts)
+            }
             vc.postsArray = self.redditPosts
             vc.subredditName = self.subreddit
             vc.modalPresentationStyle = .fullScreen
@@ -121,16 +139,6 @@ class HomeScreen: UIViewController{
     }
     
 //MARK: -Other functions.
-    
-    //This function is used to pass the data to the posts screen
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-      if segue.identifier == "toPostsScreen" {
-        let destinationVC = segue.destination as! PostsScreen
-          destinationVC.postsArray = redditPosts
-          destinationVC.subredditName = subreddit
-      }
-    }
-
     //This function is used to make the API call and put the data into redditPosts array
     //subreddit is the subreddit that the user wants to see the posts from
     //maximumNumberOfPosts is the maximum number of posts that will be displayed
@@ -161,7 +169,7 @@ class HomeScreen: UIViewController{
       task.resume()
     }
     
-
+    //This function is used to filter the posts that are flagged as over 18.
     func filterSafePosts(posts: [RedditPost]) -> [RedditPost] {
         var safePosts : [RedditPost] = []
         for post in posts {
@@ -171,7 +179,7 @@ class HomeScreen: UIViewController{
                 var updatedPost = post
                 updatedPost.title = "Not Safe"
                 updatedPost.description = "Please change your search preferences to see."
-                updatedPost.imageURL = "assets/over_18.jpeg"
+                updatedPost.imageURL = "https://github.com/mustafa-altinisik/RedditClientApp/blob/main/RedditClientApp/Assets.xcassets/over_18.imageset/over_18.jpeg"
                 updatedPost.permalink = ""
                 safePosts.append(updatedPost)
             }
@@ -193,11 +201,16 @@ extension HomeScreen: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CarouselCell", for: indexPath) as! TrendingCarouselCell
         
+        //If the safe search value has changed, the trending posts will be updated.
+        if(hasSafeSearchValueChanged){
+            makeRedditAPICall(subreddit: subredditToBeDisplayedOnTrendingPostsViewCell, maximumNumberOfPosts: 10, willItBeUsedForCarousel: true)
+        }
+        
+        //If the user wants safe search, the trending posts will be filtered.
         if(doesUserWantSafeSearch){
             trendingPosts = filterSafePosts(posts: trendingPosts)
         }
         
-
         let data = trendingPosts[indexPath.row]
                     
         let imageURL = URL(string: data.imageURL)
@@ -225,6 +238,7 @@ extension HomeScreen: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
         return CGSize(width: width, height: height)
     }
     
+    //This function is used to make a one by one scrolling effect in the collection view and olso to prevent the user from scrolling when there are no more posts to scroll to.
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         // Calculate the index of the next item
         let currentIndex = trendingsCollectionView.contentOffset.x / trendingsCollectionView.bounds.size.width

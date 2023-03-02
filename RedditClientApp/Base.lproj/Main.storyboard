@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="MF4-rw-Zoh" userLabel="trendingsCollectionView">
-                                <rect key="frame" x="16" y="101.33333333333331" width="361" height="200"/>
+                                <rect key="frame" x="16" y="146" width="361" height="200"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="w0S-Y1-xqs"/>
@@ -40,27 +40,14 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="search" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1bu-1i-bM2" userLabel="searchBar">
-                                <rect key="frame" x="16" y="59" width="311.33333333333331" height="34.333333333333343"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D87-wM-NPL" userLabel="searchButton">
-                                <rect key="frame" x="327.33333333333331" y="59" width="49.666666666666686" height="34.333333333333343"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system" title=""/>
-                                <connections>
-                                    <action selector="searchButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ox8-2p-dMs"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Categories" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wQ9-n1-s3i">
-                                <rect key="frame" x="16" y="309.33333333333331" width="83" height="20.333333333333314"/>
+                                <rect key="frame" x="16" y="354" width="83" height="20.333333333333314"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="b5c-2Y-JhJ" userLabel="categoriesMainView">
-                                <rect key="frame" x="12" y="337.33333333333331" width="369" height="199.99999999999994"/>
+                                <rect key="frame" x="12" y="382" width="369" height="200"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="LKG-V7-KEu" userLabel="categoriesFirstLine">
                                         <rect key="frame" x="0.0" y="0.0" width="369" height="100"/>
@@ -139,7 +126,7 @@
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Science" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ybJ-0m-l5g">
-                                                        <rect key="frame" x="0.0" y="79.666666666666686" width="123" height="20.333333333333329"/>
+                                                        <rect key="frame" x="0.0" y="79.666666666666629" width="123" height="20.333333333333329"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -158,7 +145,7 @@
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Computers" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DOZ-Aa-c4u">
-                                                        <rect key="frame" x="0.0" y="79.666666666666686" width="123" height="20.333333333333329"/>
+                                                        <rect key="frame" x="0.0" y="79.666666666666629" width="123" height="20.333333333333329"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -177,7 +164,7 @@
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="News" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="By9-bf-9JS">
-                                                        <rect key="frame" x="0.0" y="79.666666666666686" width="123" height="20.333333333333329"/>
+                                                        <rect key="frame" x="0.0" y="79.666666666666629" width="123" height="20.333333333333329"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -191,28 +178,65 @@
                                     <constraint firstAttribute="height" constant="200" id="RLg-Ip-6P4"/>
                                 </constraints>
                             </stackView>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" title="Safe Search" translatesAutoresizingMaskIntoConstraints="NO" id="Fgr-TE-27F" userLabel="safeSearch">
+                                <rect key="frame" x="328" y="64" width="51" height="31"/>
+                                <connections>
+                                    <action selector="safeSearchSwitchValueChanged:" destination="mVU-gP-Trs" eventType="valueChanged" id="QP0-9j-npL"/>
+                                    <action selector="safeSearchValueHasChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="OOD-sA-W9y"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Safe Search" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YqK-l1-pXp">
+                                <rect key="frame" x="328" y="98" width="49" height="28.666666666666671"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28.666666666666686" id="6Tm-yw-D3j"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="search" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1bu-1i-bM2" userLabel="searchBar">
+                                <rect key="frame" x="16" y="74" width="242" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D87-wM-NPL" userLabel="searchButton">
+                                <rect key="frame" x="260" y="74" width="49.666666666666686" height="34.333333333333343"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system" title=""/>
+                                <connections>
+                                    <action selector="searchButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ox8-2p-dMs"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="b5c-2Y-JhJ" firstAttribute="top" secondItem="wQ9-n1-s3i" secondAttribute="bottom" constant="7.6699999999999999" id="6zf-Po-Lb8"/>
-                            <constraint firstItem="MF4-rw-Zoh" firstAttribute="top" secondItem="1bu-1i-bM2" secondAttribute="bottom" constant="8" symbolic="YES" id="87k-6z-FuG"/>
+                            <constraint firstItem="MF4-rw-Zoh" firstAttribute="top" secondItem="1bu-1i-bM2" secondAttribute="bottom" constant="38" id="87k-6z-FuG"/>
+                            <constraint firstItem="YqK-l1-pXp" firstAttribute="leading" secondItem="Fgr-TE-27F" secondAttribute="leading" id="9wW-bY-xG4"/>
+                            <constraint firstItem="YqK-l1-pXp" firstAttribute="trailing" secondItem="MF4-rw-Zoh" secondAttribute="trailing" id="AI3-12-Wgh"/>
                             <constraint firstItem="wQ9-n1-s3i" firstAttribute="top" secondItem="MF4-rw-Zoh" secondAttribute="bottom" constant="8" symbolic="YES" id="AYL-BF-D7f"/>
-                            <constraint firstItem="D87-wM-NPL" firstAttribute="leading" secondItem="1bu-1i-bM2" secondAttribute="trailing" id="Ag5-ho-27l"/>
+                            <constraint firstItem="D87-wM-NPL" firstAttribute="leading" secondItem="1bu-1i-bM2" secondAttribute="trailing" constant="2" id="Ag5-ho-27l"/>
                             <constraint firstItem="b5c-2Y-JhJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="12" id="H5d-Ss-Zwf"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="D87-wM-NPL" secondAttribute="trailing" constant="16" id="Oty-EH-nAS"/>
+                            <constraint firstItem="YqK-l1-pXp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="98" id="J1e-an-dFp"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="D87-wM-NPL" secondAttribute="trailing" constant="83.333333333333314" id="Oty-EH-nAS"/>
                             <constraint firstItem="MF4-rw-Zoh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="RDo-QU-gcm"/>
-                            <constraint firstItem="1bu-1i-bM2" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Rbs-F4-ddI"/>
+                            <constraint firstItem="1bu-1i-bM2" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="Rbs-F4-ddI"/>
+                            <constraint firstItem="MF4-rw-Zoh" firstAttribute="top" secondItem="YqK-l1-pXp" secondAttribute="bottom" constant="19.333333333333314" id="RrU-2A-8ht"/>
                             <constraint firstItem="1bu-1i-bM2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="UvU-Y7-Vh6"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wQ9-n1-s3i" secondAttribute="trailing" constant="294" id="Xq2-Nn-JDh"/>
-                            <constraint firstItem="D87-wM-NPL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="bYW-wN-NiR"/>
+                            <constraint firstItem="D87-wM-NPL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="bYW-wN-NiR"/>
+                            <constraint firstItem="YqK-l1-pXp" firstAttribute="top" secondItem="Fgr-TE-27F" secondAttribute="bottom" constant="3" id="dG9-Mr-Wru"/>
                             <constraint firstItem="D87-wM-NPL" firstAttribute="centerY" secondItem="1bu-1i-bM2" secondAttribute="centerY" id="iO9-7B-x1M"/>
+                            <constraint firstItem="YqK-l1-pXp" firstAttribute="top" secondItem="Fgr-TE-27F" secondAttribute="bottom" constant="3" id="kHs-Ao-4s9"/>
+                            <constraint firstItem="YqK-l1-pXp" firstAttribute="width" secondItem="Fgr-TE-27F" secondAttribute="width" id="kIk-Qi-SUo"/>
                             <constraint firstItem="b5c-2Y-JhJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="m7K-YI-5CB"/>
                             <constraint firstItem="wQ9-n1-s3i" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="o1F-bf-skk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MF4-rw-Zoh" secondAttribute="trailing" constant="16" id="p5I-9x-9Ci"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="safeSearchSwitch" destination="Fgr-TE-27F" id="PBk-fW-kVO"/>
                         <outlet property="searchBar" destination="1bu-1i-bM2" id="ghd-rG-fnW"/>
                         <outlet property="trendingsCollectionView" destination="MF4-rw-Zoh" id="i90-sf-7vq"/>
                         <segue destination="mVU-gP-Trs" kind="custom" identifier="toPostsScreen" customClass="toPostsScreen" customModule="RedditClientApp" customModuleProvider="target" id="Whh-1d-L6D"/>
@@ -220,7 +244,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-76" y="-2"/>
+            <point key="canvasLocation" x="-77.099236641221367" y="-2.1126760563380285"/>
         </scene>
         <!--Posts Screen-->
         <scene sceneID="yQs-4q-xUH">
@@ -309,47 +333,24 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" title="Safe Search" translatesAutoresizingMaskIntoConstraints="NO" id="jCj-yk-cHe" userLabel="safeSearch">
-                                <rect key="frame" x="326" y="62" width="51" height="31"/>
-                                <connections>
-                                    <action selector="safeSearchSwitchValueChanged:" destination="mVU-gP-Trs" eventType="valueChanged" id="ZIb-0X-BHK"/>
-                                </connections>
-                            </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Safe Search" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UJR-M0-yZA">
-                                <rect key="frame" x="328" y="96" width="49" height="28.666666666666671"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="8y7-eG-xOD"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="UJR-M0-yZA" firstAttribute="top" secondItem="jCj-yk-cHe" secondAttribute="bottom" constant="3" id="2Hm-MK-ffT"/>
-                            <constraint firstItem="UJR-M0-yZA" firstAttribute="width" secondItem="jCj-yk-cHe" secondAttribute="width" id="4ec-Z5-AYt"/>
-                            <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="jCj-yk-cHe" secondAttribute="trailing" constant="18" id="732-Ub-koS"/>
                             <constraint firstItem="IxB-nq-7OS" firstAttribute="leading" secondItem="8y7-eG-xOD" secondAttribute="leading" constant="10" id="BQB-ws-pyk"/>
-                            <constraint firstItem="jCj-yk-cHe" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="3" id="Blm-oW-3Y9"/>
                             <constraint firstItem="IxB-nq-7OS" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="1" id="G99-FA-Och"/>
                             <constraint firstItem="TLR-fh-J6O" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="74" id="L5P-Gh-yqu"/>
                             <constraint firstItem="Za0-ES-BJp" firstAttribute="centerX" secondItem="Vkj-YG-Rd8" secondAttribute="centerX" id="OMt-x6-fP3"/>
                             <constraint firstItem="8y7-eG-xOD" firstAttribute="bottom" secondItem="TLR-fh-J6O" secondAttribute="bottom" id="T6d-Co-0nY"/>
                             <constraint firstItem="TLR-fh-J6O" firstAttribute="leading" secondItem="8y7-eG-xOD" secondAttribute="leading" id="Vnz-dp-Upi"/>
-                            <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="UJR-M0-yZA" secondAttribute="trailing" constant="16" id="WtS-d9-f5G"/>
                             <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="IxB-nq-7OS" secondAttribute="trailing" symbolic="YES" id="Xjl-Yf-CpX"/>
-                            <constraint firstItem="UJR-M0-yZA" firstAttribute="top" secondItem="jCj-yk-cHe" secondAttribute="bottom" constant="3" id="a70-Zp-E0T"/>
-                            <constraint firstItem="UJR-M0-yZA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8y7-eG-xOD" secondAttribute="leading" symbolic="YES" id="dU5-GQ-coR"/>
                             <constraint firstItem="Za0-ES-BJp" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="8" id="fpg-9B-cGT"/>
                             <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="TLR-fh-J6O" secondAttribute="trailing" id="gC8-eM-X4N"/>
-                            <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="UJR-M0-yZA" secondAttribute="trailing" constant="16" id="ndC-1Z-W8y"/>
-                            <constraint firstItem="jCj-yk-cHe" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="3" id="noG-eu-X9B"/>
-                            <constraint firstItem="8y7-eG-xOD" firstAttribute="trailing" secondItem="jCj-yk-cHe" secondAttribute="trailing" constant="18" id="qGN-do-yds"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="uB2-1y-GrF"/>
                     <connections>
                         <outlet property="postsTable" destination="TLR-fh-J6O" id="JjM-H2-YH1"/>
-                        <outlet property="safeSearchSwitch" destination="jCj-yk-cHe" id="QQt-mo-COq"/>
                         <outlet property="subredditLabel" destination="Za0-ES-BJp" id="pAW-vS-yPq"/>
                         <segue destination="BYZ-38-t0r" kind="custom" identifier="toMainScreen" customClass="toMainScreen" customModule="RedditClientApp" customModuleProvider="target" id="uHT-YD-FeC"/>
                     </connections>
