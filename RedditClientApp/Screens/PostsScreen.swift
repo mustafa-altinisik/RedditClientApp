@@ -15,6 +15,8 @@ class PostsScreen: UIViewController {
     @IBOutlet weak var postsTable: UITableView!
     @IBOutlet weak var favoriteButton: UIButton!
     
+    let defaults = UserDefaults.standard
+
     //postsArray comes from the HomeScreen, it contains the posts of the subreddit that the user has selected
     var postsArray : [RedditPost] = []
     var subredditName : String = ""
@@ -41,7 +43,8 @@ class PostsScreen: UIViewController {
             //Change the image of the favorite button to a filled star
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
-            
+        defaults.set(favoriteSubreddits, forKey: "favoriteSubreddits")
+        defaults.synchronize()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -65,7 +68,7 @@ class PostsScreen: UIViewController {
             favoriteButton.isHidden = true
         }
         
-        var subredditNameToBeDisplayed = "r/" + subredditName
+        let subredditNameToBeDisplayed = "r/" + subredditName
         subredditLabel.text = subredditNameToBeDisplayed
         postsTable.dataSource = self
         postsTable.delegate = self

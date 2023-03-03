@@ -34,6 +34,8 @@ class HomeScreen: UIViewController{
     //doesUserWantSafeSearch is used to determine if the user wants to see the safe search posts or not, it is stored in the user defaults
     let defaults = UserDefaults.standard
     var doesUserWantSafeSearch: Bool = false
+
+    //hasSafeSearchValueChanged is used to determine if the user has changed the safe search switch or not, if it is true, the trending posts carousel will be refreshed.
     var hasSafeSearchValueChanged = false
 
 
@@ -72,10 +74,16 @@ class HomeScreen: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let savedSubreddits = UserDefaults.standard.stringArray(forKey: "favoriteSubreddits") {
+            favoriteSubreddits = savedSubreddits
+        }
+        //The value of the safe search switch is retrieved from the user defaults.
         doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
         safeSearchSwitch.isOn = doesUserWantSafeSearch
+        //API call is made to get and display the trending posts.
         makeRedditAPICall(subreddit: subredditToBeDisplayedOnTrendingPostsViewCell, maximumNumberOfPosts: 10, willItBeUsedForCarousel: true)
         favoritesTable.dataSource = self
+        favoritesTable.delegate = self
         trendingsCollectionView.dataSource = self
         trendingsCollectionView.delegate = self
         trendingsCollectionView.register(TrendingCarouselCell.self, forCellWithReuseIdentifier: "CarouselCell")
@@ -85,9 +93,11 @@ class HomeScreen: UIViewController{
     //This function is triggered when the user changes the safe search switch, it saves the value to the user defaults and refreshes the trending posts carousel.
     @IBAction func safeSearchValueHasChanged(_ sender: Any) {
         doesUserWantSafeSearch = safeSearchSwitch.isOn
+        //The value is saved to the user defaults.
         defaults.set(doesUserWantSafeSearch, forKey: "safeSearch")
         defaults.synchronize()
         hasSafeSearchValueChanged = true
+        //The trending posts carousel is refreshed after the safe search preference is changed.
         trendingsCollectionView.reloadData()
     }
     
@@ -102,43 +112,42 @@ class HomeScreen: UIViewController{
 
     @IBAction func trendingsButton(_ sender: Any) {
         makeRedditAPICall(subreddit: "trendingsubreddits", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
-        subreddit = "trendings"
     }
 
     @IBAction func technologyButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "technology", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
-        subreddit = "technology"
     }
 
     @IBAction func photographyButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "photography", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
-        subreddit = "photography"
     }
 
     @IBAction func scienceButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "science", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
-        subreddit = "science"
     }
 
     @IBAction func computersButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "computers", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
-        subreddit = "computers"
     }
 
     @IBAction func newsButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "news", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
-        subreddit = "news"
     }
 
     //This function is used to show the posts screen
-    func showPostsScreen(){
+    //It takes the subreddit name as a parameter and passes it to the posts screen.
+    func showPostsScreen(subredditToBeDisplayed: String){
         DispatchQueue.main.async {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "postsScreen") as! PostsScreen
+            
+            //If the user wants to see the safe search posts, the posts array will be filtered and passed to the posts screen.
             if(self.doesUserWantSafeSearch){
                 self.redditPosts = self.filterSafePosts(posts: self.redditPosts)
             }
+
+            //Properties of the posts screen are set.
             vc.postsArray = self.redditPosts
-            vc.subredditName = self.subreddit
+            vc.subredditName = subredditToBeDisplayed
             vc.favoriteSubreddits = self.favoriteSubreddits
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true)
@@ -164,7 +173,7 @@ class HomeScreen: UIViewController{
               }else{
                   //If the data will be used for the posts screen, the data will be put into the redditPosts array and the posts screen will be shown.
                   self.redditPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
-                  self.showPostsScreen()
+                  self.showPostsScreen(subredditToBeDisplayed: subreddit)
               }
           } catch {
             //If there is an error, it will be printed to the console.
@@ -193,6 +202,19 @@ class HomeScreen: UIViewController{
         }
         return safePosts
     }
+}
+//MARK: - Extension below contains functions that are used to hide the keyboard when the user taps outside of the text field.
+extension HomeScreen {
+  func hideKeyboardWhenTappedAround() {
+    let tap = UITapGestureRecognizer(
+      target: self, action: #selector(HomeScreen.dismissKeyboard))
+    tap.cancelsTouchesInView = false
+    view.addGestureRecognizer(tap)
+  }
+
+  @objc func dismissKeyboard() {
+    view.endEditing(true)
+  }
 }
 
 //MARK: - Extension below contains functions related to the collection view that displays the trending posts.
@@ -277,22 +299,8 @@ extension HomeScreen: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
     }
 }
 
-//MARK: - Extension below contains functions that are used to hide the keyboard when the user taps outside of the text field.
-extension HomeScreen {
-  func hideKeyboardWhenTappedAround() {
-    let tap = UITapGestureRecognizer(
-      target: self, action: #selector(HomeScreen.dismissKeyboard))
-    tap.cancelsTouchesInView = false
-    view.addGestureRecognizer(tap)
-  }
-
-  @objc func dismissKeyboard() {
-    view.endEditing(true)
-  }
-}
-
-
-extension HomeScreen: UITableViewDataSource{
+//MARK: -Extension below contains functions that enables user to tap on a favorite subreddit and see the posts of that subreddit.
+extension HomeScreen: UITableViewDataSource, UITableViewDelegate{
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favoriteSubreddits.count
@@ -306,6 +314,13 @@ extension HomeScreen: UITableViewDataSource{
         cell.favoriteSubredditLabel.text = favoriteSubredditString
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let favoriteSubreddit = favoriteSubreddits[indexPath.row]
+        if favoriteSubreddit.description != ""{
+            makeRedditAPICall(subreddit: favoriteSubreddit.description, maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
+        }
     }
 }
 
