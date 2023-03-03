@@ -27,7 +27,7 @@ class PostsScreen: UIViewController {
     var favoriteSubreddits : [String] = []
     
     //Create an array to hold predefined categories to exclude from the favorite subreddits.
-    let subredditsToBeExcluded : [String] = ["trendings", "technology", "photography", "science", "computers", "news"]
+    let subredditsToBeExcluded : [String] = ["trendingsubreddits", "technology", "photography", "science", "computers", "news"]
     
     //Show main screen with the segue "toMainScreen"
     @IBAction func backButtonTapped(_ sender: Any) {
