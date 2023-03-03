@@ -9,7 +9,6 @@ import UIKit
 
 class toMainScreen: UIStoryboardSegue {
     override func perform() {
-        // Add any custom transition code here
         let source = self.source
         let destination = self.destination
         
