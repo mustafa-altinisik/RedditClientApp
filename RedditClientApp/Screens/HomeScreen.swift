@@ -172,7 +172,7 @@ class HomeScreen: UIViewController{
                 let decoder = JSONDecoder()
                 do {
                     let redditResponse = try decoder.decode(RedditResponse.self, from: data)
-                    //If the data will be used for the trending posts carousel, the data will be put into the trengingPosts array and reddit posts screen will not be shown.
+                    //If the data will be used for the trending posts carousel, the data will be put into the trendingPosts array and reddit posts screen will not be shown.
                     if(willItBeUsedForCarousel){
                         self.trendingPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
                     }else{
@@ -328,5 +328,3 @@ extension HomeScreen: UITableViewDataSource, UITableViewDelegate{
         }
     }
 }
-
-
