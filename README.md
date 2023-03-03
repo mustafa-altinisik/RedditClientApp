@@ -1,3 +1,5 @@
+![RedditClientApp](https://user-images.githubusercontent.com/8038008/222704806-b960135f-6a31-4528-aaea-807b812c8d1b.gif)
+
 This project is an Reddit app written in swift. I developed this app as a part of my internship in Innova.
 
 Project includes two screens: Home Screen and Posts Screen:
