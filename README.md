@@ -3,7 +3,7 @@
 This project is an Reddit app written in swift. I developed this app as a part of my internship in Innova.
 
 Project includes two screens: Home Screen and Posts Screen:
-Home screen has the following UI elements:
+<b>Home screen</b> has the following UI elements:
 
 - A search bar to search for subreddits
 - A toggle button to set "Safe Search" preference
@@ -19,7 +19,7 @@ The code has defined RedditPost struct to store the information about a single p
 
 The code has several IBAction functions to handle user actions, such as when the user changes the safe search switch, taps on the search button or the trending button, and when the user taps on one of the category buttons.
 
-Posts screen has the following UI elements:
+<b>Posts screen</b> has the following UI elements:
 
 - A button to mark the subreddit as favorite
 - A table view to show the posts for the subreddit
