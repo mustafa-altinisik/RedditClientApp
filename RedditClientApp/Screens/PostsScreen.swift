@@ -33,7 +33,7 @@ class PostsScreen: UIViewController {
     @IBAction func backButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "toMainScreen", sender: self)
     }
-
+    
     //This function is used to add or remove a subreddit from the favoriteSubreddits array.
     @IBAction func favoriteButtonTapped(_ sender: Any) {
         if(favoriteSubreddits.contains(subredditName)){
@@ -59,16 +59,16 @@ class PostsScreen: UIViewController {
             destinationVC.favoriteSubreddits = self.favoriteSubreddits
         }
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         //Traverse the favoriteSubreddits array and check if the subredditName is in the array, if it is, make the favorite button filled star.
         if favoriteSubreddits.contains(subredditName) {
             //Make the favorite button red
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
-
+        
         //If subredditName is in the subredditsToBeExluded array, make the favorite button invisible
         if subredditsToBeExcluded.contains(subredditName) {
             favoriteButton.isHidden = true
@@ -79,8 +79,8 @@ class PostsScreen: UIViewController {
         subredditLabel.text = subredditNameToBeDisplayed
         postsTable.dataSource = self
         postsTable.delegate = self
-
-
+        
+        
     }
 }
 
@@ -96,12 +96,12 @@ extension PostsScreen: UITableViewDataSource, UITableViewDelegate {
         let cell = postsTable.dequeueReusableCell(withIdentifier: "postCell") as! PostsTableViewCell
         
         let post = postsArray[indexPath.row]
-
+        
         let imageURL = URL(string: post.imageURL)
         let imageView = cell.postImage
         
         imageView?.contentMode = .scaleAspectFit
-
+        
         cell.postDescription.text = post.description
         cell.postTitle.text = post.title
         
@@ -130,7 +130,7 @@ extension PostsScreen: UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
-
+    
 }
 
 

@@ -15,6 +15,5 @@ class toMainScreen: UIStoryboardSegue {
         
         destination.modalPresentationStyle = .fullScreen
         source.present(destination, animated: false, completion: nil)
-
     }
 }

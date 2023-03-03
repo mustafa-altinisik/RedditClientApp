@@ -17,7 +17,7 @@ class HomeScreen: UIViewController{
     
     //This array is used to store favorite subreddits
     var favoriteSubreddits : [String] = []
-
+    
     //This is the subreddit that will be displayed on the posts screen
     var subreddit = ""
     
@@ -26,49 +26,49 @@ class HomeScreen: UIViewController{
     
     //This array is used to store the posts that will be displayed on the posts screen
     var redditPosts : [RedditPost] = []
-
+    
     //This array is used to store the posts that will be displayed on the trending posts carousel in the main screen
     var trendingPosts : [RedditPost] = []
-
+    
     //doesUserWantSafeSearch is used to determine if the user wants to see the safe search posts or not, it is stored in the user defaults
     let defaults = UserDefaults.standard
     var doesUserWantSafeSearch: Bool = false
-
+    
     //hasSafeSearchValueChanged is used to determine if the user has changed the safe search switch or not, if it is true, the trending posts carousel will be refreshed.
     var hasSafeSearchValueChanged = false
-
-
+    
+    
     struct RedditResponse: Codable {
-      let data: RedditData
+        let data: RedditData
     }
-
+    
     struct RedditData: Codable {
-      let children: [RedditChild]
+        let children: [RedditChild]
     }
-
+    
     struct RedditChild: Codable {
-      let data: RedditPostData
+        let data: RedditPostData
     }
-
+    
     struct RedditPostData: Codable {
-      let thumbnail: String
-      let title: String
-      let selftext: String
-      let permalink: String
-      let over_18: Bool
+        let thumbnail: String
+        let title: String
+        let selftext: String
+        let permalink: String
+        let over_18: Bool
         
-    enum CodingKeys: String, CodingKey {
-        case thumbnail
-        case title
-        case selftext
-        case permalink
-        case over_18
-      }
-
-      //This function is used to convert the data from the API call to RedditPost struct
-      func toRedditPost() -> RedditPost {
-          return RedditPost(imageURL: thumbnail, title: title, description: selftext, permalink: permalink, over_18: over_18)
-      }
+        enum CodingKeys: String, CodingKey {
+            case thumbnail
+            case title
+            case selftext
+            case permalink
+            case over_18
+        }
+        
+        //This function is used to convert the data from the API call to RedditPost struct
+        func toRedditPost() -> RedditPost {
+            return RedditPost(imageURL: thumbnail, title: title, description: selftext, permalink: permalink, over_18: over_18)
+        }
     }
     
     override func viewDidLoad() {
@@ -106,7 +106,7 @@ class HomeScreen: UIViewController{
         trendingsCollectionView.reloadData()
     }
     
-//MARK: - IBActions below are used to make the API call and display the posts page when the user presses one of the buttons.
+    //MARK: - IBActions below are used to make the API call and display the posts page when the user presses one of the buttons.
     @IBAction func searchButtonPressed(_ sender: Any) {
         subreddit = searchBar.text!
         if subreddit != "" {
@@ -114,31 +114,31 @@ class HomeScreen: UIViewController{
             makeRedditAPICall(subreddit: subreddit, maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
         }
     }
-
+    
     @IBAction func trendingsButton(_ sender: Any) {
         makeRedditAPICall(subreddit: "trendingsubreddits", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
     }
-
+    
     @IBAction func technologyButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "technology", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
     }
-
+    
     @IBAction func photographyButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "photography", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
     }
-
+    
     @IBAction func scienceButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "science", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
     }
-
+    
     @IBAction func computersButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "computers", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
     }
-
+    
     @IBAction func newsButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "news", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
     }
-
+    
     //This function is used to show the posts screen
     //It takes the subreddit name as a parameter and passes it to the posts screen.
     func showPostsScreen(subredditToBeDisplayed: String){
@@ -149,7 +149,7 @@ class HomeScreen: UIViewController{
             if(self.doesUserWantSafeSearch){
                 self.redditPosts = self.filterSafePosts(posts: self.redditPosts)
             }
-
+            
             //Properties of the posts screen are set.
             vc.postsArray = self.redditPosts
             vc.subredditName = subredditToBeDisplayed
@@ -159,35 +159,35 @@ class HomeScreen: UIViewController{
         }
     }
     
-//MARK: -Other functions.
+    //MARK: -Other functions.
     //This function is used to make the API call and put the data into redditPosts array
     //subreddit is the subreddit that the user wants to see the posts from
     //maximumNumberOfPosts is the maximum number of posts that will be displayed
     //willItBeUsedForCarousel is a boolean value that is used to determine if the data will be used for the posts screen or the trending posts carousel
     func makeRedditAPICall(subreddit: String, maximumNumberOfPosts: Int, willItBeUsedForCarousel: Bool) {
-      let url = URL(string: "https://www.reddit.com/r/\(subreddit)/top.json?limit=\(maximumNumberOfPosts)")!
-      //URL session is used to make the API call
-      let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-        if let data = data {
-          let decoder = JSONDecoder()
-          do {
-            let redditResponse = try decoder.decode(RedditResponse.self, from: data)
-              //If the data will be used for the trending posts carousel, the data will be put into the trengingPosts array and reddit posts screen will not be shown.
-              if(willItBeUsedForCarousel){
-                    self.trendingPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
-              }else{
-                  //If the data will be used for the posts screen, the data will be put into the redditPosts array and the posts screen will be shown.
-                  self.redditPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
-                  self.showPostsScreen(subredditToBeDisplayed: subreddit)
-              }
-          } catch {
-            //If there is an error, it will be printed to the console.
-            print("Error decoding JSON: \(error.localizedDescription)")
-          }
+        let url = URL(string: "https://www.reddit.com/r/\(subreddit)/top.json?limit=\(maximumNumberOfPosts)")!
+        //URL session is used to make the API call
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let data = data {
+                let decoder = JSONDecoder()
+                do {
+                    let redditResponse = try decoder.decode(RedditResponse.self, from: data)
+                    //If the data will be used for the trending posts carousel, the data will be put into the trengingPosts array and reddit posts screen will not be shown.
+                    if(willItBeUsedForCarousel){
+                        self.trendingPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
+                    }else{
+                        //If the data will be used for the posts screen, the data will be put into the redditPosts array and the posts screen will be shown.
+                        self.redditPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
+                        self.showPostsScreen(subredditToBeDisplayed: subreddit)
+                    }
+                } catch {
+                    //If there is an error, it will be printed to the console.
+                    print("Error decoding JSON: \(error.localizedDescription)")
+                }
+            }
         }
-      }
-      //The task is resumed to start the API call.
-      task.resume()
+        //The task is resumed to start the API call.
+        task.resume()
     }
     
     //This function is used to filter the posts that are flagged as over 18.
@@ -210,16 +210,16 @@ class HomeScreen: UIViewController{
 }
 //MARK: - Extension below contains functions that are used to hide the keyboard when the user taps outside of the text field.
 extension HomeScreen {
-  func hideKeyboardWhenTappedAround() {
-    let tap = UITapGestureRecognizer(
-      target: self, action: #selector(HomeScreen.dismissKeyboard))
-    tap.cancelsTouchesInView = false
-    view.addGestureRecognizer(tap)
-  }
-
-  @objc func dismissKeyboard() {
-    view.endEditing(true)
-  }
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(
+            target: self, action: #selector(HomeScreen.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 //MARK: - Extension below contains functions related to the collection view that displays the trending posts.
@@ -246,12 +246,12 @@ extension HomeScreen: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
         }
         
         let data = trendingPosts[indexPath.row]
-                    
+        
         let imageURL = URL(string: data.imageURL)
         let imageView = cell.imageView
-            
+        
         cell.textLabel.text = data.title
-            
+        
         //The image is downloaded in the background and then displayed in the main thread.
         DispatchQueue.global().async {
             if let url = imageURL, let data = try? Data(contentsOf: url) {
@@ -277,13 +277,13 @@ extension HomeScreen: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
         // Calculate the index of the next item
         let currentIndex = trendingsCollectionView.contentOffset.x / trendingsCollectionView.bounds.size.width
         let nextIndex = round(currentIndex)
-
+        
         // Check if the next index is within the range of the number of items in the section
         let numberOfItemsInSection = trendingsCollectionView.numberOfItems(inSection: 0)
         guard nextIndex >= 0 && nextIndex < Double(numberOfItemsInSection) else {
             return
         }
-
+        
         // Scroll to the next item with animation
         let indexPath = IndexPath(item: Int(nextIndex), section: 0)
         trendingsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
@@ -306,11 +306,11 @@ extension HomeScreen: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
 
 //MARK: -Extension below contains functions that enables user to tap on a favorite subreddit and see the posts of that subreddit.
 extension HomeScreen: UITableViewDataSource, UITableViewDelegate{
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favoriteSubreddits.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = favoritesTable.dequeueReusableCell(withIdentifier: "favoritesCell") as! FavoritesTableViewCell
         

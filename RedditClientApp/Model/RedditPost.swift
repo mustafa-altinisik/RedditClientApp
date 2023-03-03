@@ -14,12 +14,12 @@ struct RedditPost {
     var description: String
     var permalink: String
     var over_18: Bool
-
-  init(imageURL: String, title: String, description: String, permalink: String, over_18: Bool) {
-    self.imageURL = imageURL
-    self.title = title
-    self.description = description
-    self.permalink = permalink
-    self.over_18 = over_18
-  }
+    
+    init(imageURL: String, title: String, description: String, permalink: String, over_18: Bool) {
+        self.imageURL = imageURL
+        self.title = title
+        self.description = description
+        self.permalink = permalink
+        self.over_18 = over_18
+    }
 }
