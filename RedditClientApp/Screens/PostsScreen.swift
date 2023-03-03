@@ -15,15 +15,18 @@ class PostsScreen: UIViewController {
     @IBOutlet weak var postsTable: UITableView!
     @IBOutlet weak var favoriteButton: UIButton!
     
+    //defalults is used to store data in the device.
     let defaults = UserDefaults.standard
-
-    //postsArray comes from the HomeScreen, it contains the posts of the subreddit that the user has selected
+    
+    //postsArray comes from the HomeScreen, it contains the posts of the subreddit that the user has selected.
     var postsArray : [RedditPost] = []
+    
     var subredditName : String = ""
     
-    //This array is used to store favorite subreddits
+    //This array is used to store favorite subreddits.
     var favoriteSubreddits : [String] = []
-    //Create an array to hold predefined categories to exclude from the favorite subreddits
+    
+    //Create an array to hold predefined categories to exclude from the favorite subreddits.
     let subredditsToBeExcluded : [String] = ["trendings", "technology", "photography", "science", "computers", "news"]
     
     //Show main screen with the segue "toMainScreen"
@@ -31,22 +34,25 @@ class PostsScreen: UIViewController {
         performSegue(withIdentifier: "toMainScreen", sender: self)
     }
 
+    //This function is used to add or remove a subreddit from the favoriteSubreddits array.
     @IBAction func favoriteButtonTapped(_ sender: Any) {
         if(favoriteSubreddits.contains(subredditName)){
-            //Remove the subreddit from the favoriteSubreddits array
+            //Remove the subreddit from the favoriteSubreddits array.
             favoriteSubreddits.removeAll(where: {$0 == subredditName})
-            //Change the image of the favorite button to an empty star
+            //Change the image of the favorite button to an empty star.
             favoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
         }else{
-            //Add the subreddit to the favoriteSubreddits array
+            //Add the subreddit to the favoriteSubreddits array.
             favoriteSubreddits.append(subredditName)
-            //Change the image of the favorite button to a filled star
+            //Change the image of the favorite button to a filled star.
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
+        //Save the favoriteSubreddits array to the device.
         defaults.set(favoriteSubreddits, forKey: "favoriteSubreddits")
         defaults.synchronize()
     }
     
+    //This function is used to pass the favoriteSubreddits array to the HomeScreen.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toMainScreen" {
             let destinationVC = segue.destination as! HomeScreen
@@ -68,6 +74,7 @@ class PostsScreen: UIViewController {
             favoriteButton.isHidden = true
         }
         
+        //Display the subreddit name on the posts screen
         let subredditNameToBeDisplayed = "r/" + subredditName
         subredditLabel.text = subredditNameToBeDisplayed
         postsTable.dataSource = self

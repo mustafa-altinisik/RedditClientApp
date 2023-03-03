@@ -30,7 +30,6 @@ class HomeScreen: UIViewController{
     //This array is used to store the posts that will be displayed on the trending posts carousel in the main screen
     var trendingPosts : [RedditPost] = []
 
-
     //doesUserWantSafeSearch is used to determine if the user wants to see the safe search posts or not, it is stored in the user defaults
     let defaults = UserDefaults.standard
     var doesUserWantSafeSearch: Bool = false
@@ -74,14 +73,18 @@ class HomeScreen: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //The favoriteSubreddits array is retrieved from the user defaults.
         if let savedSubreddits = UserDefaults.standard.stringArray(forKey: "favoriteSubreddits") {
             favoriteSubreddits = savedSubreddits
         }
+        
         //The value of the safe search switch is retrieved from the user defaults.
         doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
         safeSearchSwitch.isOn = doesUserWantSafeSearch
+        
         //API call is made to get and display the trending posts.
         makeRedditAPICall(subreddit: subredditToBeDisplayedOnTrendingPostsViewCell, maximumNumberOfPosts: 10, willItBeUsedForCarousel: true)
+        
         favoritesTable.dataSource = self
         favoritesTable.delegate = self
         trendingsCollectionView.dataSource = self
@@ -96,7 +99,9 @@ class HomeScreen: UIViewController{
         //The value is saved to the user defaults.
         defaults.set(doesUserWantSafeSearch, forKey: "safeSearch")
         defaults.synchronize()
+        
         hasSafeSearchValueChanged = true
+        
         //The trending posts carousel is refreshed after the safe search preference is changed.
         trendingsCollectionView.reloadData()
     }
