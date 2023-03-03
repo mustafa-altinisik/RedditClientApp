@@ -3,6 +3,7 @@
 This project is an Reddit app written in swift. I developed this app as a part of my internship in Innova.
 
 Project includes two screens: Home Screen and Posts Screen:
+
 <b>Home screen</b> has the following UI elements:
 
 - A search bar to search for subreddits
