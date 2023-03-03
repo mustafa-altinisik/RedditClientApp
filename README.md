@@ -33,7 +33,7 @@ The view controller also has a list of predefined categories to exclude from the
 
 Overall, this screen provides a basic implementation of displaying posts from a subreddit and allowing the user to mark subreddits as favorites.
 
-Current problems with the project:
+<b>Current problems with the project:</b>
 
 1. You cannot make a search for a subreddit that has a space in its name. RedditAPI should be reviewed in detail to fix this problem.
 2. Trending posts might not be displayed when the app is launched for the first time. It should be fixed in the future.
