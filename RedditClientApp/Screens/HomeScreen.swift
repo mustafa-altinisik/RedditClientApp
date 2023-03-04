@@ -108,6 +108,7 @@ class HomeScreen: UIViewController{
     
     //MARK: - IBActions below are used to make the API call and display the posts page when the user presses one of the buttons.
     @IBAction func searchButtonPressed(_ sender: Any) {
+        //Guard let ya da if let kullan + boş mu bak
         subreddit = searchBar.text!
         if subreddit != "" {
             searchBar.text = ""
@@ -190,13 +191,14 @@ class HomeScreen: UIViewController{
         task.resume()
     }
     
+    //Hazır filtre fonksiyonuna bak.
     //This function is used to filter the posts that are flagged as over 18.
     func filterSafePosts(posts: [RedditPost]) -> [RedditPost] {
         var safePosts : [RedditPost] = []
         for post in posts {
             if post.over_18 == false {
                 safePosts.append(post)
-            }else{
+            }else {
                 var updatedPost = post
                 updatedPost.title = "Not Safe"
                 updatedPost.description = "Please change your search preferences to see."
@@ -209,18 +211,18 @@ class HomeScreen: UIViewController{
     }
 }
 //MARK: - Extension below contains functions that are used to hide the keyboard when the user taps outside of the text field.
-extension HomeScreen {
-    func hideKeyboardWhenTappedAround() {
-        let tap = UITapGestureRecognizer(
-            target: self, action: #selector(HomeScreen.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
+    extension HomeScreen {
+        func hideKeyboardWhenTappedAround() {
+            let tap = UITapGestureRecognizer(
+                target: self, action: #selector(HomeScreen.dismissKeyboard))
+            tap.cancelsTouchesInView = false
+            view.addGestureRecognizer(tap)
+        }
+                                            
+        @objc func dismissKeyboard() {
+            view.endEditing(true)
+        }
     }
-    
-    @objc func dismissKeyboard() {
-        view.endEditing(true)
-    }
-}
 
 //MARK: - Extension below contains functions related to the collection view that displays the trending posts.
 extension HomeScreen: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate{
@@ -235,6 +237,7 @@ extension HomeScreen: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CarouselCell", for: indexPath) as! TrendingCarouselCell
         
+        //DİKKAT
         //If the safe search value has changed, the trending posts will be updated.
         if(hasSafeSearchValueChanged){
             makeRedditAPICall(subreddit: subredditToBeDisplayedOnTrendingPostsViewCell, maximumNumberOfPosts: 10, willItBeUsedForCarousel: true)
