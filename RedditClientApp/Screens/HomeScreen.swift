@@ -15,6 +15,8 @@ class HomeScreen: UIViewController{
     @IBOutlet weak var safeSearchSwitch: UISwitch!
     @IBOutlet weak var favoritesTable: UITableView!
     
+    var redditAPI = RedditAPI()
+    
     //This array is used to store favorite subreddits
     var favoriteSubreddits : [String] = []
     
@@ -36,40 +38,6 @@ class HomeScreen: UIViewController{
     
     //hasSafeSearchValueChanged is used to determine if the user has changed the safe search switch or not, if it is true, the trending posts carousel will be refreshed.
     var hasSafeSearchValueChanged = false
-    
-    
-    struct RedditResponse: Codable {
-        let data: RedditData
-    }
-    
-    struct RedditData: Codable {
-        let children: [RedditChild]
-    }
-    
-    struct RedditChild: Codable {
-        let data: RedditPostData
-    }
-    
-    struct RedditPostData: Codable {
-        let thumbnail: String
-        let title: String
-        let selftext: String
-        let permalink: String
-        let over_18: Bool
-        
-        enum CodingKeys: String, CodingKey {
-            case thumbnail
-            case title
-            case selftext
-            case permalink
-            case over_18
-        }
-        
-        //This function is used to convert the data from the API call to RedditPost struct
-        func toRedditPost() -> RedditPost {
-            return RedditPost(imageURL: thumbnail, title: title, description: selftext, permalink: permalink, over_18: over_18)
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,11 +101,39 @@ class HomeScreen: UIViewController{
     }
     
     @IBAction func computersButtonPressed(_ sender: Any) {
-        makeRedditAPICall(subreddit: "computers", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
+        //makeRedditAPICall(subreddit: "computers", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
+        redditAPI.getTopSubredditsFromPopularPosts { (subreddits, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            } else if let subreddits = subreddits {
+                print("Top subreddits from popular posts: \(subreddits)")
+            }
+        }
+
+
     }
     
     @IBAction func newsButtonPressed(_ sender: Any) {
-        makeRedditAPICall(subreddit: "news", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
+        //makeRedditAPICall(subreddit: "news", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
+        
+        redditAPI.getRedditPostsFromSubreddit(subredditName: "all", safeSearch: true) { redditPosts, error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                return
+            }
+            
+            if let redditPosts = redditPosts {
+                // Do something with the array of RedditPost objects
+                print(redditPosts.count)
+                
+                for post in redditPosts {
+                    print("Title: \(post.title)")
+                    print("Description: \(post.description)")
+                    print("Permalink: \(post.permalink)")
+                }
+            }
+        }
+
     }
     
     //This function is used to show the posts screen
