@@ -21,11 +21,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="100" height="90"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B1I-CP-Hwi" userLabel="trendingSubredditImage">
-                                <rect key="frame" x="-70" y="-19" width="240" height="128"/>
+                                <rect key="frame" x="0.0" y="0.0" width="100" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVp-ej-1Xz" userLabel="trendingSubredditLabel">
-                                <rect key="frame" x="3" y="73.666666666666671" width="94" height="14.333333333333329"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVp-ej-1Xz" userLabel="trendingSubredditLabel">
+                                <rect key="frame" x="0.0" y="67" width="100" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <nil key="textColor"/>
@@ -33,20 +34,19 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="QVp-ej-1Xz" firstAttribute="leading" secondItem="2jw-rV-4kT" secondAttribute="leading" constant="3" id="4yy-Oa-Jpu"/>
-                            <constraint firstAttribute="trailing" secondItem="QVp-ej-1Xz" secondAttribute="trailing" constant="3" id="NN3-oM-FJC"/>
-                            <constraint firstAttribute="bottom" secondItem="QVp-ej-1Xz" secondAttribute="bottom" constant="2" id="tAe-i6-vvN"/>
-                        </constraints>
                     </view>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="2jw-rV-4kT" secondAttribute="bottom" id="0hI-4J-8ZO"/>
+                <constraint firstAttribute="trailing" secondItem="2jw-rV-4kT" secondAttribute="trailing" id="4kX-sa-Sjc"/>
                 <constraint firstAttribute="bottom" secondItem="2jw-rV-4kT" secondAttribute="bottom" id="PcA-vd-e8V"/>
                 <constraint firstItem="2jw-rV-4kT" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ZeW-zZ-bdV"/>
                 <constraint firstAttribute="trailing" secondItem="2jw-rV-4kT" secondAttribute="trailing" id="eyn-cn-nuH"/>
                 <constraint firstItem="2jw-rV-4kT" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="oQR-jF-EKz"/>
+                <constraint firstItem="2jw-rV-4kT" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="yoK-YB-Pre"/>
+                <constraint firstItem="2jw-rV-4kT" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="zld-jf-dsW"/>
             </constraints>
             <size key="customSize" width="100" height="90"/>
             <connections>
