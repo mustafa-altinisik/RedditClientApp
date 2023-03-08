@@ -7,6 +7,7 @@ target 'RedditClientApp' do
 
   # Pods for RedditClientApp
   pod 'Alamofire'
+  pod 'SDWebImage'
 
   target 'RedditClientAppTests' do
     inherit! :search_paths

@@ -116,7 +116,7 @@ class HomeScreen: UIViewController{
     @IBAction func newsButtonPressed(_ sender: Any) {
         //makeRedditAPICall(subreddit: "news", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
         
-        redditAPI.getRedditPostsFromSubreddit(subredditName: "all", safeSearch: true) { redditPosts, error in
+        redditAPI.getRedditPostsFromSubreddit(subredditName: "all", safeSearch: true, onlyPostsWithImages: true) { redditPosts, error in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
                 return

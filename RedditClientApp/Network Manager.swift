@@ -10,8 +10,7 @@ import Alamofire
 
 
 class RedditAPI{
-
-    func getRedditPostsFromSubreddit(subredditName: String, safeSearch: Bool, completion: @escaping ([RedditPost]?, Error?) -> Void) {
+    func getRedditPostsFromSubreddit(subredditName: String, safeSearch: Bool, onlyPostsWithImages: Bool, completion: @escaping ([RedditPost]?, Error?) -> Void) {
         let url = "https://www.reddit.com/r/\(subredditName)/.json"
         
         var parameters: Parameters = [:]
@@ -25,13 +24,21 @@ class RedditAPI{
             .responseDecodable(of: RedditResponse.self) { response in
                 switch response.result {
                 case .success(let redditResponse):
-                    let redditPosts = redditResponse.data.children.map { $0.data.toRedditPost() }
+                    var redditPosts = [RedditPost]()
+                    for child in redditResponse.data.children {
+                        if let imageURL = URL(string: child.data.thumbnail), onlyPostsWithImages && imageURL != URL(string: "default") {
+                            redditPosts.append(child.data.toRedditPost())
+                        } else if !onlyPostsWithImages {
+                            redditPosts.append(child.data.toRedditPost())
+                        }
+                    }
                     completion(redditPosts, nil)
                 case .failure(let error):
                     completion(nil, error)
                 }
             }
     }
+
 
     func getTopSubredditsFromPopularPosts(completion: @escaping ([String: Int]?, Error?) -> Void) {
         let url = "https://www.reddit.com/r/all/new.json"
@@ -63,6 +70,18 @@ class RedditAPI{
     }
 
 
+    func getPostImage(from url: URL, completion: @escaping (UIImage?, Error?) -> Void) {
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                completion(nil, error)
+                return
+            }
+            DispatchQueue.main.async {
+                let image = UIImage(data: data)
+                completion(image, nil)
+            }
+        }.resume()
+    }
 
 
 

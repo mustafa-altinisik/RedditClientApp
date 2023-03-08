@@ -17,25 +17,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gwa-of-Rl1">
-                                <rect key="frame" x="0.0" y="59" width="393" height="62"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="Gwa-of-Rl1">
+                                <rect key="frame" x="6" y="59" width="381" height="56"/>
                                 <subviews>
                                     <searchBar contentMode="redraw" ambiguous="YES" placeholder="enter a subreddit" translatesAutoresizingMaskIntoConstraints="NO" id="iac-X8-kM2">
-                                        <rect key="frame" x="0.0" y="0.0" width="344" height="62"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <outlet property="delegate" destination="Ef5-45-QWc" id="hpS-WK-GpF"/>
                                         </connections>
                                     </searchBar>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="ZqI-n3-hfe">
-                                        <rect key="frame" x="344" y="0.0" width="49" height="62"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="ZqI-n3-hfe">
+                                        <rect key="frame" x="323" y="0.0" width="58" height="56"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3mI-Vy-jLg" userLabel="safeSearchSwitch">
-                                                <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="60" height="31.666666666666668"/>
                                             </switch>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Safe Search" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OhJ-J4-501">
-                                                <rect key="frame" x="0.0" y="31" width="49" height="31"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Safe Search" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OhJ-J4-501">
+                                                <rect key="frame" x="0.0" y="31.666666666666671" width="58" height="24.333333333333329"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -58,7 +58,7 @@
                                         <rect key="frame" x="8" y="37" width="377" height="199"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="a0C-BF-gf1">
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="a0C-BF-gf1">
                                             <size key="itemSize" width="128" height="128"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -67,7 +67,7 @@
                                         <cells/>
                                     </collectionView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trending Subreddits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUx-gG-fTW">
-                                        <rect key="frame" x="8" y="244" width="155" height="21"/>
+                                        <rect key="frame" x="8" y="244" width="154.33333333333334" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -86,7 +86,7 @@
                                         <cells/>
                                     </collectionView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Favorite Subreddits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ir-I1-AO8">
-                                        <rect key="frame" x="8" y="481" width="148" height="21"/>
+                                        <rect key="frame" x="8" y="481" width="147.33333333333334" height="20.333333333333314"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
@@ -103,9 +103,9 @@
                         <viewLayoutGuide key="safeArea" id="WWE-uI-Obq"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Gwa-of-Rl1" firstAttribute="trailing" secondItem="WWE-uI-Obq" secondAttribute="trailing" id="8nR-sd-fSm"/>
-                            <constraint firstItem="Gwa-of-Rl1" firstAttribute="leading" secondItem="WWE-uI-Obq" secondAttribute="leading" id="aI1-Fa-QwQ"/>
-                            <constraint firstItem="Gwa-of-Rl1" firstAttribute="top" secondItem="WWE-uI-Obq" secondAttribute="top" id="dkf-ba-Xeu"/>
+                            <constraint firstItem="WWE-uI-Obq" firstAttribute="trailing" secondItem="Gwa-of-Rl1" secondAttribute="trailing" constant="6" id="BWw-Cc-elq"/>
+                            <constraint firstItem="Gwa-of-Rl1" firstAttribute="top" secondItem="WWE-uI-Obq" secondAttribute="top" id="US3-IF-5Ty"/>
+                            <constraint firstItem="Gwa-of-Rl1" firstAttribute="leading" secondItem="WWE-uI-Obq" secondAttribute="leading" constant="6" id="tNU-dQ-KX4"/>
                         </constraints>
                     </view>
                     <connections>
