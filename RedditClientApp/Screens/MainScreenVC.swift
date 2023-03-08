@@ -22,45 +22,53 @@ class MainScreenVC: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupTrendingPosts()
+        setupTrendingSubreddits()
+    }
+    
+    private func setupTrendingPosts() {
         trendingPostsCollectionView.dataSource = self
         trendingPostsCollectionView.delegate = self
-        //Trending posts collection view
         trendingPostsCollectionView.register(UINib(nibName: "TrendingPostCVC", bundle: nil), forCellWithReuseIdentifier: "trendingPostCell")
-        // Call the API to get the Reddit posts
-        redditAPI.getRedditPostsFromSubreddit(subredditName: "funny", safeSearch: safeSearchSwitch.isOn, onlyPostsWithImages: true) { (posts, error) in
+        
+        redditAPI.getRedditPostsFromSubreddit(subredditName: "funny", safeSearch: safeSearchSwitch.isOn, onlyPostsWithImages: true) { [weak self] (posts, error) in
+            guard let self = self else { return }
+            
             if let error = error {
                 print("Error retrieving Reddit posts: \(error.localizedDescription)")
                 return
             }
+            
             guard let posts = posts else {
                 print("No posts retrieved")
                 return
             }
-            // Update the data source with the retrieved posts
+            
             self.trendingPosts = posts
-
-            // Reload the collection view to display the new data
             DispatchQueue.main.async {
                 self.trendingPostsCollectionView.reloadData()
             }
         }
-
-        //Trending subreddits collection view
-        let trendingSubredditCellNib = UINib(nibName: "TrendingSubredditsCVC", bundle: nil)
-        trendingSubredditsCollectionView.register(trendingSubredditCellNib, forCellWithReuseIdentifier: "trendingSubredditCell")
+    }
+    
+    private func setupTrendingSubreddits() {
         trendingSubredditsCollectionView.dataSource = self
         trendingSubredditsCollectionView.delegate = self
+        let trendingSubredditCellNib = UINib(nibName: "TrendingSubredditsCVC", bundle: nil)
+        trendingSubredditsCollectionView.register(trendingSubredditCellNib, forCellWithReuseIdentifier: "trendingSubredditCell")
+        
         redditAPI.getTopSubredditsFromPopularPosts { [weak self] (subreddits, error) in
+            guard let self = self else { return }
+            
             if let subreddits = subreddits {
-                self?.topSubreddits = subreddits
-                self?.trendingSubredditsCollectionView.reloadData()
+                self.topSubreddits = subreddits
+                self.trendingSubredditsCollectionView.reloadData()
             } else if let error = error {
                 print("Error getting top subreddits: \(error)")
             }
         }
-        // Do any additional setup after loading the view.
     }
+    
 }
 
 
@@ -97,7 +105,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             
             // Get a random system image
             let systemImages = [
-                "circle.grid.hex", "rectangle.stack", "triangle","square.grid.3x1.below.line.grid.1x2", "rhombus","hexagon", "pentagon", "octagon", "star", "sun.max", "moon", "cloud", "cloud.sun", "cloud.rain", "cloud.snow", "tornado", "hurricane", "bolt", "umbrella", "flame", "drop", "waveform.path.ecg.rectangle"]
+                "circle.grid.hex", "rectangle.stack","triangle","square.grid.3x1.below.line.grid.1x2", "rhombus","hexagon", "pentagon", "octagon", "star", "sun.max", "moon", "cloud", "cloud.sun", "cloud.rain", "cloud.snow", "tornado", "hurricane", "bolt", "umbrella", "flame", "drop", "waveform.path.ecg.rectangle"]
             let randomIndex = Int.random(in: 0..<systemImages.count)
             let systemImage = UIImage(systemName: systemImages[randomIndex])
             cell.trendingSubredditImage.image = systemImage
@@ -119,7 +127,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             return CGSize(width: cellWidth, height: cellHeight)
         }
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         if collectionView == trendingPostsCollectionView {
             return 10
@@ -136,30 +144,30 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         }
     }
 }
-    
-    
-    
-    extension MainScreenVC {
-        @IBAction func safeSearchSwitchValueChanged(_ sender: UISwitch) {
-            // Call the API again with the updated safe search option
-            redditAPI.getRedditPostsFromSubreddit(subredditName: "funny", safeSearch: sender.isOn, onlyPostsWithImages: true) { (posts, error) in
-                if let error = error {
-                    print("Error retrieving Reddit posts: \(error.localizedDescription)")
-                    return
-                }
-                
-                guard let posts = posts else {
-                    print("No posts retrieved")
-                    return
-                }
-                
-                // Update the data source with the retrieved posts
-                self.trendingPosts = posts
-                
-                // Reload the collection view to display the new data
-                DispatchQueue.main.async {
-                    self.trendingPostsCollectionView.reloadData()
-                }
+
+
+
+extension MainScreenVC {
+    @IBAction func safeSearchSwitchValueChanged(_ sender: UISwitch) {
+        // Call the API again with the updated safe search option
+        redditAPI.getRedditPostsFromSubreddit(subredditName: "funny", safeSearch: sender.isOn, onlyPostsWithImages: true) { (posts, error) in
+            if let error = error {
+                print("Error retrieving Reddit posts: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let posts = posts else {
+                print("No posts retrieved")
+                return
+            }
+            
+            // Update the data source with the retrieved posts
+            self.trendingPosts = posts
+            
+            // Reload the collection view to display the new data
+            DispatchQueue.main.async {
+                self.trendingPostsCollectionView.reloadData()
             }
         }
     }
+}
