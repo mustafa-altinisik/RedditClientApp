@@ -9,11 +9,13 @@ import UIKit
 import SDWebImage
 
 class MainScreenVC: UIViewController {
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var safeSearchSwitch: UISwitch!
-    @IBOutlet weak var trendingPostsCollectionView: UICollectionView!
-    @IBOutlet weak var trendingSubredditsCollectionView: UICollectionView!
-    @IBOutlet weak var favoriteSubredditsTableView: UITableView!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var safeSearchSwitch: UISwitch!
+    @IBOutlet private weak var trendingPostsCollectionView: UICollectionView!
+    @IBOutlet private weak var trendingSubredditsCollectionView: UICollectionView!
+    @IBOutlet private weak var favoriteSubredditsTableView: UITableView!
+    @IBOutlet private weak var contentView: UIView!
+    @IBOutlet private weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     var redditAPI = RedditAPI()
     var topSubreddits: [String: Int] = [:]
@@ -23,6 +25,7 @@ class MainScreenVC: UIViewController {
         super.viewDidLoad()
         setupTrendingPosts()
         setupTrendingSubreddits()
+        tableViewHeightConstraint.constant = CGFloat(1000)
     }
     
     private func setupTrendingPosts() {

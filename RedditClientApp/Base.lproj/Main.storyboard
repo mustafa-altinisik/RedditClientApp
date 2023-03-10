@@ -56,8 +56,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bsS-e8-KdC">
                                 <rect key="frame" x="0.0" y="129" width="393" height="723"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kXP-5T-d5b">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1200"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kXP-5T-d5b" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="909"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trending Posts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uON-15-3Ya">
                                                 <rect key="frame" x="8.0000000000000071" y="7.9999999999999982" width="113.66666666666669" height="20.333333333333329"/>
@@ -114,11 +114,11 @@
                                             </tableView>
                                         </subviews>
                                         <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="bLe-Bi-Q1g" secondAttribute="bottom" id="7qr-BJ-cXx"/>
                                             <constraint firstItem="uON-15-3Ya" firstAttribute="leading" secondItem="kXP-5T-d5b" secondAttribute="leading" constant="8" id="8Zs-2f-bsK"/>
                                             <constraint firstItem="eek-aj-xrY" firstAttribute="leading" secondItem="kXP-5T-d5b" secondAttribute="leading" constant="8" id="BIP-UY-HLz"/>
                                             <constraint firstItem="OJw-4V-OWT" firstAttribute="top" secondItem="prN-1j-NRc" secondAttribute="bottom" constant="8" id="DYf-oQ-ash"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="uON-15-3Ya" secondAttribute="trailing" constant="20" symbolic="YES" id="Um5-Y5-mBz"/>
-                                            <constraint firstAttribute="height" constant="1200" id="V1S-2o-vVo"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="OJw-4V-OWT" secondAttribute="trailing" constant="20" symbolic="YES" id="XaI-X9-RCt"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kWT-lC-eQG" secondAttribute="trailing" constant="20" symbolic="YES" id="XhS-Ag-fOx"/>
                                             <constraint firstItem="bLe-Bi-Q1g" firstAttribute="top" secondItem="OJw-4V-OWT" secondAttribute="bottom" constant="8" id="auo-nr-93j"/>
@@ -158,9 +158,11 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="contentView" destination="kXP-5T-d5b" id="umd-M8-Ys2"/>
                         <outlet property="favoriteSubredditsTableView" destination="bLe-Bi-Q1g" id="dee-Du-0c2"/>
                         <outlet property="safeSearchSwitch" destination="3mI-Vy-jLg" id="Dc7-XK-Bgf"/>
                         <outlet property="searchBar" destination="iac-X8-kM2" id="fnf-Hh-5oN"/>
+                        <outlet property="tableViewHeightConstraint" destination="ptq-J0-ZQo" id="gbp-AD-z83"/>
                         <outlet property="trendingPostsCollectionView" destination="eek-aj-xrY" id="zHq-2S-scP"/>
                         <outlet property="trendingSubredditsCollectionView" destination="prN-1j-NRc" id="ZPR-K8-htI"/>
                     </connections>
