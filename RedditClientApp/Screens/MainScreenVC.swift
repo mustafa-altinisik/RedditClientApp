@@ -15,7 +15,6 @@ class MainScreenVC: UIViewController {
     @IBOutlet weak var trendingSubredditsCollectionView: UICollectionView!
     @IBOutlet weak var favoriteSubredditsTableView: UITableView!
     
-    @IBOutlet weak var tableviewHeightConstraint: NSLayoutConstraint!
     var redditAPI = RedditAPI()
     var topSubreddits: [String: Int] = [:]
     var trendingPosts: [RedditPost] = []

@@ -18,26 +18,33 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="Gwa-of-Rl1">
-                                <rect key="frame" x="6" y="59" width="381" height="56"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="56"/>
                                 <subviews>
-                                    <searchBar contentMode="redraw" ambiguous="YES" placeholder="enter a subreddit" translatesAutoresizingMaskIntoConstraints="NO" id="iac-X8-kM2">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
+                                    <searchBar contentMode="redraw" placeholder="enter a subreddit" translatesAutoresizingMaskIntoConstraints="NO" id="iac-X8-kM2">
+                                        <rect key="frame" x="0.0" y="0.0" width="344.33333333333331" height="56"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="56" id="Q8o-WW-X1w"/>
+                                            <constraint firstAttribute="width" constant="344.33333333333331" id="aOK-1b-5bH"/>
+                                        </constraints>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
                                             <outlet property="delegate" destination="Ef5-45-QWc" id="hpS-WK-GpF"/>
                                         </connections>
                                     </searchBar>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="ZqI-n3-hfe">
-                                        <rect key="frame" x="323" y="0.0" width="58" height="56"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="ZqI-n3-hfe">
+                                        <rect key="frame" x="347.33333333333331" y="0.0" width="45.666666666666686" height="56"/>
                                         <subviews>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3mI-Vy-jLg" userLabel="safeSearchSwitch">
-                                                <rect key="frame" x="0.0" y="0.0" width="60" height="31.666666666666668"/>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3mI-Vy-jLg" userLabel="safeSearchSwitch">
+                                                <rect key="frame" x="0.0" y="0.0" width="47.666666666666664" height="31.666666666666668"/>
                                                 <connections>
                                                     <action selector="safeSearchSwitchValueChanged:" destination="Ef5-45-QWc" eventType="valueChanged" id="R3G-CY-0Kq"/>
                                                 </connections>
                                             </switch>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Safe Search" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OhJ-J4-501">
-                                                <rect key="frame" x="0.0" y="31.666666666666671" width="58" height="24.333333333333329"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Safe Search" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OhJ-J4-501">
+                                                <rect key="frame" x="0.0" y="31.666666666666671" width="45.666666666666664" height="24.333333333333329"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="24.333333333333329" id="TBs-DD-TUI"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -46,77 +53,116 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bsS-e8-KdC">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bsS-e8-KdC">
                                 <rect key="frame" x="0.0" y="129" width="393" height="723"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trending Posts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTU-ci-JwE">
-                                        <rect key="frame" x="8" y="8" width="120" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9pM-ch-0Ry" userLabel="trendingPostsCV">
-                                        <rect key="frame" x="8" y="37" width="377" height="199"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="a0C-BF-gf1">
-                                            <size key="itemSize" width="128" height="128"/>
-                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        </collectionViewFlowLayout>
-                                        <cells/>
-                                    </collectionView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Trending Subreddits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bUx-gG-fTW">
-                                        <rect key="frame" x="8" y="244" width="154.33333333333334" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="iPI-0j-6VG" userLabel="trendingSubredditsCV">
-                                        <rect key="frame" x="8" y="273" width="377" height="200"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="P0M-CZ-Snq">
-                                            <size key="itemSize" width="128" height="128"/>
-                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                        </collectionViewFlowLayout>
-                                        <cells/>
-                                    </collectionView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Favorite Subreddits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ir-I1-AO8">
-                                        <rect key="frame" x="8" y="481" width="147.33333333333334" height="20.333333333333314"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gXL-8P-WuU" userLabel="favoriteSubredditsTV">
-                                        <rect key="frame" x="8" y="510" width="377" height="171"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    </tableView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kXP-5T-d5b">
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="1200"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trending Posts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uON-15-3Ya">
+                                                <rect key="frame" x="8.0000000000000071" y="7.9999999999999982" width="113.66666666666669" height="20.333333333333329"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eek-aj-xrY" userLabel="TrendingPostsCV">
+                                                <rect key="frame" x="8" y="36.333333333333343" width="377" height="200"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="200" id="HlH-fR-8QP"/>
+                                                </constraints>
+                                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Hya-FH-efy">
+                                                    <size key="itemSize" width="128" height="128"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <cells/>
+                                            </collectionView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trending Subreddits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kWT-lC-eQG">
+                                                <rect key="frame" x="8" y="244.33333333333331" width="154.33333333333334" height="20.333333333333314"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="prN-1j-NRc" userLabel="TrendingSubredditsCV">
+                                                <rect key="frame" x="8" y="272.66666666666669" width="377" height="200"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="200" id="Wrp-yU-WOd"/>
+                                                </constraints>
+                                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="0qM-qS-hK6">
+                                                    <size key="itemSize" width="128" height="128"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <cells/>
+                                            </collectionView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favorite Subreddits" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OJw-4V-OWT">
+                                                <rect key="frame" x="8" y="480.66666666666663" width="147.33333333333334" height="20.333333333333314"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="bLe-Bi-Q1g">
+                                                <rect key="frame" x="8" y="509" width="377" height="400"/>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="400" id="ptq-J0-ZQo"/>
+                                                </constraints>
+                                            </tableView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="uON-15-3Ya" firstAttribute="leading" secondItem="kXP-5T-d5b" secondAttribute="leading" constant="8" id="8Zs-2f-bsK"/>
+                                            <constraint firstItem="eek-aj-xrY" firstAttribute="leading" secondItem="kXP-5T-d5b" secondAttribute="leading" constant="8" id="BIP-UY-HLz"/>
+                                            <constraint firstItem="OJw-4V-OWT" firstAttribute="top" secondItem="prN-1j-NRc" secondAttribute="bottom" constant="8" id="DYf-oQ-ash"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="uON-15-3Ya" secondAttribute="trailing" constant="20" symbolic="YES" id="Um5-Y5-mBz"/>
+                                            <constraint firstAttribute="height" constant="1200" id="V1S-2o-vVo"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="OJw-4V-OWT" secondAttribute="trailing" constant="20" symbolic="YES" id="XaI-X9-RCt"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="kWT-lC-eQG" secondAttribute="trailing" constant="20" symbolic="YES" id="XhS-Ag-fOx"/>
+                                            <constraint firstItem="bLe-Bi-Q1g" firstAttribute="top" secondItem="OJw-4V-OWT" secondAttribute="bottom" constant="8" id="auo-nr-93j"/>
+                                            <constraint firstItem="uON-15-3Ya" firstAttribute="top" secondItem="kXP-5T-d5b" secondAttribute="top" constant="8" id="bde-42-YP5"/>
+                                            <constraint firstAttribute="trailing" secondItem="prN-1j-NRc" secondAttribute="trailing" constant="8" id="bjZ-Pv-PdJ"/>
+                                            <constraint firstItem="OJw-4V-OWT" firstAttribute="leading" secondItem="kXP-5T-d5b" secondAttribute="leading" constant="8" id="cgm-3l-3ts"/>
+                                            <constraint firstAttribute="trailing" secondItem="eek-aj-xrY" secondAttribute="trailing" constant="8" id="cyn-dn-nh5"/>
+                                            <constraint firstItem="eek-aj-xrY" firstAttribute="top" secondItem="uON-15-3Ya" secondAttribute="bottom" constant="8" id="f9K-vG-eay"/>
+                                            <constraint firstItem="bLe-Bi-Q1g" firstAttribute="leading" secondItem="kXP-5T-d5b" secondAttribute="leading" constant="8" id="fBS-ww-XTD"/>
+                                            <constraint firstItem="kWT-lC-eQG" firstAttribute="top" secondItem="eek-aj-xrY" secondAttribute="bottom" constant="8" id="gbh-iu-Fp5"/>
+                                            <constraint firstItem="prN-1j-NRc" firstAttribute="leading" secondItem="kXP-5T-d5b" secondAttribute="leading" constant="8" id="qtb-cc-3Wd"/>
+                                            <constraint firstItem="kWT-lC-eQG" firstAttribute="leading" secondItem="kXP-5T-d5b" secondAttribute="leading" constant="8" id="syy-gU-re1"/>
+                                            <constraint firstAttribute="trailing" secondItem="bLe-Bi-Q1g" secondAttribute="trailing" constant="8" id="xGn-cn-xuI"/>
+                                            <constraint firstItem="prN-1j-NRc" firstAttribute="top" secondItem="kWT-lC-eQG" secondAttribute="bottom" constant="8" id="ziY-K0-v6X"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="kXP-5T-d5b" secondAttribute="bottom" id="Qr6-sw-kPK"/>
+                                    <constraint firstAttribute="trailing" secondItem="kXP-5T-d5b" secondAttribute="trailing" id="YxY-ut-4NS"/>
+                                    <constraint firstItem="kXP-5T-d5b" firstAttribute="top" secondItem="bsS-e8-KdC" secondAttribute="top" id="cpy-2r-uip"/>
+                                    <constraint firstItem="kXP-5T-d5b" firstAttribute="leading" secondItem="bsS-e8-KdC" secondAttribute="leading" id="iGS-Fv-z99"/>
+                                </constraints>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="WWE-uI-Obq"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="WWE-uI-Obq" firstAttribute="trailing" secondItem="Gwa-of-Rl1" secondAttribute="trailing" constant="6" id="BWw-Cc-elq"/>
-                            <constraint firstItem="Gwa-of-Rl1" firstAttribute="top" secondItem="WWE-uI-Obq" secondAttribute="top" id="US3-IF-5Ty"/>
-                            <constraint firstItem="Gwa-of-Rl1" firstAttribute="leading" secondItem="WWE-uI-Obq" secondAttribute="leading" constant="6" id="tNU-dQ-KX4"/>
+                            <constraint firstItem="bsS-e8-KdC" firstAttribute="leading" secondItem="WWE-uI-Obq" secondAttribute="leading" id="1Sf-gO-af1"/>
+                            <constraint firstItem="kXP-5T-d5b" firstAttribute="width" secondItem="k5X-Z5-jsd" secondAttribute="width" id="P4A-bB-XvC"/>
+                            <constraint firstItem="Gwa-of-Rl1" firstAttribute="leading" secondItem="WWE-uI-Obq" secondAttribute="leading" id="YeK-dm-zfr"/>
+                            <constraint firstItem="bsS-e8-KdC" firstAttribute="trailing" secondItem="WWE-uI-Obq" secondAttribute="trailing" id="ZeV-H5-0AJ"/>
+                            <constraint firstAttribute="trailing" secondItem="Gwa-of-Rl1" secondAttribute="trailing" id="g4E-wy-m9h"/>
+                            <constraint firstItem="Gwa-of-Rl1" firstAttribute="top" secondItem="WWE-uI-Obq" secondAttribute="top" id="rsm-fJ-w74"/>
+                            <constraint firstAttribute="bottom" secondItem="bsS-e8-KdC" secondAttribute="bottom" id="tEH-yw-Zzh"/>
+                            <constraint firstItem="bsS-e8-KdC" firstAttribute="top" secondItem="Gwa-of-Rl1" secondAttribute="bottom" constant="14" id="ufw-Uc-MQl"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="favoriteSubredditsTableView" destination="gXL-8P-WuU" id="CHv-uM-TZu"/>
+                        <outlet property="favoriteSubredditsTableView" destination="bLe-Bi-Q1g" id="dee-Du-0c2"/>
                         <outlet property="safeSearchSwitch" destination="3mI-Vy-jLg" id="Dc7-XK-Bgf"/>
                         <outlet property="searchBar" destination="iac-X8-kM2" id="fnf-Hh-5oN"/>
-                        <outlet property="trendingPostsCollectionView" destination="9pM-ch-0Ry" id="sdD-6d-LSY"/>
-                        <outlet property="trendingSubredditsCollectionView" destination="iPI-0j-6VG" id="irg-8W-Dn4"/>
+                        <outlet property="trendingPostsCollectionView" destination="eek-aj-xrY" id="zHq-2S-scP"/>
+                        <outlet property="trendingSubredditsCollectionView" destination="prN-1j-NRc" id="ZPR-K8-htI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FG0-WJ-XqW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -525,7 +571,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Whh-1d-L6D"/>
+        <segue reference="uHT-YD-FeC"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrowshape.backward" catalog="system" width="128" height="104"/>
