@@ -8,7 +8,7 @@
 import UIKit
 import SDWebImage
 
-class MainScreenVC: UIViewController{
+class MainScreenVC: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var safeSearchSwitch: UISwitch!
     @IBOutlet weak var trendingPostsCollectionView: UICollectionView!
@@ -29,33 +29,28 @@ class MainScreenVC: UIViewController{
     private func setupTrendingPosts() {
         trendingPostsCollectionView.dataSource = self
         trendingPostsCollectionView.delegate = self
-        trendingPostsCollectionView.register(UINib(nibName: "TrendingPostCVC", bundle: nil), forCellWithReuseIdentifier: "trendingPostCell")
+        trendingPostsCollectionView.register(UINib(nibName: "TrendingPostCVC",bundle: nil),forCellWithReuseIdentifier: "trendingPostCell")
         
-        redditAPI.getRedditPostsFromSubreddit(subredditName: "funny", safeSearch: safeSearchSwitch.isOn, onlyPostsWithImages: true) { [weak self] (posts, error) in
+        redditAPI.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: safeSearchSwitch.isOn, onlyPostsWithImages: true) { [weak self] (posts, error) in
             guard let self = self else { return }
-            
             if let error = error {
                 print("Error retrieving Reddit posts: \(error.localizedDescription)")
                 return
             }
-            
             guard let posts = posts else {
                 print("No posts retrieved")
                 return
             }
-            
             self.trendingPosts = posts
             DispatchQueue.main.async {
                 self.trendingPostsCollectionView.reloadData()
             }
         }
     }
-    
     private func setupTrendingSubreddits() {
         trendingSubredditsCollectionView.dataSource = self
         trendingSubredditsCollectionView.delegate = self
-        let trendingSubredditCellNib = UINib(nibName: "TrendingSubredditsCVC", bundle: nil)
-        trendingSubredditsCollectionView.register(trendingSubredditCellNib, forCellWithReuseIdentifier: "trendingSubredditCell")
+        trendingSubredditsCollectionView.register(UINib(nibName: "TrendingSubredditsCVC", bundle: nil), forCellWithReuseIdentifier: "trendingSubredditCell")
         
         redditAPI.getTopSubredditsFromPopularPosts { [weak self] (subreddits, error) in
             guard let self = self else { return }
@@ -68,7 +63,6 @@ class MainScreenVC: UIViewController{
             }
         }
     }
-    
 }
 
 
@@ -87,6 +81,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             let post = trendingPosts[indexPath.row]
             cell.trendingPostLabel.text = post.title
             cell.trendingPostImage.image = nil // clear the image to avoid flickering
+            cell.trendingPostImage.contentMode = .scaleAspectFill // set the content mode to fill the cell
             guard let imageURL = URL(string: post.imageURL) else { return cell }
             redditAPI.getPostImage(from: imageURL) { (image, error) in
                 if let image = image {
@@ -98,7 +93,8 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
                 }
             }
             return cell
-        } else {
+        }
+        else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingSubredditCell", for: indexPath) as! TrendingSubredditsCVC
             let subreddit = Array(topSubreddits.keys)[indexPath.row]
             cell.trendingSubredditLabel.text = subreddit
@@ -117,12 +113,11 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == trendingPostsCollectionView {
-            let collectionViewWidth = collectionView.bounds.width
-            let collectionViewHeight = collectionView.bounds.height
-            return CGSize(width: collectionViewWidth, height: collectionViewHeight)
+            let cellWidth = collectionView.bounds.width
+            let cellHeight = collectionView.bounds.height
+            return CGSize(width: cellWidth, height: cellHeight)
         } else {
-            let collectionViewWidth = collectionView.bounds.width
-            let cellWidth = (collectionViewWidth - 20) / 3
+            let cellWidth = ((collectionView.bounds.width) - 20) / 3
             let cellHeight = collectionView.bounds.height / 2
             return CGSize(width: cellWidth, height: cellHeight)
         }
@@ -143,6 +138,25 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         }
     }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        // Calculate the index of the next item
+        let currentIndex = trendingPostsCollectionView.contentOffset.x / trendingPostsCollectionView.bounds.size.width
+        let nextIndex = round(currentIndex)
+        
+        // Check if the next index is within the range of the number of items in the section
+        let numberOfItemsInSection = trendingPostsCollectionView.numberOfItems(inSection: 0)
+        guard nextIndex >= 0 && nextIndex < Double(numberOfItemsInSection) else {
+            return
+        }
+        
+        // Scroll to the next item with animation
+        let indexPath = IndexPath(item: Int(nextIndex), section: 0)
+        trendingPostsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        //Make a short vibration when fully scrolled
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+    }
 }
 
 
@@ -150,7 +164,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
 extension MainScreenVC {
     @IBAction func safeSearchSwitchValueChanged(_ sender: UISwitch) {
         // Call the API again with the updated safe search option
-        redditAPI.getRedditPostsFromSubreddit(subredditName: "funny", safeSearch: sender.isOn, onlyPostsWithImages: true) { (posts, error) in
+        redditAPI.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: sender.isOn, onlyPostsWithImages: true) { (posts, error) in
             if let error = error {
                 print("Error retrieving Reddit posts: \(error.localizedDescription)")
                 return

@@ -23,10 +23,11 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BHI-FC-lUz" userLabel="trendingPostImage">
                                 <rect key="frame" x="0.0" y="0.0" width="377" height="200"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMO-tJ-ke6" userLabel="trendingPostLabel">
-                                <rect key="frame" x="0.0" y="179.66666666666666" width="377" height="20.333333333333343"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMO-tJ-ke6" userLabel="trendingPostLabel">
+                                <rect key="frame" x="10" y="152" width="357" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -36,10 +37,7 @@
                             <constraint firstItem="BHI-FC-lUz" firstAttribute="leading" secondItem="0We-oq-ArR" secondAttribute="leading" id="K3h-ZA-KL0"/>
                             <constraint firstAttribute="trailing" secondItem="BHI-FC-lUz" secondAttribute="trailing" id="KDa-6x-BR9"/>
                             <constraint firstAttribute="bottom" secondItem="BHI-FC-lUz" secondAttribute="bottom" id="R3m-RQ-8lq"/>
-                            <constraint firstAttribute="trailing" secondItem="hMO-tJ-ke6" secondAttribute="trailing" id="aTX-YW-QNO"/>
                             <constraint firstItem="BHI-FC-lUz" firstAttribute="top" secondItem="0We-oq-ArR" secondAttribute="top" id="h8w-R2-e0m"/>
-                            <constraint firstItem="hMO-tJ-ke6" firstAttribute="leading" secondItem="0We-oq-ArR" secondAttribute="leading" id="jYn-nu-B7q"/>
-                            <constraint firstAttribute="bottom" secondItem="hMO-tJ-ke6" secondAttribute="bottom" id="ynq-4k-6BU"/>
                         </constraints>
                     </view>
                 </subviews>

@@ -7,38 +7,37 @@
 
 import UIKit
 
+class HomeScreen: UIViewController {
 
-class HomeScreen: UIViewController{
-    
     @IBOutlet private weak var trendingsCollectionView: UICollectionView!
     @IBOutlet weak var searchBar: UITextField!
     @IBOutlet weak var safeSearchSwitch: UISwitch!
     @IBOutlet weak var favoritesTable: UITableView!
-    
+
     var redditAPI = RedditAPI()
-    
-    //This array is used to store favorite subreddits
-    var favoriteSubreddits : [String] = []
-    
-    //This is the subreddit that will be displayed on the posts screen
+
+    // This array is used to store favorite subreddits
+    var favoriteSubreddits: [String] = []
+
+    // This is the subreddit that will be displayed on the posts screen
     var subreddit = ""
-    
-    //This is the subreddit that will be displayed on the trending posts carousel in the main screen
+
+    // This is the subreddit that will be displayed on the trending posts carousel in the main screen
     var subredditToBeDisplayedOnTrendingPostsViewCell = "turkey"
-    
-    //This array is used to store the posts that will be displayed on the posts screen
-    var redditPosts : [RedditPost] = []
-    
-    //This array is used to store the posts that will be displayed on the trending posts carousel in the main screen
-    var trendingPosts : [RedditPost] = []
-    
-    //doesUserWantSafeSearch is used to determine if the user wants to see the safe search posts or not, it is stored in the user defaults
+
+    // This array is used to store the posts that will be displayed on the posts screen
+    var redditPosts: [RedditPost] = []
+
+    // This array is used to store the posts that will be displayed on the trending posts carousel in the main screen
+    var trendingPosts: [RedditPost] = []
+
+    // doesUserWantSafeSearch is used to determine if the user wants to see the safe search posts or not, it is stored in the user defaults
     let defaults = UserDefaults.standard
     var doesUserWantSafeSearch: Bool = false
-    
-    //hasSafeSearchValueChanged is used to determine if the user has changed the safe search switch or not, if it is true, the trending posts carousel will be refreshed.
+
+    // hasSafeSearchValueChanged is used to determine if the user has changed the safe search switch or not, if it is true, the trending posts carousel will be refreshed.
     var hasSafeSearchValueChanged = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         //The favoriteSubreddits array is retrieved from the user defaults.
@@ -83,23 +82,23 @@ class HomeScreen: UIViewController{
             makeRedditAPICall(subreddit: subreddit, maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
         }
     }
-    
+
     @IBAction func trendingsButton(_ sender: Any) {
         makeRedditAPICall(subreddit: "trendingsubreddits", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
     }
-    
+
     @IBAction func technologyButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "technology", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
     }
-    
+
     @IBAction func photographyButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "photography", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
     }
-    
+
     @IBAction func scienceButtonPressed(_ sender: Any) {
         makeRedditAPICall(subreddit: "science", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
     }
-    
+
     @IBAction func computersButtonPressed(_ sender: Any) {
         //makeRedditAPICall(subreddit: "computers", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
         redditAPI.getTopSubredditsFromPopularPosts { (subreddits, error) in
@@ -109,23 +108,21 @@ class HomeScreen: UIViewController{
                 print("Top subreddits from popular posts: \(subreddits)")
             }
         }
-
-
     }
-    
+
     @IBAction func newsButtonPressed(_ sender: Any) {
-        //makeRedditAPICall(subreddit: "news", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
-        
+        // makeRedditAPICall(subreddit: "news", maximumNumberOfPosts: 50, willItBeUsedForCarousel: false)
+
         redditAPI.getRedditPostsFromSubreddit(subredditName: "all", safeSearch: true, onlyPostsWithImages: true) { redditPosts, error in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
                 return
             }
-            
+
             if let redditPosts = redditPosts {
                 // Do something with the array of RedditPost objects
                 print(redditPosts.count)
-                
+
                 for post in redditPosts {
                     print("Title: \(post.title)")
                     print("Description: \(post.description)")
@@ -156,11 +153,11 @@ class HomeScreen: UIViewController{
         }
     }
     
-    //MARK: -Other functions.
-    //This function is used to make the API call and put the data into redditPosts array
-    //subreddit is the subreddit that the user wants to see the posts from
-    //maximumNumberOfPosts is the maximum number of posts that will be displayed
-    //willItBeUsedForCarousel is a boolean value that is used to determine if the data will be used for the posts screen or the trending posts carousel
+    // MARK: - Other functions.
+    // This function is used to make the API call and put the data into redditPosts array
+    // subreddit is the subreddit that the user wants to see the posts from
+    // maximumNumberOfPosts is the maximum number of posts that will be displayed
+    // willItBeUsedForCarousel is a boolean value that is used to determine if the data will be used for the posts screen or the trending posts carousel
     func makeRedditAPICall(subreddit: String, maximumNumberOfPosts: Int, willItBeUsedForCarousel: Bool) {
         let url = URL(string: "https://www.reddit.com/r/\(subreddit)/top.json?limit=\(maximumNumberOfPosts)")!
         //URL session is used to make the API call
@@ -239,19 +236,19 @@ extension HomeScreen: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
             makeRedditAPICall(subreddit: subredditToBeDisplayedOnTrendingPostsViewCell, maximumNumberOfPosts: 10, willItBeUsedForCarousel: true)
         }
         
-        //If the user wants safe search, the trending posts will be filtered.
-        if(doesUserWantSafeSearch){
+        // If the user wants safe search, the trending posts will be filtered.
+        if doesUserWantSafeSearch {
             trendingPosts = filterSafePosts(posts: trendingPosts)
         }
-        
+
         let data = trendingPosts[indexPath.row]
-        
+
         let imageURL = URL(string: data.imageURL)
         let imageView = cell.imageView
-        
+
         cell.textLabel.text = data.title
-        
-        //The image is downloaded in the background and then displayed in the main thread.
+
+        // The image is downloaded in the background and then displayed in the main thread.
         DispatchQueue.global().async {
             if let url = imageURL, let data = try? Data(contentsOf: url) {
                 if let image = UIImage(data: data) {
@@ -263,20 +260,20 @@ extension HomeScreen: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
         }
         return cell
     }
-    
-    //This function is used to determine the size of each cell in the collection view, makes the cells the same size as the collection view.
+
+    // This function is used to determine the size of each cell in the collection view, makes the cells the same size as the collection view.
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.frame.size.width
         let height = collectionView.frame.size.height
         return CGSize(width: width, height: height)
     }
-    
-    //This function is used to make a one by one scrolling effect in the collection view and olso to prevent the user from scrolling when there are no more posts to scroll to.
+
+    // This function is used to make a one by one scrolling effect in the collection view and olso to prevent the user from scrolling when there are no more posts to scroll to.
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         // Calculate the index of the next item
         let currentIndex = trendingsCollectionView.contentOffset.x / trendingsCollectionView.bounds.size.width
         let nextIndex = round(currentIndex)
-        
+
         // Check if the next index is within the range of the number of items in the section
         let numberOfItemsInSection = trendingsCollectionView.numberOfItems(inSection: 0)
         guard nextIndex >= 0 && nextIndex < Double(numberOfItemsInSection) else {

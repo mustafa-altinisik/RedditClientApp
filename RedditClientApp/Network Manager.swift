@@ -26,7 +26,7 @@ class RedditAPI{
                 case .success(let redditResponse):
                     var redditPosts = [RedditPost]()
                     for child in redditResponse.data.children {
-                        if let imageURL = URL(string: child.data.thumbnail), onlyPostsWithImages && imageURL != URL(string: "default") {
+                        if let imageURL = URL(string: child.data.thumbnail), onlyPostsWithImages && self.isImageURL(imageURL.absoluteString) {
                             redditPosts.append(child.data.toRedditPost())
                         } else if !onlyPostsWithImages {
                             redditPosts.append(child.data.toRedditPost())
@@ -81,6 +81,22 @@ class RedditAPI{
                 completion(image, nil)
             }
         }.resume()
+    }
+
+    func isImageURL(_ string: String) -> Bool {
+        guard let url = URL(string: string) else {
+            // If the string is not a valid URL, it's a dummy string
+            return false
+        }
+        
+        // Check if the URL's scheme is http or https, and if the path extension is an image file type
+        if url.scheme == "http" || url.scheme == "https" {
+            let ext = url.pathExtension.lowercased()
+            return ["jpg", "jpeg", "png", "gif"].contains(ext)
+        }
+        
+        // If the URL is not http or https, or the path extension is not an image file type, it's a dummy string
+        return false
     }
 
 
