@@ -18,14 +18,32 @@ class MainScreenVC: UIViewController {
     @IBOutlet private weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     var redditAPI = RedditAPI()
+    let defaults = UserDefaults.standard
+
     var topSubreddits: [String: Int] = [:]
     var trendingPosts: [RedditPost] = []
+    var favoriteSubreddits: [String] = []
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupFavoriteSubreddits()
         setupTrendingPosts()
         setupTrendingSubreddits()
-        tableViewHeightConstraint.constant = CGFloat(1000)
+        
+        if let savedSubreddits = UserDefaults.standard.stringArray(forKey: "favoriteSubreddits") {
+            favoriteSubreddits = savedSubreddits
+        }
+        
+        print(favoriteSubreddits)
+        
+        reloadFavoriteSubreddits()
+    }
+    private func setupFavoriteSubreddits(){
+        favoriteSubredditsTableView.layer.borderWidth = 1
+        favoriteSubredditsTableView.dataSource = self
+        favoriteSubredditsTableView.delegate = self
+        favoriteSubredditsTableView.register(UINib(nibName: "FavoriteSubredditTVC", bundle: nil), forCellReuseIdentifier: "FavoriteSubredditCell")
     }
     
     private func setupTrendingPosts() {
@@ -64,6 +82,11 @@ class MainScreenVC: UIViewController {
                 print("Error getting top subreddits: \(error)")
             }
         }
+    }
+    
+    private func reloadFavoriteSubreddits() {
+        favoriteSubredditsTableView.reloadData()
+        tableViewHeightConstraint.constant = CGFloat(favoriteSubreddits.count) * favoriteSubredditsTableView.rowHeight
     }
 }
 
@@ -186,4 +209,21 @@ extension MainScreenVC {
             }
         }
     }
+}
+
+extension MainScreenVC: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return favoriteSubreddits.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteSubredditCell", for: indexPath) as! FavoriteSubredditTVC
+        cell.favoriteSubredditLabel.text = "r/" + favoriteSubreddits[indexPath.row]
+        
+        cell.layer.borderWidth = 1
+        
+        return cell
+    }
+    
 }
