@@ -26,7 +26,7 @@
                                             <constraint firstAttribute="height" constant="56" id="Q8o-WW-X1w"/>
                                             <constraint firstAttribute="width" constant="344.33333333333331" id="aOK-1b-5bH"/>
                                         </constraints>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                         <connections>
                                             <outlet property="delegate" destination="Ef5-45-QWc" id="hpS-WK-GpF"/>
                                         </connections>
@@ -161,7 +161,7 @@
                         <outlet property="contentView" destination="kXP-5T-d5b" id="umd-M8-Ys2"/>
                         <outlet property="favoriteSubredditsTableView" destination="bLe-Bi-Q1g" id="dee-Du-0c2"/>
                         <outlet property="safeSearchSwitch" destination="3mI-Vy-jLg" id="Dc7-XK-Bgf"/>
-                        <outlet property="searchBar" destination="iac-X8-kM2" id="fnf-Hh-5oN"/>
+                        <outlet property="searchBar" destination="iac-X8-kM2" id="VUJ-ap-0PI"/>
                         <outlet property="tableViewHeightConstraint" destination="ptq-J0-ZQo" id="gbp-AD-z83"/>
                         <outlet property="trendingPostsCollectionView" destination="eek-aj-xrY" id="zHq-2S-scP"/>
                         <outlet property="trendingSubredditsCollectionView" destination="prN-1j-NRc" id="ZPR-K8-htI"/>
@@ -445,7 +445,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-77.099236641221367" y="-2.1126760563380285"/>
+            <point key="canvasLocation" x="-85" y="-2"/>
         </scene>
         <!--Posts Screen-->
         <scene sceneID="yQs-4q-xUH">
@@ -574,7 +574,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="uHT-YD-FeC"/>
+        <segue reference="Whh-1d-L6D"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrowshape.backward" catalog="system" width="128" height="104"/>
