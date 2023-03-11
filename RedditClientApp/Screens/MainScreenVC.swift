@@ -28,6 +28,9 @@ class MainScreenVC: UIViewController {
     var trendingPosts: [RedditPost] = []
     var pickedIcons = [String]()
     
+    var freezeTime: TimeInterval = 4
+    var scrollTimer: Timer?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +48,7 @@ class MainScreenVC: UIViewController {
         
         reloadFavoriteSubreddits()
         
+        startScrollTimer()
     }
     private func setupSearchBar(){
         searchBar.delegate = self

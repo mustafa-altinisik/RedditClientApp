@@ -10,6 +10,7 @@ import UIKit
 
 
 extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == trendingPostsCollectionView {
             return trendingPosts.count
@@ -85,7 +86,6 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         }
     }
     
-    
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         // Calculate the index of the next item
         let currentIndex = trendingPostsCollectionView.contentOffset.x / trendingPostsCollectionView.bounds.size.width
@@ -100,10 +100,15 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         // Scroll to the next item with animation
         let indexPath = IndexPath(item: Int(nextIndex), section: 0)
         trendingPostsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        
         //Make a short vibration when fully scrolled
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
+        
+        startScrollTimer()
+        
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == trendingPostsCollectionView {
@@ -118,6 +123,27 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             let subreddit = Array(topSubreddits.keys)[indexPath.row]
             showPostsScreen(subredditToBeDisplayed: subreddit)
         }
+    }
+    
+    func startScrollTimer() {
+        scrollTimer?.invalidate()
+        scrollTimer = Timer.scheduledTimer(withTimeInterval: freezeTime, repeats: false, block: { [weak self] _ in
+            guard let self = self else { return }
+            // scroll to the next item with animation
+            let currentIndex = self.trendingPostsCollectionView.contentOffset.x / self.trendingPostsCollectionView.bounds.size.width
+            let nextIndex = min(currentIndex + 1, CGFloat(self.trendingPosts.count - 1))
+            let indexPath = IndexPath(item: Int(nextIndex), section: 0)
+            self.trendingPostsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            // reset the timer and make a short vibration
+            self.startScrollTimer()
+            let generator = UIImpactFeedbackGenerator(style: .light)
+            generator.impactOccurred()
+        })
+    }
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        // invalidate the scroll timer when the user starts dragging
+        scrollTimer?.invalidate()
+        scrollTimer = nil
     }
     
 }
