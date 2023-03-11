@@ -30,9 +30,10 @@ class MainScreenVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupFavoriteSubreddits()
+        setupSearchBar()
         setupTrendingPosts()
         setupTrendingSubreddits()
+        setupFavoriteSubreddits()
         
         if let savedSubreddits = UserDefaults.standard.stringArray(forKey: "favoriteSubreddits") {
             favoriteSubreddits = savedSubreddits
@@ -44,6 +45,11 @@ class MainScreenVC: UIViewController {
         reloadFavoriteSubreddits()
         
     }
+    private func setupSearchBar(){
+        searchBar.delegate = self
+        searchBar.autocapitalizationType = .none
+    }
+    
     private func setupFavoriteSubreddits(){
         favoriteSubredditsTableView.dataSource = self
         favoriteSubredditsTableView.delegate = self
@@ -166,7 +172,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             
             return cell
         }
-
+        
     }
     
     
@@ -267,6 +273,21 @@ extension MainScreenVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         showPostsScreen(subredditToBeDisplayed: favoriteSubreddits[indexPath.row])
     }
-
+    
     
 }
+
+extension MainScreenVC: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let subreddit = searchBar.text, !subreddit.isEmpty else {
+            // Invalid search query, do nothing
+            return
+        }
+        showPostsScreen(subredditToBeDisplayed: subreddit)
+    }
+    
+    
+    
+    
+}
+
