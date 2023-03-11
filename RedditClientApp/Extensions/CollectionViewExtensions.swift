@@ -8,9 +8,10 @@
 import Foundation
 import UIKit
 
+// This extension contains functions related to two collection views: trendingPostsCV and trendingSubredditsCV.
+extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
-    
+    // This function returns the number of items in the collection views.
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == trendingPostsCollectionView {
             return trendingPosts.count
@@ -18,14 +19,17 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             return topSubreddits.count
         }
     }
-    
+
+    // This function returns the filled cells for the collection views.
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == trendingPostsCollectionView {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingPostCell", for: indexPath) as! TrendingPostCVC
             let post = trendingPosts[indexPath.row]
+            
             cell.trendingPostLabel.text = post.title
             cell.trendingPostImage.image = nil // clear the image to avoid flickering
-            cell.trendingPostImage.contentMode = .scaleAspectFill // set the content mode to fill the cell
+            cell.trendingPostImage.contentMode = .scaleAspectFill
+            
             guard let imageURL = URL(string: post.imageURL) else { return cell }
             redditAPI.getPostImage(from: imageURL) { (image, error) in
                 if let image = image {
@@ -48,6 +52,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingSubredditCell", for: indexPath) as! TrendingSubredditsCVC
             let subreddit = Array(topSubreddits.keys)[indexPath.row]
             
+            // If the subreddit is in the favoriteSubreddits array, add a star symbol to the end of the subreddit name.
             if favoriteSubreddits.contains(subreddit) {
                 let starSymbol = " ⭐️"
                 cell.trendingSubredditLabel.text = subreddit + starSymbol
@@ -55,6 +60,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
                 cell.trendingSubredditLabel.text = subreddit
             }
             
+            // It keeps picking a random system image until it finds one that is not in the pickedIcons array.
             var systemImage: UIImage?
             repeat {
                 let randomIndex = Int.random(in: 0..<systemImages.count)
@@ -73,7 +79,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         
     }
     
-    
+    // This function returns the size of the cells in the collection views.
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == trendingPostsCollectionView {
             let cellWidth = collectionView.bounds.width
@@ -86,22 +92,19 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         }
     }
     
+    // This function scrolls to next index when needed and starts a timer for auto-scrolling.
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        // Calculate the index of the next item
         let currentIndex = trendingPostsCollectionView.contentOffset.x / trendingPostsCollectionView.bounds.size.width
         let nextIndex = round(currentIndex)
         
-        // Check if the next index is within the range of the number of items in the section
         let numberOfItemsInSection = trendingPostsCollectionView.numberOfItems(inSection: 0)
         guard nextIndex >= 0 && nextIndex < Double(numberOfItemsInSection) else {
             return
         }
         
-        // Scroll to the next item with animation
         let indexPath = IndexPath(item: Int(nextIndex), section: 0)
         trendingPostsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         
-        //Make a short vibration when fully scrolled
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
         
@@ -109,7 +112,8 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         
     }
     
-    
+    // This function opens the selected post in the browser if it is a cell of the trendingPostsCollectionView
+    // Or shows the posts screen of the selected subreddit if it is a cell of the trendingSubredditsCollectionView.
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == trendingPostsCollectionView {
             let post = trendingPosts[indexPath.row]
@@ -119,29 +123,32 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
                     UIApplication.shared.open(url)
                 }
             }
-        } else if collectionView == trendingSubredditsCollectionView {
+        } else {
             let subreddit = Array(topSubreddits.keys)[indexPath.row]
             showPostsScreen(subredditToBeDisplayed: subreddit)
         }
     }
     
+    // This function makes an auto-scrolling gesture.
     func startScrollTimer() {
         scrollTimer?.invalidate()
         scrollTimer = Timer.scheduledTimer(withTimeInterval: freezeTime, repeats: false, block: { [weak self] _ in
             guard let self = self else { return }
-            // scroll to the next item with animation
+            
             let currentIndex = self.trendingPostsCollectionView.contentOffset.x / self.trendingPostsCollectionView.bounds.size.width
             let nextIndex = min(currentIndex + 1, CGFloat(self.trendingPosts.count - 1))
             let indexPath = IndexPath(item: Int(nextIndex), section: 0)
+            
             self.trendingPostsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            // reset the timer and make a short vibration
+            
             self.startScrollTimer()
+            
             let generator = UIImpactFeedbackGenerator(style: .light)
             generator.impactOccurred()
         })
     }
+    // This function invalidates the scroll timer when the user starts dragging.
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        // invalidate the scroll timer when the user starts dragging
         scrollTimer?.invalidate()
         scrollTimer = nil
     }
