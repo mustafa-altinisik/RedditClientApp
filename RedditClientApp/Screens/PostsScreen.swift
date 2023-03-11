@@ -94,13 +94,6 @@ class PostsScreen: UIViewController {
             }
         }
     }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toHomeScreen" {
-            if let destinationVC = segue.destination as? MainScreenVC {
-                destinationVC.reloadFavoriteSubreddits()
-            }
-        }
-    }
 }
 
 //MARK: - This extension contains the functions that are used to display the posts on the posts screen
