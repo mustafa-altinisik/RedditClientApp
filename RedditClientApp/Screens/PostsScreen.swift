@@ -15,23 +15,23 @@ class PostsScreen: UIViewController {
     @IBOutlet weak var postsTable: UITableView!
     @IBOutlet weak var favoriteButton: UIButton!
     
+    var redditAPI = RedditAPI()
+
     //defalults is used to store data in the device.
     let defaults = UserDefaults.standard
+    var doesUserWantSafeSearch: Bool = false
+    var favoriteSubreddits: [String] = []
     
-    //postsArray comes from the HomeScreen, it contains the posts of the subreddit that the user has selected.
     var postsArray : [RedditPost] = []
-    
     var subredditName : String = ""
     
-    //This array is used to store favorite subreddits.
-    var favoriteSubreddits : [String] = []
+
     
-    //Create an array to hold predefined categories to exclude from the favorite subreddits.
-    let subredditsToBeExcluded : [String] = ["trendingsubreddits", "technology", "photography", "science", "computers", "news"]
+
     
     //Show main screen with the segue "toMainScreen"
     @IBAction func backButtonTapped(_ sender: Any) {
-        performSegue(withIdentifier: "toMainScreen", sender: self)
+        performSegue(withIdentifier: "toHomeScreen", sender: self)
     }
     
     //This function is used to add or remove a subreddit from the favoriteSubreddits array.
@@ -52,35 +52,42 @@ class PostsScreen: UIViewController {
         defaults.synchronize()
     }
     
-    //This function is used to pass the favoriteSubreddits array to the HomeScreen.
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toMainScreen" {
-            let destinationVC = segue.destination as! HomeScreen
-            destinationVC.favoriteSubreddits = self.favoriteSubreddits
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Traverse the favoriteSubreddits array and check if the subredditName is in the array, if it is, make the favorite button filled star.
+        makeAPICall()
+        
         if favoriteSubreddits.contains(subredditName) {
-            //Make the favorite button red
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
         
-        //If subredditName is in the subredditsToBeExluded array, make the favorite button invisible
-        if subredditsToBeExcluded.contains(subredditName) {
-            favoriteButton.isHidden = true
-        }
-        
-        //Display the subreddit name on the posts screen
+        doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
+
         let subredditNameToBeDisplayed = "r/" + subredditName
         subredditLabel.text = subredditNameToBeDisplayed
+        
         postsTable.dataSource = self
         postsTable.delegate = self
         
         
+    }
+    private func makeAPICall(){
+        redditAPI.getRedditPostsFromSubreddit(subredditName: subredditName, safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: false) { [weak self] (posts, error) in
+            guard let self = self else { return }
+            if let error = error {
+                print("Error retrieving Reddit posts: \(error.localizedDescription)")
+                return
+            }
+            guard let posts = posts else {
+                print("No posts retrieved")
+                return
+            }
+            self.postsArray = posts
+            DispatchQueue.main.async {
+                self.postsTable.reloadData()
+            }
+        }
     }
 }
 

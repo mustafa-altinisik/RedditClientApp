@@ -565,11 +565,12 @@
                         <outlet property="postsTable" destination="TLR-fh-J6O" id="JjM-H2-YH1"/>
                         <outlet property="subredditLabel" destination="Za0-ES-BJp" id="pAW-vS-yPq"/>
                         <segue destination="BYZ-38-t0r" kind="custom" identifier="toMainScreen" customClass="toMainScreen" customModule="RedditClientApp" customModuleProvider="target" id="uHT-YD-FeC"/>
+                        <segue destination="Ef5-45-QWc" kind="custom" identifier="toHomeScreen" customClass="toHomeScreen" customModule="RedditClientApp" customModuleProvider="target" id="qfr-ej-0ug"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s0X-Ka-rIK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="623.66412213740455" y="-2.1126760563380285"/>
+            <point key="canvasLocation" x="644" y="-2"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
