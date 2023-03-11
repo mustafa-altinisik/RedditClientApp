@@ -16,7 +16,7 @@ class PostsScreenVC: UIViewController {
     @IBOutlet weak var favoriteButton: UIButton!
     
     var redditAPI = RedditAPI()
-
+    
     //defalults is used to store data in the device.
     let defaults = UserDefaults.standard
     var doesUserWantSafeSearch: Bool = false
@@ -24,10 +24,6 @@ class PostsScreenVC: UIViewController {
     
     var postsArray : [RedditPost] = []
     var subredditName : String = ""
-    
-
-    
-
     
     //Show main screen with the segue "toMainScreen"
     @IBAction func backButtonTapped(_ sender: Any) {
@@ -68,7 +64,7 @@ class PostsScreenVC: UIViewController {
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
         
-
+        
         let subredditNameToBeDisplayed = "r/" + subredditName
         subredditLabel.text = subredditNameToBeDisplayed
         
@@ -133,8 +129,8 @@ extension PostsScreenVC: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
-
-
+    
+    
     
     //This function opens the post on the reddit website when the user taps on a post
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

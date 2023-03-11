@@ -8,13 +8,11 @@
 import UIKit
 
 class TrendingSubredditsCVC: UICollectionViewCell {
-
+    
     @IBOutlet weak var trendingSubredditImage: UIImageView!
     @IBOutlet weak var trendingSubredditLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
-
 }

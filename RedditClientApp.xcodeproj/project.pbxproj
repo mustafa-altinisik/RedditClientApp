@@ -24,6 +24,10 @@
 		166E938229B0CB6F006C9F2D /* toHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166E938129B0CB6F006C9F2D /* toHomeScreen.swift */; };
 		16B2A64F29BB795600E42BAC /* FavoriteSubredditTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B2A64D29BB795600E42BAC /* FavoriteSubredditTVC.swift */; };
 		16B2A65029BB795600E42BAC /* FavoriteSubredditTVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16B2A64E29BB795600E42BAC /* FavoriteSubredditTVC.xib */; };
+		16B2A65329BCA57E00E42BAC /* FavoriteSubredditsTableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B2A65229BCA57E00E42BAC /* FavoriteSubredditsTableExtension.swift */; };
+		16B2A65529BCA62B00E42BAC /* CollectionViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B2A65429BCA62B00E42BAC /* CollectionViewExtensions.swift */; };
+		16B2A65729BCA69900E42BAC /* SafeSearchSwitchExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B2A65629BCA69900E42BAC /* SafeSearchSwitchExtension.swift */; };
+		16B2A65929BCA6E300E42BAC /* SearchBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B2A65829BCA6E300E42BAC /* SearchBarExtension.swift */; };
 		37C291A3DCD4BAD7EDEEE1D0 /* Pods_RedditClientApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCEB6B0F4F99B98A4EF55CCA /* Pods_RedditClientApp.framework */; };
 		E9EC24052F5D9C086CF7AF0F /* Pods_RedditClientApp_RedditClientAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3E07786DE013D28FCDC3978 /* Pods_RedditClientApp_RedditClientAppUITests.framework */; };
 		FB60613F3B6764E1BDAC93BC /* Pods_RedditClientAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8E4CB1035F605896BCB67D1 /* Pods_RedditClientAppTests.framework */; };
@@ -70,6 +74,10 @@
 		166E938129B0CB6F006C9F2D /* toHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = toHomeScreen.swift; sourceTree = "<group>"; };
 		16B2A64D29BB795600E42BAC /* FavoriteSubredditTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteSubredditTVC.swift; sourceTree = "<group>"; };
 		16B2A64E29BB795600E42BAC /* FavoriteSubredditTVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteSubredditTVC.xib; sourceTree = "<group>"; };
+		16B2A65229BCA57E00E42BAC /* FavoriteSubredditsTableExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteSubredditsTableExtension.swift; sourceTree = "<group>"; };
+		16B2A65429BCA62B00E42BAC /* CollectionViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewExtensions.swift; sourceTree = "<group>"; };
+		16B2A65629BCA69900E42BAC /* SafeSearchSwitchExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeSearchSwitchExtension.swift; sourceTree = "<group>"; };
+		16B2A65829BCA6E300E42BAC /* SearchBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarExtension.swift; sourceTree = "<group>"; };
 		2B5B214FBBD732C945A9445A /* Pods-RedditClientAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RedditClientAppTests.debug.xcconfig"; path = "Target Support Files/Pods-RedditClientAppTests/Pods-RedditClientAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		355E4C36AFE4350A341D2F07 /* Pods-RedditClientApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RedditClientApp.debug.xcconfig"; path = "Target Support Files/Pods-RedditClientApp/Pods-RedditClientApp.debug.xcconfig"; sourceTree = "<group>"; };
 		3EE0C3A6723A79F88B28872C /* Pods-RedditClientApp-RedditClientAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RedditClientApp-RedditClientAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-RedditClientApp-RedditClientAppUITests/Pods-RedditClientApp-RedditClientAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -137,6 +145,7 @@
 				162BFFAA299D233500D5923D /* Assets.xcassets */,
 				162BFFAC299D233500D5923D /* LaunchScreen.storyboard */,
 				162BFFAF299D233500D5923D /* Info.plist */,
+				16B2A65129BCA55200E42BAC /* Extensions */,
 				166E938029AF6E9F006C9F2D /* Screens */,
 				166E937F29AF6E4C006C9F2D /* Model */,
 				166E937E29AF6E2E006C9F2D /* Cells */,
@@ -182,6 +191,17 @@
 				166E938129B0CB6F006C9F2D /* toHomeScreen.swift */,
 			);
 			path = Segues;
+			sourceTree = "<group>";
+		};
+		16B2A65129BCA55200E42BAC /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				16B2A65229BCA57E00E42BAC /* FavoriteSubredditsTableExtension.swift */,
+				16B2A65429BCA62B00E42BAC /* CollectionViewExtensions.swift */,
+				16B2A65629BCA69900E42BAC /* SafeSearchSwitchExtension.swift */,
+				16B2A65829BCA6E300E42BAC /* SearchBarExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		3E5AB711982B5D5A1E7E4592 /* Frameworks */ = {
@@ -471,13 +491,17 @@
 				16482ADD29B37E7D00D7EF67 /* Network Manager.swift in Sources */,
 				1657DC1529B62F5F002B0CD8 /* TrendingSubredditsCVC.swift in Sources */,
 				1657DC1029B60DF9002B0CD8 /* MainScreenVC.swift in Sources */,
+				16B2A65329BCA57E00E42BAC /* FavoriteSubredditsTableExtension.swift in Sources */,
 				162BFFA2299D233400D5923D /* AppDelegate.swift in Sources */,
 				1657DC0D29B604C9002B0CD8 /* TrendingPostCVC.swift in Sources */,
+				16B2A65729BCA69900E42BAC /* SafeSearchSwitchExtension.swift in Sources */,
 				162BFFE2299FAC5C00D5923D /* RedditPost.swift in Sources */,
 				162BFFE0299FABFE00D5923D /* PostsTVC.swift in Sources */,
 				16B2A64F29BB795600E42BAC /* FavoriteSubredditTVC.swift in Sources */,
 				166E938229B0CB6F006C9F2D /* toHomeScreen.swift in Sources */,
+				16B2A65929BCA6E300E42BAC /* SearchBarExtension.swift in Sources */,
 				162BFFDE299FAB9500D5923D /* PostsScreenVC.swift in Sources */,
+				16B2A65529BCA62B00E42BAC /* CollectionViewExtensions.swift in Sources */,
 				162BFFA4299D233400D5923D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

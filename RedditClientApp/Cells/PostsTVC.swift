@@ -15,7 +15,6 @@ class PostsTVC: UITableViewCell {
     @IBOutlet weak var postView: UIView!
     @IBOutlet weak var postDescription: UILabel!
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
     }

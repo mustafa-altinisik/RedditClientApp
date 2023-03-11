@@ -8,7 +8,7 @@
 import UIKit
 
 class TrendingPostCVC: UICollectionViewCell {
-
+    
     @IBOutlet weak var trendingPostImage: UIImageView!
     @IBOutlet weak var trendingPostLabel: UILabel!
     
@@ -16,5 +16,5 @@ class TrendingPostCVC: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
 }
