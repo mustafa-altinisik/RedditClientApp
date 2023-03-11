@@ -1,5 +1,5 @@
 //
-//  PostsScreen.swift
+//  PostsScreenVC.swift
 //  RedditClientApp
 //
 //  Created by Asım Altınışık on 17.02.2023.
@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 //This class is used to display the posts of a subreddit
-class PostsScreen: UIViewController {
+class PostsScreenVC: UIViewController {
     
     @IBOutlet weak var subredditLabel: UILabel!
     @IBOutlet weak var postsTable: UITableView!
@@ -97,7 +97,7 @@ class PostsScreen: UIViewController {
 }
 
 //MARK: - This extension contains the functions that are used to display the posts on the posts screen
-extension PostsScreen: UITableViewDataSource, UITableViewDelegate {
+extension PostsScreenVC: UITableViewDataSource, UITableViewDelegate {
     //This function returns the number of posts that will be displayed on the posts screen
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return postsArray.count
@@ -105,7 +105,7 @@ extension PostsScreen: UITableViewDataSource, UITableViewDelegate {
     
     //This function puts the data of the posts into the cells of the posts screen
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = postsTable.dequeueReusableCell(withIdentifier: "postCell") as! PostsTableViewCell
+        let cell = postsTable.dequeueReusableCell(withIdentifier: "postCell") as! PostsTVC
         
         let post = postsArray[indexPath.row]
         

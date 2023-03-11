@@ -101,7 +101,7 @@ class MainScreenVC: UIViewController {
     
     private func showPostsScreen(subredditToBeDisplayed: String){
         DispatchQueue.main.async {
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "postsScreen") as! PostsScreen
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "postsScreen") as! PostsScreenVC
             
             vc.subredditName = subredditToBeDisplayed
             
