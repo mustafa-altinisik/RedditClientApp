@@ -58,11 +58,16 @@ class PostsScreen: UIViewController {
         
         makeAPICall()
         
+        if let savedSubreddits = UserDefaults.standard.stringArray(forKey: "favoriteSubreddits") {
+            favoriteSubreddits = savedSubreddits
+        }
+        
+        doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
+        
         if favoriteSubreddits.contains(subredditName) {
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
         
-        doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
 
         let subredditNameToBeDisplayed = "r/" + subredditName
         subredditLabel.text = subredditNameToBeDisplayed
@@ -89,6 +94,13 @@ class PostsScreen: UIViewController {
             }
         }
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toHomeScreen" {
+            if let destinationVC = segue.destination as? MainScreenVC {
+                destinationVC.reloadFavoriteSubreddits()
+            }
+        }
+    }
 }
 
 //MARK: - This extension contains the functions that are used to display the posts on the posts screen
@@ -112,20 +124,24 @@ extension PostsScreen: UITableViewDataSource, UITableViewDelegate {
         cell.postDescription.text = post.description
         cell.postTitle.text = post.title
         
-        //DispatchQueue.global().async is used to download the images in the background.
-        DispatchQueue.global().async {
-            if let url = imageURL, let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        if let imageView = imageView {
-                            imageView.image = image
-                        }
+        if let imageURL = imageURL {
+            redditAPI.getPostImage(from: imageURL) { image, error in
+                guard let image = image, error == nil else {
+                    print("Error downloading image: \(error!)")
+                    return
+                }
+                DispatchQueue.main.async {
+                    if let imageView = imageView {
+                        imageView.image = image
                     }
                 }
             }
         }
+        
         return cell
     }
+
+
     
     //This function opens the post on the reddit website when the user taps on a post
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
