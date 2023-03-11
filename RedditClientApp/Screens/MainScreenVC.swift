@@ -18,12 +18,15 @@ class MainScreenVC: UIViewController {
     @IBOutlet private weak var tableViewHeightConstraint: NSLayoutConstraint!
     
     var redditAPI = RedditAPI()
+    
     let defaults = UserDefaults.standard
+    var doesUserWantSafeSearch: Bool = false
+    var favoriteSubreddits: [String] = []
 
     var topSubreddits: [String: Int] = [:]
     var trendingPosts: [RedditPost] = []
-    var favoriteSubreddits: [String] = []
-
+    var pickedIcons = [String]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,12 +38,13 @@ class MainScreenVC: UIViewController {
             favoriteSubreddits = savedSubreddits
         }
         
-        print(favoriteSubreddits)
-        
+        doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
+        safeSearchSwitch.isOn = doesUserWantSafeSearch
+                
         reloadFavoriteSubreddits()
+                
     }
     private func setupFavoriteSubreddits(){
-        favoriteSubredditsTableView.layer.borderWidth = 1
         favoriteSubredditsTableView.dataSource = self
         favoriteSubredditsTableView.delegate = self
         favoriteSubredditsTableView.register(UINib(nibName: "FavoriteSubredditTVC", bundle: nil), forCellReuseIdentifier: "FavoriteSubredditCell")
@@ -88,6 +92,17 @@ class MainScreenVC: UIViewController {
         favoriteSubredditsTableView.reloadData()
         tableViewHeightConstraint.constant = CGFloat(favoriteSubreddits.count) * favoriteSubredditsTableView.rowHeight
     }
+    
+    private func showPostsScreen(subredditToBeDisplayed: String){
+        DispatchQueue.main.async {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "postsScreen") as! PostsScreen
+
+            vc.subredditName = subredditToBeDisplayed
+            
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true)
+        }
+    }
 }
 
 
@@ -120,18 +135,33 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             return cell
         }
         else {
+            let systemImages = ["circle.grid.hex", "rectangle.stack","triangle","square.grid.3x1.below.line.grid.1x2", "rhombus","hexagon", "pentagon", "octagon", "star", "sun.max", "moon", "cloud", "cloud.sun", "cloud.rain", "cloud.snow", "tornado", "hurricane", "bolt", "umbrella", "flame", "drop", "waveform.path.ecg.rectangle"]
+            
+            if pickedIcons.count >= systemImages.count {
+                return UICollectionViewCell()
+            }
+            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingSubredditCell", for: indexPath) as! TrendingSubredditsCVC
             let subreddit = Array(topSubreddits.keys)[indexPath.row]
             cell.trendingSubredditLabel.text = subreddit
             
-            // Get a random system image
-            let systemImages = [
-                "circle.grid.hex", "rectangle.stack","triangle","square.grid.3x1.below.line.grid.1x2", "rhombus","hexagon", "pentagon", "octagon", "star", "sun.max", "moon", "cloud", "cloud.sun", "cloud.rain", "cloud.snow", "tornado", "hurricane", "bolt", "umbrella", "flame", "drop", "waveform.path.ecg.rectangle"]
-            let randomIndex = Int.random(in: 0..<systemImages.count)
-            let systemImage = UIImage(systemName: systemImages[randomIndex])
+            var systemImage: UIImage?
+            repeat {
+                let randomIndex = Int.random(in: 0..<systemImages.count)
+                let iconName = systemImages[randomIndex]
+                if !pickedIcons.contains(iconName) {
+                    pickedIcons.append(iconName)
+                    systemImage = UIImage(systemName: iconName)
+                    break
+                }
+            } while systemImage == nil
+            
             cell.trendingSubredditImage.image = systemImage
             
             return cell
+            
+            //
+            
         }
     }
     
@@ -148,21 +178,6 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        if collectionView == trendingPostsCollectionView {
-            return 10
-        } else {
-            return 0
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        if collectionView == trendingPostsCollectionView {
-            return UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        } else {
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        }
-    }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         // Calculate the index of the next item
@@ -188,6 +203,10 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
 
 extension MainScreenVC {
     @IBAction func safeSearchSwitchValueChanged(_ sender: UISwitch) {
+        doesUserWantSafeSearch = safeSearchSwitch.isOn
+        defaults.set(doesUserWantSafeSearch, forKey: "safeSearch")
+        defaults.synchronize()
+        
         // Call the API again with the updated safe search option
         redditAPI.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: sender.isOn, onlyPostsWithImages: true) { (posts, error) in
             if let error = error {
@@ -208,6 +227,9 @@ extension MainScreenVC {
                 self.trendingPostsCollectionView.reloadData()
             }
         }
+        
+        showPostsScreen(subredditToBeDisplayed: "turkey")
+
     }
 }
 
@@ -220,8 +242,6 @@ extension MainScreenVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteSubredditCell", for: indexPath) as! FavoriteSubredditTVC
         cell.favoriteSubredditLabel.text = "r/" + favoriteSubreddits[indexPath.row]
-        
-        cell.layer.borderWidth = 1
         
         return cell
     }
