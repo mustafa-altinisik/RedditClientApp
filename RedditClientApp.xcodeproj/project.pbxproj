@@ -198,10 +198,10 @@
 		16B2A65129BCA55200E42BAC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				16B2A65229BCA57E00E42BAC /* FavoriteSubredditsTableExtension.swift */,
-				16B2A65429BCA62B00E42BAC /* CollectionViewExtensions.swift */,
-				16B2A65629BCA69900E42BAC /* SafeSearchSwitchExtension.swift */,
 				16B2A65829BCA6E300E42BAC /* SearchBarExtension.swift */,
+				16B2A65629BCA69900E42BAC /* SafeSearchSwitchExtension.swift */,
+				16B2A65429BCA62B00E42BAC /* CollectionViewExtensions.swift */,
+				16B2A65229BCA57E00E42BAC /* FavoriteSubredditsTableExtension.swift */,
 				16B2A65A29BCA82800E42BAC /* PostsTableExtension.swift */,
 			);
 			path = Extensions;

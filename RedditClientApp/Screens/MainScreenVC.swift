@@ -19,7 +19,7 @@ class MainScreenVC: UIViewController {
     
     var redditAPI = RedditAPI()
     
-    //Defaults are used to store data locally on the device, there are two variables stored in defaults.
+    // Defaults are used to store data locally on the device, there are two variables stored in defaults.
     let defaults = UserDefaults.standard
     var doesUserWantSafeSearch: Bool = false
     var favoriteSubreddits: [String] = []
@@ -28,6 +28,7 @@ class MainScreenVC: UIViewController {
     var trendingPosts: [RedditPost] = []
     var pickedIcons = [String]()
     
+    // These variables are used to keep track of the timer for auto-scrolling feature of the trending posts.
     var freezeTime: TimeInterval = 4
     var scrollTimer: Timer?
     
@@ -39,6 +40,7 @@ class MainScreenVC: UIViewController {
         setupTrendingSubreddits()
         setupFavoriteSubreddits()
         
+        //Load the variables from the device.
         if let savedSubreddits = UserDefaults.standard.stringArray(forKey: "favoriteSubreddits") {
             favoriteSubreddits = savedSubreddits
         }
@@ -48,13 +50,17 @@ class MainScreenVC: UIViewController {
         
         reloadFavoriteSubreddits()
         
+        //Start the timer for the trending posts's auto-scrolling feature.
         startScrollTimer()
     }
+
+    // This function handles all tasks related to the searchBar.
     private func setupSearchBar(){
         searchBar.delegate = self
         searchBar.autocapitalizationType = .none
     }
     
+    // This function handles all tasks related to the trendingPostsCV.
     private func setupTrendingPosts() {
         trendingPostsCollectionView.dataSource = self
         trendingPostsCollectionView.delegate = self
@@ -76,6 +82,8 @@ class MainScreenVC: UIViewController {
             }
         }
     }
+
+    // This function handles all tasks related to the trendingSubredditsCV.
     private func setupTrendingSubreddits() {
         trendingSubredditsCollectionView.dataSource = self
         trendingSubredditsCollectionView.delegate = self
@@ -92,6 +100,8 @@ class MainScreenVC: UIViewController {
             }
         }
     }
+
+    // This function handles all tasks related to the favoriteSubredditsTV.
     private func setupFavoriteSubreddits(){
         favoriteSubredditsTableView.dataSource = self
         favoriteSubredditsTableView.delegate = self
@@ -103,6 +113,7 @@ class MainScreenVC: UIViewController {
         tableViewHeightConstraint.constant = CGFloat(favoriteSubreddits.count) * favoriteSubredditsTableView.rowHeight
     }
     
+    // This function shows the PostsScreenVC when a subreddit is selected.
     func showPostsScreen(subredditToBeDisplayed: String){
         DispatchQueue.main.async {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "postsScreen") as! PostsScreenVC

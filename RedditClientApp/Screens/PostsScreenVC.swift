@@ -17,7 +17,7 @@ class PostsScreenVC: UIViewController {
     
     var redditAPI = RedditAPI()
     
-    //defalults is used to store data in the device.
+    // Defalults is used to store data in the device.
     let defaults = UserDefaults.standard
     var doesUserWantSafeSearch: Bool = false
     var favoriteSubreddits: [String] = []
@@ -25,22 +25,17 @@ class PostsScreenVC: UIViewController {
     var postsArray : [RedditPost] = []
     var subredditName : String = ""
     
-    //Show main screen with the segue "toMainScreen"
     @IBAction func backButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "toHomeScreen", sender: self)
     }
     
     //This function is used to add or remove a subreddit from the favoriteSubreddits array.
     @IBAction func favoriteButtonTapped(_ sender: Any) {
-        if(favoriteSubreddits.contains(subredditName)){
-            //Remove the subreddit from the favoriteSubreddits array.
+        if(favoriteSubreddits.contains(subredditName)){// If the subreddit is already in the array, remove it.
             favoriteSubreddits.removeAll(where: {$0 == subredditName})
-            //Change the image of the favorite button to an empty star.
             favoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-        }else{
-            //Add the subreddit to the favoriteSubreddits array.
+        }else{// If the subreddit is not in the array, add it.
             favoriteSubreddits.append(subredditName)
-            //Change the image of the favorite button to a filled star.
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
         //Save the favoriteSubreddits array to the device.
@@ -54,6 +49,7 @@ class PostsScreenVC: UIViewController {
         
         makeAPICall()
         
+        //Load the variables from the device.
         if let savedSubreddits = UserDefaults.standard.stringArray(forKey: "favoriteSubreddits") {
             favoriteSubreddits = savedSubreddits
         }
@@ -71,6 +67,8 @@ class PostsScreenVC: UIViewController {
         
         
     }
+    
+    // This function is used to make the API call to get the posts of a subreddit.
     private func makeAPICall(){
         redditAPI.getRedditPostsFromSubreddit(subredditName: subredditName, safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: false) { [weak self] (posts, error) in
             guard let self = self else { return }
