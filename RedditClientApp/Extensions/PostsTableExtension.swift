@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-//MARK: - This extension contains the functions that are used to display the posts on the posts screen
+// This extension is used to handle the postsTable in the PostsScreenVC.
 extension PostsScreenVC: UITableViewDataSource, UITableViewDelegate {
     //This function returns the number of posts that will be displayed on the posts screen
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

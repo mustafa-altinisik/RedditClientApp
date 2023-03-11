@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// This extension is used to handle the search bar in the MainScreenVC.
 extension MainScreenVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let subreddit = searchBar.text, !subreddit.isEmpty else {

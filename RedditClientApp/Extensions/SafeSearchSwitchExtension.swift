@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-
+// This extension is used to handle the safe search switch in the MainScreenVC.
 extension MainScreenVC {
     @IBAction func safeSearchSwitchValueChanged(_ sender: UISwitch) {
         doesUserWantSafeSearch = safeSearchSwitch.isOn
@@ -27,10 +27,8 @@ extension MainScreenVC {
                 return
             }
             
-            // Update the data source with the retrieved posts
             self.trendingPosts = posts
             
-            // Reload the collection view to display the new data
             DispatchQueue.main.async {
                 self.trendingPostsCollectionView.reloadData()
             }
