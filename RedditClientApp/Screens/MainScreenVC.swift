@@ -22,7 +22,7 @@ class MainScreenVC: UIViewController {
     let defaults = UserDefaults.standard
     var doesUserWantSafeSearch: Bool = false
     var favoriteSubreddits: [String] = []
-
+    
     var topSubreddits: [String: Int] = [:]
     var trendingPosts: [RedditPost] = []
     var pickedIcons = [String]()
@@ -40,9 +40,9 @@ class MainScreenVC: UIViewController {
         
         doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
         safeSearchSwitch.isOn = doesUserWantSafeSearch
-                
+        
         reloadFavoriteSubreddits()
-                
+        
     }
     private func setupFavoriteSubreddits(){
         favoriteSubredditsTableView.dataSource = self
@@ -96,7 +96,7 @@ class MainScreenVC: UIViewController {
     private func showPostsScreen(subredditToBeDisplayed: String){
         DispatchQueue.main.async {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "postsScreen") as! PostsScreen
-
+            
             vc.subredditName = subredditToBeDisplayed
             
             vc.modalPresentationStyle = .fullScreen
@@ -106,7 +106,7 @@ class MainScreenVC: UIViewController {
 }
 
 
-extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == trendingPostsCollectionView {
             return trendingPosts.count
@@ -143,7 +143,13 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingSubredditCell", for: indexPath) as! TrendingSubredditsCVC
             let subreddit = Array(topSubreddits.keys)[indexPath.row]
-            cell.trendingSubredditLabel.text = subreddit
+            
+            if favoriteSubreddits.contains(subreddit) {
+                let starSymbol = " ⭐️"
+                cell.trendingSubredditLabel.text = subreddit + starSymbol
+            } else {
+                cell.trendingSubredditLabel.text = subreddit
+            }
             
             var systemImage: UIImage?
             repeat {
@@ -159,10 +165,8 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             cell.trendingSubredditImage.image = systemImage
             
             return cell
-            
-            //
-            
         }
+
     }
     
     
@@ -197,6 +201,22 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == trendingPostsCollectionView {
+            let post = trendingPosts[indexPath.row]
+            if post.permalink != ""{
+                if let permalink = post.permalink.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+                   let url = URL(string: "https://www.reddit.com/\(permalink)") {
+                    UIApplication.shared.open(url)
+                }
+            }
+        } else if collectionView == trendingSubredditsCollectionView {
+            let subreddit = Array(topSubreddits.keys)[indexPath.row]
+            showPostsScreen(subredditToBeDisplayed: subreddit)
+        }
+    }
+    
 }
 
 
@@ -228,11 +248,8 @@ extension MainScreenVC {
             }
         }
         
-        showPostsScreen(subredditToBeDisplayed: "turkey")
-
     }
 }
-
 extension MainScreenVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -245,5 +262,11 @@ extension MainScreenVC: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        showPostsScreen(subredditToBeDisplayed: favoriteSubreddits[indexPath.row])
+    }
+
     
 }
