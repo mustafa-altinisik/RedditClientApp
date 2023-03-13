@@ -26,6 +26,8 @@ struct RedditPostData: Codable {
     let permalink: String
     let over_18: Bool
     let subreddit: String?
+    let id: String
+
     
     enum CodingKeys: String, CodingKey {
         case thumbnail
@@ -34,16 +36,16 @@ struct RedditPostData: Codable {
         case permalink
         case over_18
         case subreddit
+        case id
     }
     
     // This function is used to convert the data from the API call to RedditPost struct
     func toRedditPost() -> RedditPost {
         if let subreddit = subreddit {
-            return RedditPost(imageURL: thumbnail, title: title, description: selftext, permalink: permalink, over_18: over_18, subreddit: subreddit)
+            return RedditPost(imageURL: thumbnail, title: title, description: selftext, permalink: permalink, over_18: over_18, subreddit: subreddit, id: id)
         } else {
-            return RedditPost(imageURL: thumbnail, title: title, description: selftext, permalink: permalink, over_18: over_18, subreddit: "")
+            return RedditPost(imageURL: thumbnail, title: title, description: selftext, permalink: permalink, over_18: over_18, subreddit: "", id: id)
         }
-
     }
 
 }
@@ -57,13 +59,15 @@ struct RedditPost {
     var permalink: String
     var over_18: Bool
     var subreddit: String
+    var id: String
     
-    init(imageURL: String, title: String, description: String, permalink: String, over_18: Bool, subreddit: String) {
+    init(imageURL: String, title: String, description: String, permalink: String, over_18: Bool, subreddit: String, id: String) {
         self.imageURL = imageURL
         self.title = title
         self.description = description
         self.permalink = permalink
         self.over_18 = over_18
         self.subreddit = subreddit
+        self.id = id
     }
 }
