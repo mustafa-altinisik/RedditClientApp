@@ -17,12 +17,14 @@ extension MainScreenVC: UITableViewDataSource, UITableViewDelegate {
     
     // This function is used to display the favorite subreddits in the favoriteSubredditsTableView.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteSubredditCell", for: indexPath) as! FavoriteSubredditTVC
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteSubredditCell", for: indexPath) as? FavoriteSubredditTVC else {
+            fatalError("Unable to dequeue FavoriteSubredditCell")
+        }
         cell.favoriteSubredditLabel.text = "r/" + favoriteSubreddits[indexPath.row]
         
         return cell
     }
-    
+
     // This function calls the showPostsScreen function when a favorite subreddit is selected.
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         showPostsScreen(subredditToBeDisplayed: favoriteSubreddits[indexPath.row])

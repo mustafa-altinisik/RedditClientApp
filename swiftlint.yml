@@ -93,8 +93,7 @@ file_name:
     - SwiftSyntax+SwiftLint.swift
     - GeneratedTests.swift
     - TestHelpers.swift
-    - RedditClientApp/Screens/HomeScreen.swift
-
+    
 function_body_length: 60
 type_body_length: 400
 

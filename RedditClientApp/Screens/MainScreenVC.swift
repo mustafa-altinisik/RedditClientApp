@@ -54,7 +54,7 @@ class MainScreenVC: UIViewController {
         //Start the timer for the trending posts's auto-scrolling feature.
         startScrollTimer()
     }
-
+    
     // This function handles all tasks related to the searchBar.
     private func setupSearchBar(){
         searchBar.delegate = self
@@ -83,7 +83,7 @@ class MainScreenVC: UIViewController {
             }
         }
     }
-
+    
     // This function handles all tasks related to the trendingSubredditsCV.
     private func setupTrendingSubreddits() {
         trendingSubredditsCollectionView.dataSource = self
@@ -101,7 +101,7 @@ class MainScreenVC: UIViewController {
             }
         }
     }
-
+    
     // This function handles all tasks related to the favoriteSubredditsTV.
     private func setupFavoriteSubreddits(){
         favoriteSubredditsTableView.dataSource = self
@@ -116,13 +116,13 @@ class MainScreenVC: UIViewController {
     
     // This function shows the PostsScreenVC when a subreddit is selected.
     func showPostsScreen(subredditToBeDisplayed: String){
-        DispatchQueue.main.async {
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "postsScreen") as! PostsScreenVC
-            
-            vc.subredditName = subredditToBeDisplayed
-            
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            if let vc = self.storyboard?.instantiateViewController(withIdentifier: "postsScreen") as? PostsScreenVC {
+                vc.subredditName = subredditToBeDisplayed
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true)
+            }
         }
     }
 }

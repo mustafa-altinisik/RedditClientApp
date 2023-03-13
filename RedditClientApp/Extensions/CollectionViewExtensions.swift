@@ -10,7 +10,7 @@ import UIKit
 
 // This extension contains functions related to two collection views: trendingPostsCV and trendingSubredditsCV.
 extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
+    
     // This function returns the number of items in the collection views.
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == trendingPostsCollectionView {
@@ -19,18 +19,23 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             return topSubreddits.count
         }
     }
-
+    
     // This function returns the filled cells for the collection views.
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == trendingPostsCollectionView {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingPostCell", for: indexPath) as! TrendingPostCVC
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingPostCell", for: indexPath) as? TrendingPostCVC else {
+                fatalError("Unable to dequeue TrendingPostCVC")
+            }
             let post = trendingPosts[indexPath.row]
             
             cell.trendingPostLabel.text = post.title
             cell.trendingPostImage.image = nil // clear the image to avoid flickering
             cell.trendingPostImage.contentMode = .scaleAspectFill
             
-            guard let imageURL = URL(string: post.imageURL) else { return cell }
+            guard let imageURL = URL(string: post.imageURL) else {
+                return cell // Return a valid cell in case of a URL issue
+            }
+            
             redditAPI.getPostImage(from: imageURL) { (image, error) in
                 if let image = image {
                     DispatchQueue.main.async {
@@ -48,8 +53,10 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             if pickedIcons.count >= systemImages.count {
                 pickedIcons.removeAll()
             }
-
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingSubredditCell", for: indexPath) as! TrendingSubredditsCVC
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingSubredditCell", for: indexPath) as? TrendingSubredditsCVC else {
+                fatalError("Unable to dequeue TrendingSubredditsCVC")
+            }
             let subreddit = Array(topSubreddits.keys)[indexPath.row]
             
             // If the subreddit is in the favoriteSubreddits array, add a star symbol to the end of the subreddit name.
@@ -75,7 +82,6 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             
             return cell
         }
-        
     }
     
     // This function returns the size of the cells in the collection views.
@@ -152,8 +158,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             self.startScrollTimer()
         })
     }
-
-
+    
     // This function invalidates the scroll timer when the user starts dragging.
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         scrollTimer?.invalidate()
