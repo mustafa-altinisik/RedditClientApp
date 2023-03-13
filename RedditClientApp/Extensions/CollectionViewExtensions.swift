@@ -105,11 +105,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         let indexPath = IndexPath(item: Int(nextIndex), section: 0)
         trendingPostsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         
-        let generator = UIImpactFeedbackGenerator(style: .light)
-        generator.impactOccurred()
-        
         startScrollTimer()
-        
     }
     
     // This function opens the selected post in the browser if it is a cell of the trendingPostsCollectionView
@@ -130,23 +126,36 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     }
     
     // This function makes an auto-scrolling gesture.
+
     func startScrollTimer() {
         scrollTimer?.invalidate()
         scrollTimer = Timer.scheduledTimer(withTimeInterval: freezeTime, repeats: false, block: { [weak self] _ in
             guard let self = self else { return }
             
             let currentIndex = self.trendingPostsCollectionView.contentOffset.x / self.trendingPostsCollectionView.bounds.size.width
-            let nextIndex = min(currentIndex + 1, CGFloat(self.trendingPosts.count - 1))
+            var nextIndex = currentIndex
+            
+            if self.isScrollingBackwards {
+                nextIndex -= 1
+            } else {
+                nextIndex += 1
+            }
+            
+            if nextIndex >= CGFloat(self.trendingPosts.count) {
+                nextIndex = CGFloat(self.trendingPosts.count - 2)
+                self.isScrollingBackwards = true
+            } else if nextIndex < 0 {
+                nextIndex = 1
+                self.isScrollingBackwards = false
+            }
+            
             let indexPath = IndexPath(item: Int(nextIndex), section: 0)
-            
             self.trendingPostsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            
             self.startScrollTimer()
-            
-            let generator = UIImpactFeedbackGenerator(style: .light)
-            generator.impactOccurred()
         })
     }
+
+
     // This function invalidates the scroll timer when the user starts dragging.
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         scrollTimer?.invalidate()

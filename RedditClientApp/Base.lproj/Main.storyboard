@@ -11,7 +11,7 @@
         <!--Main Screen-->
         <scene sceneID="SBd-qu-YA0">
             <objects>
-                <viewController id="Ef5-45-QWc" userLabel="Main Screen" customClass="MainScreenVC" customModule="RedditClientApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Main Screen" id="Ef5-45-QWc" userLabel="Main Screen" customClass="MainScreenVC" customModule="RedditClientApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="k5X-Z5-jsd">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -170,10 +170,10 @@
             </objects>
             <point key="canvasLocation" x="-790.07633587786256" y="-2.1126760563380285"/>
         </scene>
-        <!--Posts ScreenVC-->
+        <!--Posts Screen-->
         <scene sceneID="yQs-4q-xUH">
             <objects>
-                <viewController storyboardIdentifier="postsScreen" id="mVU-gP-Trs" customClass="PostsScreenVC" customModule="RedditClientApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="postsScreen" title="Posts Screen" id="mVU-gP-Trs" customClass="PostsScreenVC" customModule="RedditClientApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Vkj-YG-Rd8">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -271,6 +271,7 @@
                         <constraints>
                             <constraint firstItem="07a-td-zC1" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" id="9FS-UP-uMQ"/>
                             <constraint firstItem="IxB-nq-7OS" firstAttribute="leading" secondItem="8y7-eG-xOD" secondAttribute="leading" constant="10" id="BQB-ws-pyk"/>
+                            <constraint firstItem="07a-td-zC1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Za0-ES-BJp" secondAttribute="trailing" constant="8" symbolic="YES" id="DxG-YS-MSD"/>
                             <constraint firstItem="IxB-nq-7OS" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="1" id="G99-FA-Och"/>
                             <constraint firstItem="TLR-fh-J6O" firstAttribute="top" secondItem="8y7-eG-xOD" secondAttribute="top" constant="74" id="L5P-Gh-yqu"/>
                             <constraint firstItem="Za0-ES-BJp" firstAttribute="centerX" secondItem="Vkj-YG-Rd8" secondAttribute="centerX" id="OMt-x6-fP3"/>
@@ -293,6 +294,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s0X-Ka-rIK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-36" y="-2"/>
+        </scene>
+        <!--Single Post Screen-->
+        <scene sceneID="X9E-ME-v8R">
+            <objects>
+                <viewController title="Single Post Screen" id="PhI-zL-JM6" customClass="SinglePostScreenVC" customModule="RedditClientApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="y0O-pg-rUd">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="pVW-Ir-1OW"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1gR-na-uU7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="677" y="-2"/>
         </scene>
     </scenes>
     <resources>

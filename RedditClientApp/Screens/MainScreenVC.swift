@@ -29,6 +29,7 @@ class MainScreenVC: UIViewController {
     var pickedIcons = [String]()
     
     // These variables are used to keep track of the timer for auto-scrolling feature of the trending posts.
+    var isScrollingBackwards = false
     var freezeTime: TimeInterval = 4
     var scrollTimer: Timer?
     
