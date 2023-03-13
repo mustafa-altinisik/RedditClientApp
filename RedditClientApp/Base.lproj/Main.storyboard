@@ -295,21 +295,6 @@
             </objects>
             <point key="canvasLocation" x="-36" y="-2"/>
         </scene>
-        <!--Single Post Screen-->
-        <scene sceneID="X9E-ME-v8R">
-            <objects>
-                <viewController title="Single Post Screen" id="PhI-zL-JM6" customClass="SinglePostScreenVC" customModule="RedditClientApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="y0O-pg-rUd">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="pVW-Ir-1OW"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1gR-na-uU7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="677" y="-2"/>
-        </scene>
     </scenes>
     <resources>
         <image name="arrowshape.backward" catalog="system" width="128" height="104"/>
