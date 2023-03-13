@@ -50,6 +50,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         else {
             let systemImages = ["circle.grid.hex", "rectangle.stack","triangle","square.grid.3x1.below.line.grid.1x2", "rhombus","hexagon", "pentagon", "octagon", "star", "sun.max", "moon", "cloud", "cloud.sun", "cloud.rain", "cloud.snow", "tornado", "hurricane", "bolt", "umbrella", "flame", "drop", "waveform.path.ecg.rectangle"]
             
+            // Removes the whole array if it is full to avoid a crash.
             if pickedIcons.count >= systemImages.count {
                 pickedIcons.removeAll()
             }
@@ -57,6 +58,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingSubredditCell", for: indexPath) as? TrendingSubredditsCVC else {
                 fatalError("Unable to dequeue TrendingSubredditsCVC")
             }
+
             let subreddit = Array(topSubreddits.keys)[indexPath.row]
             
             // If the subreddit is in the favoriteSubreddits array, add a star symbol to the end of the subreddit name.
@@ -96,23 +98,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             return CGSize(width: cellWidth, height: cellHeight)
         }
     }
-    
-    // This function scrolls to next index when needed and starts a timer for auto-scrolling.
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let currentIndex = trendingPostsCollectionView.contentOffset.x / trendingPostsCollectionView.bounds.size.width
-        let nextIndex = round(currentIndex)
-        
-        let numberOfItemsInSection = trendingPostsCollectionView.numberOfItems(inSection: 0)
-        guard nextIndex >= 0 && nextIndex < Double(numberOfItemsInSection) else {
-            return
-        }
-        
-        let indexPath = IndexPath(item: Int(nextIndex), section: 0)
-        trendingPostsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        
-        startScrollTimer()
-    }
-    
+
     // This function opens the selected post in the browser if it is a cell of the trendingPostsCollectionView
     // Or shows the posts screen of the selected subreddit if it is a cell of the trendingSubredditsCollectionView.
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -130,7 +116,24 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         }
     }
     
+    // This function scrolls to next index when needed and starts a timer for auto-scrolling.
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let currentIndex = trendingPostsCollectionView.contentOffset.x / trendingPostsCollectionView.bounds.size.width
+        let nextIndex = round(currentIndex)
+        
+        let numberOfItemsInSection = trendingPostsCollectionView.numberOfItems(inSection: 0)
+        guard nextIndex >= 0 && nextIndex < Double(numberOfItemsInSection) else {
+            return
+        }
+        
+        let indexPath = IndexPath(item: Int(nextIndex), section: 0)
+        trendingPostsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        
+        startScrollTimer()
+    }
+
     // This function makes an auto-scrolling gesture.
+    // After reaching the end of the collection view, it starts scrolling backwards.
     func startScrollTimer() {
         scrollTimer?.invalidate()
         scrollTimer = Timer.scheduledTimer(withTimeInterval: freezeTime, repeats: false, block: { [weak self] _ in
@@ -164,5 +167,4 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         scrollTimer?.invalidate()
         scrollTimer = nil
     }
-    
 }

@@ -33,6 +33,5 @@ extension MainScreenVC {
                 self.trendingPostsCollectionView.reloadData()
             }
         }
-        
     }
 }

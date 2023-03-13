@@ -43,7 +43,6 @@ extension PostsScreenVC: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
 
-    
     //This function opens the post on the reddit website when the user taps on a post
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let post = postsArray[indexPath.row]
@@ -53,6 +52,5 @@ extension PostsScreenVC: UITableViewDataSource, UITableViewDelegate {
                 UIApplication.shared.open(url)
             }
         }
-    }
-    
+    }   
 }

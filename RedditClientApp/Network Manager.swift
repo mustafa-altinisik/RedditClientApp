@@ -9,16 +9,17 @@ import Foundation
 import Alamofire
 
 
-class RedditAPI{
+class RedditAPI {
+    // This function is used to get the posts from a subreddit.
     func getRedditPostsFromSubreddit(subredditName: String, safeSearch: Bool, onlyPostsWithImages: Bool, completion: @escaping ([RedditPost]?, Error?) -> Void) {
         let url = "https://www.reddit.com/r/\(subredditName)/.json"
-        
+
         var parameters: Parameters = [:]
         if safeSearch {
             parameters["include_categories"] = 1
             parameters["include_over_18"] = 0
         }
-        
+
         AF.request(url, parameters: parameters)
             .validate()
             .responseDecodable(of: RedditResponse.self) { response in
@@ -39,7 +40,8 @@ class RedditAPI{
             }
     }
 
-
+    // This function gets all popular posts from reddit and returns the top 6 subreddits.
+    // I've implemented this function becasuse Reddit API doesn't have a way to get the top subreddits.
     func getTopSubredditsFromPopularPosts(completion: @escaping ([String: Int]?, Error?) -> Void) {
         let url = "https://www.reddit.com/r/all/new.json"
 
@@ -69,7 +71,7 @@ class RedditAPI{
             }
     }
 
-
+    // This function is used to get the image of a post from its URL.
     func getPostImage(from url: URL, completion: @escaping (UIImage?, Error?) -> Void) {
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else {
@@ -83,19 +85,17 @@ class RedditAPI{
         }.resume()
     }
 
+    // This function is used to check if a URL is an image URL.
     func isImageURL(_ string: String) -> Bool {
         guard let url = URL(string: string) else {
-            // If the string is not a valid URL, it's a dummy string
             return false
         }
         
-        // Check if the URL's scheme is http or https, and if the path extension is an image file type
         if url.scheme == "http" || url.scheme == "https" {
             let ext = url.pathExtension.lowercased()
             return ["jpg", "jpeg", "png", "gif"].contains(ext)
         }
         
-        // If the URL is not http or https, or the path extension is not an image file type, it's a dummy string
         return false
     }
 

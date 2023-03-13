@@ -30,6 +30,7 @@ extension MainScreenVC: UITableViewDataSource, UITableViewDelegate {
         showPostsScreen(subredditToBeDisplayed: favoriteSubreddits[indexPath.row])
     }
     
+    // This function is used to delete a favorite subreddit from the favoriteSubredditsTableView with a swipe gesture.
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { (action, view, completion) in
@@ -55,7 +56,5 @@ extension MainScreenVC: UITableViewDataSource, UITableViewDelegate {
         configuration.performsFirstActionWithFullSwipe = true
         
         return configuration
-    }
-    
-    
+    }  
 }

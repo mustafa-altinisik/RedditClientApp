@@ -63,9 +63,7 @@ class PostsScreenVC: UIViewController {
         subredditLabel.text = "r/" + subredditName
         
         postsTable.dataSource = self
-        postsTable.delegate = self
-        
-        
+        postsTable.delegate = self  
     }
     
     // This function is used to make the API call to get the posts of a subreddit.
