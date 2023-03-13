@@ -46,16 +46,15 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             let systemImages = ["circle.grid.hex", "rectangle.stack","triangle","square.grid.3x1.below.line.grid.1x2", "rhombus","hexagon", "pentagon", "octagon", "star", "sun.max", "moon", "cloud", "cloud.sun", "cloud.rain", "cloud.snow", "tornado", "hurricane", "bolt", "umbrella", "flame", "drop", "waveform.path.ecg.rectangle"]
             
             if pickedIcons.count >= systemImages.count {
-                return UICollectionViewCell()
+                pickedIcons.removeAll()
             }
-            
+
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingSubredditCell", for: indexPath) as! TrendingSubredditsCVC
             let subreddit = Array(topSubreddits.keys)[indexPath.row]
             
             // If the subreddit is in the favoriteSubreddits array, add a star symbol to the end of the subreddit name.
             if favoriteSubreddits.contains(subreddit) {
-                let starSymbol = " ⭐️"
-                cell.trendingSubredditLabel.text = subreddit + starSymbol
+                cell.trendingSubredditLabel.text = subreddit + " ⭐️"
             } else {
                 cell.trendingSubredditLabel.text = subreddit
             }
@@ -126,7 +125,6 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     }
     
     // This function makes an auto-scrolling gesture.
-
     func startScrollTimer() {
         scrollTimer?.invalidate()
         scrollTimer = Timer.scheduledTimer(withTimeInterval: freezeTime, repeats: false, block: { [weak self] _ in
