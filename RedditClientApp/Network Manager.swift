@@ -8,10 +8,12 @@
 import Foundation
 import Alamofire
 
-
 class RedditAPI {
     // This function is used to get the posts from a subreddit.
-    func getRedditPostsFromSubreddit(subredditName: String, safeSearch: Bool, onlyPostsWithImages: Bool, completion: @escaping ([RedditPost]?, Error?) -> Void) {
+    func getRedditPostsFromSubreddit(subredditName: String,
+                                     safeSearch: Bool,
+                                     onlyPostsWithImages: Bool,
+                                     completion: @escaping ([RedditPost]?, Error?) -> Void) {
         let url = "https://www.reddit.com/r/\(subredditName)/.json"
 
         var parameters: Parameters = [:]
@@ -27,7 +29,8 @@ class RedditAPI {
                 case .success(let redditResponse):
                     var redditPosts = [RedditPost]()
                     for child in redditResponse.data.children {
-                        if let imageURL = URL(string: child.data.thumbnail), onlyPostsWithImages && self.isImageURL(imageURL.absoluteString) {
+                        if let imageURL = URL(string: child.data.thumbnail),
+                            onlyPostsWithImages && self.isImageURL(imageURL.absoluteString) {
                             redditPosts.append(child.data.toRedditPost())
                         } else if !onlyPostsWithImages {
                             redditPosts.append(child.data.toRedditPost())
@@ -73,7 +76,7 @@ class RedditAPI {
 
     // This function is used to get the image of a post from its URL.
     func getPostImage(from url: URL, completion: @escaping (UIImage?, Error?) -> Void) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, _, error in
             guard let data = data, error == nil else {
                 completion(nil, error)
                 return
@@ -90,15 +93,12 @@ class RedditAPI {
         guard let url = URL(string: string) else {
             return false
         }
-        
+
         if url.scheme == "http" || url.scheme == "https" {
             let ext = url.pathExtension.lowercased()
             return ["jpg", "jpeg", "png", "gif"].contains(ext)
         }
-        
+
         return false
     }
-
-
-
 }

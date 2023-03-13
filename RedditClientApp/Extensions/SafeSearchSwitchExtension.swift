@@ -14,21 +14,23 @@ extension MainScreenVC {
         doesUserWantSafeSearch = safeSearchSwitch.isOn
         defaults.set(doesUserWantSafeSearch, forKey: "safeSearch")
         defaults.synchronize()
-        
+
         // Call the API again with the updated safe search option
-        redditAPI.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: sender.isOn, onlyPostsWithImages: true) { (posts, error) in
+        redditAPI.getRedditPostsFromSubreddit(subredditName: "popular",
+                                              safeSearch: sender.isOn,
+                                              onlyPostsWithImages: true) { (posts, error) in
             if let error = error {
                 print("Error retrieving Reddit posts: \(error.localizedDescription)")
                 return
             }
-            
+
             guard let posts = posts else {
                 print("No posts retrieved")
                 return
             }
-            
+
             self.trendingPosts = posts
-            
+
             DispatchQueue.main.async {
                 self.trendingPostsCollectionView.reloadData()
             }

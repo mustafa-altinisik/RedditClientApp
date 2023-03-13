@@ -4,6 +4,8 @@ included:
   - Tests
 excluded:
   - Tests/SwiftLintFrameworkTests/Resources
+  - Pods
+  - Pods/
 analyzer_rules:
   - unused_declaration
   - unused_import
