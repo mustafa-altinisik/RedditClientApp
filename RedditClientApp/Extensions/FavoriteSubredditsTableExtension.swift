@@ -28,5 +28,32 @@ extension MainScreenVC: UITableViewDataSource, UITableViewDelegate {
         showPostsScreen(subredditToBeDisplayed: favoriteSubreddits[indexPath.row])
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { (action, view, completion) in
+            let deletedSubreddit = self.favoriteSubreddits[indexPath.row]
+            self.favoriteSubreddits.remove(at: indexPath.row)
+            self.defaults.set(self.favoriteSubreddits, forKey: "favoriteSubreddits")
+            self.defaults.synchronize()
+            
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            // Reload the cell if it exists in trendingSubreddits array
+            if self.topSubreddits.keys.contains(deletedSubreddit) {
+                let index = Array(self.topSubreddits.keys).firstIndex(of: deletedSubreddit)!
+                let indexPath = IndexPath(item: index, section: 0)
+                self.trendingSubredditsCollectionView.reloadItems(at: [indexPath])
+            }
+            completion(true)
+        }
+        
+        deleteAction.image = UIImage(systemName: "trash")
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        
+        return configuration
+    }
+    
     
 }
