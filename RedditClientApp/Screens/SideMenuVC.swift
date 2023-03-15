@@ -64,4 +64,22 @@ class SideMenuVC: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        showPostsScreen(subredditToBeDisplayed: categoriesWithSystemImageNames[indexPath.row].category)
+    }
+    
+    func showPostsScreen(subredditToBeDisplayed: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            if let vc = storyboard.instantiateViewController(withIdentifier: "postsScreen") as? PostsScreenVC {
+                vc.subredditName = subredditToBeDisplayed
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true)
+            }
+        }
+    }
+
+
 }
