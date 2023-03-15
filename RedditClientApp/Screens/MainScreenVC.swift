@@ -7,8 +7,10 @@
 
 import UIKit
 import SDWebImage
+import SideMenu
 
 class MainScreenVC: UIViewController {
+    @IBOutlet weak var sideMenuButton: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var safeSearchSwitch: UISwitch!
     @IBOutlet weak var trendingPostsCollectionView: UICollectionView!
@@ -16,6 +18,10 @@ class MainScreenVC: UIViewController {
     @IBOutlet private weak var favoriteSubredditsTableView: UITableView!
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private weak var tableViewHeightConstraint: NSLayoutConstraint!
+    private var menu = SideMenuNavigationController(rootViewController: SideMenuVC())
+
+
+    
 
     var redditAPI = RedditAPI()
 
@@ -32,9 +38,13 @@ class MainScreenVC: UIViewController {
     var isScrollingBackwards = false
     var freezeTime: TimeInterval = 4
     var scrollTimer: Timer?
+    
+
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupSideMenu()
         setupSearchBar()
         setupTrendingPosts()
         setupTrendingSubreddits()
@@ -54,6 +64,16 @@ class MainScreenVC: UIViewController {
         startScrollTimer()
     }
 
+    @IBAction func sideMenuButtonTapped(_ sender: Any) {
+        present(menu, animated: true)
+    }
+    
+    // This function is used to set the side menu.
+    private func setupSideMenu() {
+        menu.leftSide = true
+        menu.setNavigationBarHidden(true, animated: false)
+    }
+    
     // This function handles all tasks related to the searchBar.
     private func setupSearchBar() {
         searchBar.delegate = self
