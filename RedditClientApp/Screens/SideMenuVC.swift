@@ -13,9 +13,11 @@ class SideMenuVC: UITableViewController {
         ("Science", "atom"),
         ("Sport", "sportscourt"),
         ("Technology", "iphone"),
-        ("Photography", "camera.fill"),
-        ("News", "newspaper.fill"),
-        ("Politics", "person.2.fill")
+        ("Photography", "camera"),
+        ("News", "newspaper"),
+        ("Politics", "person.2"),
+        ("World", "globe")
+
     ]
     
     override func viewDidLoad() {
