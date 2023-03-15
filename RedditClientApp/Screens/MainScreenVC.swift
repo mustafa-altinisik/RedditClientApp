@@ -72,6 +72,7 @@ class MainScreenVC: UIViewController {
     private func setupSideMenu() {
         menu.leftSide = true
         menu.setNavigationBarHidden(true, animated: false)
+        sideMenuButton.tintColor = .black
     }
     
     // This function handles all tasks related to the searchBar.
