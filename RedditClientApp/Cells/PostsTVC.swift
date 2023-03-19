@@ -9,7 +9,7 @@ import UIKit
 
 // This class is used for the cells in the postsTable in the PostsScreenVC.
 // Each cell displays a single Reddit post.
-class PostsTVC: UITableViewCell {
+final class PostsTVC: UITableViewCell {
 
     @IBOutlet weak var postTitle: UILabel!
     @IBOutlet weak var postImage: UIImageView!
