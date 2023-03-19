@@ -6,8 +6,9 @@
 //
 
 import UIKit
-
-class SideMenuVC: UITableViewController {
+final class SideMenuVC: UITableViewController {
+    
+    let neworkManager = NetworkManager()
     
     let categoriesWithSystemImageNames: [(category: String, systemImageName: String)] = [
         ("Science", "atom"),
@@ -17,36 +18,70 @@ class SideMenuVC: UITableViewController {
         ("News", "newspaper"),
         ("Politics", "person.2"),
         ("World", "globe")
-
     ]
+    
+    let defaults = UserDefaults.standard
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.register(SideMenuPredefinedCategoryTVC.self, forCellReuseIdentifier: "predefinedCategoryCell")
     }
     
-    // MARK: - Table view data source
-    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Categories"
+        } else if section == 1 {
+            return "Settings"
+        }
+        return nil
+    }
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categoriesWithSystemImageNames.count
+        if section == 0 {
+            return categoriesWithSystemImageNames.count
+        } else if section == 1 {
+            return 2
+        }
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "predefinedCategoryCell", for: indexPath) as! SideMenuPredefinedCategoryTVC
-        
-        let categoryWithImage = categoriesWithSystemImageNames[indexPath.row]
-        
-        cell.categoryButton.setTitle(categoryWithImage.category, for: .normal)
-        cell.categoryButton.setImage(UIImage(systemName: categoryWithImage.systemImageName), for: .normal)
-        
-        return cell
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "predefinedCategoryCell", for: indexPath) as! SideMenuPredefinedCategoryTVC
+            
+            let categoryWithImage = categoriesWithSystemImageNames[indexPath.row]
+            
+            cell.categoryButton.setTitle(categoryWithImage.category, for: .normal)
+            cell.categoryButton.setImage(UIImage(systemName: categoryWithImage.systemImageName), for: .normal)
+            
+            return cell
+        } else if indexPath.section == 1 {
+            let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+            if indexPath.row == 0 {
+                cell.textLabel?.text = "Safe Search"
+                let safeSearchSwitch = UISwitch()
+                safeSearchSwitch.isOn = defaults.bool(forKey: "safeSearch")
+                safeSearchSwitch.addTarget(self, action: #selector(safeSearchSwitchValueChanged(_:)), for: .valueChanged)
+                cell.accessoryView = safeSearchSwitch
+            } else if indexPath.row == 1 {
+                cell.textLabel?.numberOfLines = 0
+                cell.textLabel?.text = "Posts with Images Only"
+                let imagesOnlySwitch = UISwitch()
+                imagesOnlySwitch.isOn = defaults.bool(forKey: "postsWithImages")
+                imagesOnlySwitch.addTarget(self, action: #selector(imagesOnlySwitchValueChanged(_:)), for: .valueChanged)
+                cell.accessoryView = imagesOnlySwitch
+            }
+            return cell
+        } else {
+            return UITableViewCell()
+        }
     }
-    
     
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -80,6 +115,36 @@ class SideMenuVC: UITableViewController {
             }
         }
     }
+    
+    // Handle value change of safeSearchSwitch
+    @objc func safeSearchSwitchValueChanged(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "safeSearch")
 
+//        // Call the API again with the updated safe search option
+//        neworkManager.getRedditPostsFromSubreddit(subredditName: "popular",
+//                                              safeSearch: sender.isOn,
+//                                              onlyPostsWithImages: true) { (posts, error) in
+//            if let error = error {
+//                print("Error retrieving Reddit posts: \(error.localizedDescription)")
+//                return
+//            }
+//
+//            guard let posts = posts else {
+//                print("No posts retrieved")
+//                return
+//            }
+//
+//            self.trendingPosts = posts
+//
+//            DispatchQueue.main.async {
+//                self.trendingPostsCollectionView.reloadData()
+//            }
+//        }
 
+    }
+    
+    // Handle value change of imagesOnlySwitch
+    @objc func imagesOnlySwitchValueChanged(_ sender: UISwitch) {
+        UserDefaults.standard.set(sender.isOn, forKey: "postsWithImages")
+    }
 }
