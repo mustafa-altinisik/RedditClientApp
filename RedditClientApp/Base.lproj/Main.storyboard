@@ -20,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="59" width="393" height="56"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nhb-Kc-HNW" userLabel="Side Menu Button">
-                                        <rect key="frame" x="0.0" y="19" width="35" height="18"/>
+                                        <rect key="frame" x="0.0" y="19" width="93" height="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" image="line.3.horizontal" catalog="system"/>
                                         <connections>
@@ -28,7 +28,7 @@
                                         </connections>
                                     </button>
                                     <searchBar contentMode="redraw" placeholder="enter a subreddit" translatesAutoresizingMaskIntoConstraints="NO" id="iac-X8-kM2">
-                                        <rect key="frame" x="35" y="0.0" width="300" height="56"/>
+                                        <rect key="frame" x="93" y="0.0" width="300" height="56"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="300" id="fWP-AD-iHZ"/>
                                         </constraints>
@@ -37,26 +37,6 @@
                                             <outlet property="delegate" destination="Ef5-45-QWc" id="hpS-WK-GpF"/>
                                         </connections>
                                     </searchBar>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="ZqI-n3-hfe">
-                                        <rect key="frame" x="335" y="0.3333333333333357" width="58" height="55.333333333333336"/>
-                                        <subviews>
-                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3mI-Vy-jLg" userLabel="safeSearchSwitch">
-                                                <rect key="frame" x="0.0" y="0.0" width="60" height="31"/>
-                                                <connections>
-                                                    <action selector="safeSearchSwitchValueChanged:" destination="Ef5-45-QWc" eventType="valueChanged" id="R3G-CY-0Kq"/>
-                                                </connections>
-                                            </switch>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Safe Search" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OhJ-J4-501">
-                                                <rect key="frame" x="0.0" y="30.999999999999993" width="58" height="24.333333333333336"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="24.333333333333329" id="TBs-DD-TUI"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
                                 </subviews>
                             </stackView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bsS-e8-KdC">
@@ -166,7 +146,6 @@
                     <connections>
                         <outlet property="contentView" destination="kXP-5T-d5b" id="umd-M8-Ys2"/>
                         <outlet property="favoriteSubredditsTableView" destination="bLe-Bi-Q1g" id="dee-Du-0c2"/>
-                        <outlet property="safeSearchSwitch" destination="3mI-Vy-jLg" id="Dc7-XK-Bgf"/>
                         <outlet property="searchBar" destination="iac-X8-kM2" id="VUJ-ap-0PI"/>
                         <outlet property="sideMenuButton" destination="nhb-Kc-HNW" id="pRN-PS-zMU"/>
                         <outlet property="tableViewHeightConstraint" destination="ptq-J0-ZQo" id="gbp-AD-z83"/>
