@@ -12,7 +12,6 @@ import SideMenu
 class MainScreenVC: UIViewController {
     @IBOutlet weak var sideMenuButton: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var safeSearchSwitch: UISwitch!
     @IBOutlet weak var trendingPostsCollectionView: UICollectionView!
     @IBOutlet weak var trendingSubredditsCollectionView: UICollectionView!
     @IBOutlet private weak var favoriteSubredditsTableView: UITableView!
@@ -23,11 +22,12 @@ class MainScreenVC: UIViewController {
 
     
 
-    var redditAPI = RedditAPI()
+    var redditAPI = NetworkManager()
 
     // Defaults are used to store data locally on the device, there are two variables stored in defaults.
     let defaults = UserDefaults.standard
     var doesUserWantSafeSearch: Bool = false
+    var doesUserWantPostsWithImagesOnly = false
     var favoriteSubreddits: [String] = []
 
     var topSubreddits: [String: Int] = [:]
@@ -56,8 +56,8 @@ class MainScreenVC: UIViewController {
         }
 
         doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
-        safeSearchSwitch.isOn = doesUserWantSafeSearch
-
+        doesUserWantPostsWithImagesOnly = defaults.bool(forKey: "postsWithImages")
+        
         reloadFavoriteSubreddits()
 
         // Start the timer for the trending posts's auto-scrolling feature.
@@ -87,7 +87,7 @@ class MainScreenVC: UIViewController {
         trendingPostsCollectionView.delegate = self
         trendingPostsCollectionView.register(UINib(nibName: "TrendingPostCVC",bundle: nil),forCellWithReuseIdentifier: "trendingPostCell")
 
-        redditAPI.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: safeSearchSwitch.isOn, onlyPostsWithImages: true) { [weak self] (posts, error) in
+        redditAPI.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: true) { [weak self] (posts, error) in
             guard let self = self else { return }
             if let error = error {
                 print("Error retrieving Reddit posts: \(error.localizedDescription)")
