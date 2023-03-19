@@ -9,11 +9,11 @@ import UIKit
 import SDWebImage
 import SideMenu
 
-class MainScreenVC: UIViewController {
-    @IBOutlet weak var sideMenuButton: UIButton!
-    @IBOutlet weak var searchBar: UISearchBar!
-    @IBOutlet weak var trendingPostsCollectionView: UICollectionView!
-    @IBOutlet weak var trendingSubredditsCollectionView: UICollectionView!
+final class MainScreenVC: UIViewController {
+    @IBOutlet private weak var sideMenuButton: UIButton!
+    @IBOutlet private weak var searchBar: UISearchBar!
+    @IBOutlet private weak var trendingPostsCollectionView: UICollectionView!
+    @IBOutlet private weak var trendingSubredditsCollectionView: UICollectionView!
     @IBOutlet private weak var favoriteSubredditsTableView: UITableView!
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private weak var tableViewHeightConstraint: NSLayoutConstraint!
@@ -31,12 +31,12 @@ class MainScreenVC: UIViewController {
     var favoriteSubreddits: [String] = []
 
     var topSubreddits: [String: Int] = [:]
-    var trendingPosts: [RedditPost] = []
+    var trendingPosts: [RedditPostData] = []
     var pickedIcons = [String]()
 
     // These variables are used to keep track of the timer for auto-scrolling feature of the trending posts.
     var isScrollingBackwards = false
-    var freezeTime: TimeInterval = 4
+    var freezeTime: TimeInterval = 2
     var scrollTimer: Timer?
     
     let systemImages = ["circle.grid.hex","rectangle.stack","triangle",
@@ -222,7 +222,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
 
             // If the subreddit is in the favoriteSubreddits array, add a star symbol to the end of the subreddit name.
             if favoriteSubreddits.contains(subreddit) {
-                cell.trendingSubredditLabel.text = subreddit + " ⭐️"
+                cell.trendingSubredditLabel.text = "⭐️ " + subreddit
             } else {
                 cell.trendingSubredditLabel.text = subreddit
             }

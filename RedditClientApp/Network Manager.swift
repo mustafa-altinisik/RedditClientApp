@@ -13,7 +13,7 @@ class NetworkManager {
     func getRedditPostsFromSubreddit(subredditName: String,
                                      safeSearch: Bool,
                                      onlyPostsWithImages: Bool,
-                                     completion: @escaping ([RedditPost]?, Error?) -> Void) {
+                                     completion: @escaping ([RedditPostData]?, Error?) -> Void) {
         let url = "https://www.reddit.com/r/\(subredditName)/.json"
 
         var parameters: Parameters = [:]
@@ -27,13 +27,13 @@ class NetworkManager {
             .responseDecodable(of: RedditResponse.self) { response in
                 switch response.result {
                 case .success(let redditResponse):
-                    var redditPosts = [RedditPost]()
+                    var redditPosts = [RedditPostData]()
                     for child in redditResponse.data.children {
-                        if let imageURL = URL(string: child.data.thumbnail),
+                        if let imageURL = URL(string: child.data.imageURL),
                             onlyPostsWithImages && self.isImageURL(imageURL.absoluteString) {
-                            redditPosts.append(child.data.toRedditPost())
+                            redditPosts.append(child.data)
                         } else if !onlyPostsWithImages {
-                            redditPosts.append(child.data.toRedditPost())
+                            redditPosts.append(child.data)
                         }
                     }
                     completion(redditPosts, nil)

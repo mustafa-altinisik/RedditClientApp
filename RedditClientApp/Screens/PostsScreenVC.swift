@@ -9,11 +9,11 @@ import Foundation
 import UIKit
 
 // This class is used to display the posts of a subreddit
-class PostsScreenVC: UIViewController {
+final class PostsScreenVC: UIViewController {
 
-    @IBOutlet weak var subredditLabel: UILabel!
-    @IBOutlet weak var postsTable: UITableView!
-    @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet private weak var subredditLabel: UILabel!
+    @IBOutlet private weak var postsTable: UITableView!
+    @IBOutlet private weak var favoriteButton: UIButton!
 
     var redditAPI = NetworkManager()
 
@@ -22,7 +22,7 @@ class PostsScreenVC: UIViewController {
     var doesUserWantSafeSearch: Bool = false
     var favoriteSubreddits: [String] = []
 
-    var postsArray: [RedditPost] = []
+    var postsArray: [RedditPostData] = []
     var subredditName: String = ""
 
     @IBAction func backButtonTapped(_ sender: Any) {
