@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class SideMenuPredefinedCategoryTVC: UITableViewCell {
+final class SideMenuPredefinedCategoryTVC: UITableViewCell {
     
     let categoryButton: UIButton = {
         let button = UIButton()

@@ -1,5 +1,5 @@
 //
-//  FavoriteSubredditTVC.swift
+//  FavoriteSubredditTableViewCell.swift
 //  RedditClientApp
 //
 //  Created by Asım Altınışık on 10.03.2023.
@@ -8,7 +8,7 @@
 import UIKit
 
 // This class is used for the cells in the favoriteSubredditsTableView 
-class FavoriteSubredditTVC: UITableViewCell {
+final class FavoriteSubredditTableViewCell: UITableViewCell {
     @IBOutlet weak var favoriteSubredditLabel: UILabel!
 
     override func awakeFromNib() {
