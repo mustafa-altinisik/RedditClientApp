@@ -15,7 +15,7 @@ class PostsScreenVC: UIViewController {
     @IBOutlet weak var postsTable: UITableView!
     @IBOutlet weak var favoriteButton: UIButton!
 
-    var redditAPI = RedditAPI()
+    var redditAPI = NetworkManager()
 
     // Defalults is used to store data in the device.
     let defaults = UserDefaults.standard
