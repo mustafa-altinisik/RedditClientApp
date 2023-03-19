@@ -10,25 +10,25 @@ import UIKit
 
 // This class is used to display the posts of a subreddit
 final class PostsScreenVC: UIViewController {
-
+    
     @IBOutlet private weak var subredditLabel: UILabel!
     @IBOutlet private weak var postsTable: UITableView!
     @IBOutlet private weak var favoriteButton: UIButton!
-
+    
     private var networkManager = NetworkManager()
-
+    
     // Defalults is used to store data in the device.
     private let defaults = UserDefaults.standard
     private var doesUserWantSafeSearch: Bool = false
     private var favoriteSubreddits: [String] = []
-
+    
     private var postsArray: [RedditPostData] = []
     var subredditName: String = ""
-
+    
     @IBAction private func backButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "toHomeScreen", sender: self)
     }
-
+    
     // This function is used to add or remove a subreddit from the favoriteSubreddits array.
     @IBAction private func favoriteButtonTapped(_ sender: Any) {
         if favoriteSubreddits.contains(subredditName) {// If the subreddit is already in the array, remove it.
@@ -42,33 +42,33 @@ final class PostsScreenVC: UIViewController {
         defaults.set(favoriteSubreddits, forKey: "favoriteSubreddits")
         defaults.synchronize()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         makeAPICall()
-
+        
         // Load the variables from the device.
         if let savedSubreddits = UserDefaults.standard.stringArray(forKey: "favoriteSubreddits") {
             favoriteSubreddits = savedSubreddits
         }
-
+        
         doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
-
+        
         if favoriteSubreddits.contains(subredditName) {
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
-
+        
         subredditLabel.text = "r/" + subredditName
-
+        
         postsTable.dataSource = self
         postsTable.delegate = self
     }
     // This function is used to make the API call to get the posts of a subreddit.
     private func makeAPICall() {
         networkManager.getRedditPostsFromSubreddit(subredditName: subredditName,
-                                              safeSearch: doesUserWantSafeSearch,
-                                              onlyPostsWithImages: false) { [weak self] (posts, error) in
+                                                   safeSearch: doesUserWantSafeSearch,
+                                                   onlyPostsWithImages: false) { [weak self] (posts, error) in
             guard let self = self else { return }
             if let error = error {
                 print("Error retrieving Reddit posts: \(error.localizedDescription)")
@@ -93,35 +93,28 @@ extension PostsScreenVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return postsArray.count
     }
-
+    
     // This function puts the data of the posts into the cells of the posts screen
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = postsTable.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as? PostsTableViewCell else {
             fatalError("Unable to dequeue PostsTableViewCell")
         }
-
+        
         let post = postsArray[indexPath.row]
-
+        
         if let imageURL = URL(string: post.imageURL) {
             networkManager.getPostImage(from: imageURL) { image, error in
-                guard let image = image, error == nil else {
-                    print("Error downloading image: \(error!)")
-                    return
-                }
                 DispatchQueue.main.async {
-                    cell.postImage?.image = image
+                    cell.configureCell(title: post.title, image: image, description: post.description)
                 }
             }
         } else {
-            cell.postImage?.image = nil
+            cell.configureCell(title: post.title, image: nil, description: post.description)
         }
-
-        cell.postDescription.text = post.description
-        cell.postTitle.text = post.title
-
+        
         return cell
     }
-
+    
     // This function opens the post on the reddit website when the user taps on a post
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let post = postsArray[indexPath.row]

@@ -11,10 +11,10 @@ import UIKit
 // Each cell displays a single Reddit post.
 final class PostsTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var postTitle: UILabel!
-    @IBOutlet weak var postImage: UIImageView!
-    @IBOutlet weak var postView: UIView!
-    @IBOutlet weak var postDescription: UILabel!
+    @IBOutlet private weak var postTitle: UILabel!
+    @IBOutlet private weak var postImage: UIImageView!
+    @IBOutlet private weak var postView: UIView!
+    @IBOutlet private weak var postDescription: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,4 +23,11 @@ final class PostsTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
+    func configureCell(title: String, image: UIImage?, description: String) {
+        postTitle.text = title
+        postImage.image = image
+        postDescription.text = description
+    }
+
 }
