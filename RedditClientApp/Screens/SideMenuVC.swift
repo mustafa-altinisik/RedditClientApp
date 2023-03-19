@@ -8,9 +8,9 @@
 import UIKit
 final class SideMenuVC: UITableViewController {
     
-    let neworkManager = NetworkManager()
+    private let neworkManager = NetworkManager()
     
-    let categoriesWithSystemImageNames: [(category: String, systemImageName: String)] = [
+    private let categoriesWithSystemImageNames: [(category: String, systemImageName: String)] = [
         ("Science", "atom"),
         ("Sport", "sportscourt"),
         ("Technology", "iphone"),
@@ -20,7 +20,7 @@ final class SideMenuVC: UITableViewController {
         ("World", "globe")
     ]
     
-    let defaults = UserDefaults.standard
+    private let defaults = UserDefaults.standard
 
     
     override func viewDidLoad() {

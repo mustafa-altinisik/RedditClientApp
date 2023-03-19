@@ -19,34 +19,30 @@ final class MainScreenVC: UIViewController {
     @IBOutlet private weak var tableViewHeightConstraint: NSLayoutConstraint!
     private var menu = SideMenuNavigationController(rootViewController: SideMenuVC())
 
-
-    
-
-    var redditAPI = NetworkManager()
+    private var networkManager = NetworkManager()
 
     // Defaults are used to store data locally on the device, there are two variables stored in defaults.
-    let defaults = UserDefaults.standard
-    var doesUserWantSafeSearch: Bool = false
-    var doesUserWantPostsWithImagesOnly = false
-    var favoriteSubreddits: [String] = []
+    private let defaults = UserDefaults.standard
+    private var doesUserWantSafeSearch: Bool = false
+    private var doesUserWantPostsWithImagesOnly = false
+    private var favoriteSubreddits: [String] = []
 
-    var topSubreddits: [String: Int] = [:]
-    var trendingPosts: [RedditPostData] = []
-    var pickedIcons = [String]()
-
-    // These variables are used to keep track of the timer for auto-scrolling feature of the trending posts.
-    var isScrollingBackwards = false
-    var freezeTime: TimeInterval = 2
-    var scrollTimer: Timer?
+    private var topSubreddits: [String: Int] = [:]
+    private var trendingPosts: [RedditPostData] = []
     
-    let systemImages = ["circle.grid.hex","rectangle.stack","triangle",
+    private var pickedIcons = [String]()
+    private let iconsToBePicked = ["circle.grid.hex","rectangle.stack","triangle",
                         "square.grid.3x1.below.line.grid.1x2","rhombus","hexagon",
                         "pentagon", "octagon", "star", "sun.max", "moon", "cloud",
                         "cloud.sun", "cloud.rain", "cloud.snow", "tornado",
                         "hurricane", "bolt", "umbrella", "flame",
                         "drop", "waveform.path.ecg.rectangle"]
 
-
+    // These variables are used to keep track of the timer for auto-scrolling feature of the trending posts.
+    private var isScrollingBackwards = false
+    private var freezeTime: TimeInterval = 2
+    private var scrollTimer: Timer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSideMenu()
@@ -69,7 +65,7 @@ final class MainScreenVC: UIViewController {
         startScrollTimer()
     }
 
-    @IBAction func sideMenuButtonTapped(_ sender: Any) {
+    @IBAction private func sideMenuButtonTapped(_ sender: Any) {
         present(menu, animated: true)
     }
     
@@ -92,7 +88,7 @@ final class MainScreenVC: UIViewController {
         trendingPostsCollectionView.delegate = self
         trendingPostsCollectionView.register(UINib(nibName: "TrendingPostCollectionViewCell",bundle: nil),forCellWithReuseIdentifier: "trendingPostCell")
 
-        redditAPI.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: true) { [weak self] (posts, error) in
+        networkManager.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: true) { [weak self] (posts, error) in
             guard let self = self else { return }
             if let error = error {
                 print("Error retrieving Reddit posts: \(error.localizedDescription)")
@@ -115,7 +111,7 @@ final class MainScreenVC: UIViewController {
         trendingSubredditsCollectionView.delegate = self
         trendingSubredditsCollectionView.register(UINib(nibName: "TrendingSubredditsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "trendingSubredditCell")
 
-        redditAPI.getTopSubredditsFromPopularPosts { [weak self] (subreddits, error) in
+        networkManager.getTopSubredditsFromPopularPosts { [weak self] (subreddits, error) in
             guard let self = self else { return }
 
             if let subreddits = subreddits {
@@ -140,7 +136,7 @@ final class MainScreenVC: UIViewController {
     }
 
     // This function shows the PostsScreenVC when a subreddit is selected.
-    func showPostsScreen(subredditToBeDisplayed: String) {
+    private func showPostsScreen(subredditToBeDisplayed: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             if let vc = self.storyboard?.instantiateViewController(withIdentifier: "postsScreen") as? PostsScreenVC {
@@ -197,7 +193,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
                 return cell // Return a valid cell in case of a URL issue
             }
 
-            redditAPI.getPostImage(from: imageURL) { (image, error) in
+            networkManager.getPostImage(from: imageURL) { (image, error) in
                 if let image = image {
                     DispatchQueue.main.async {
                         cell.trendingPostImage.image = image
@@ -210,7 +206,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
         }
         else {
             // Removes the whole array if it is full to avoid a crash.
-            if pickedIcons.count >= systemImages.count {
+            if pickedIcons.count >= iconsToBePicked.count {
                 pickedIcons.removeAll()
             }
 
@@ -230,8 +226,8 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             // It keeps picking a random system image until it finds one that is not in the pickedIcons array.
             var systemImage: UIImage?
             repeat {
-                let randomIndex = Int.random(in: 0..<systemImages.count)
-                let iconName = systemImages[randomIndex]
+                let randomIndex = Int.random(in: 0..<iconsToBePicked.count)
+                let iconName = iconsToBePicked[randomIndex]
                 if !pickedIcons.contains(iconName) {
                     pickedIcons.append(iconName)
                     systemImage = UIImage(systemName: iconName)

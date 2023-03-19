@@ -15,22 +15,22 @@ final class PostsScreenVC: UIViewController {
     @IBOutlet private weak var postsTable: UITableView!
     @IBOutlet private weak var favoriteButton: UIButton!
 
-    var redditAPI = NetworkManager()
+    private var networkManager = NetworkManager()
 
     // Defalults is used to store data in the device.
-    let defaults = UserDefaults.standard
-    var doesUserWantSafeSearch: Bool = false
-    var favoriteSubreddits: [String] = []
+    private let defaults = UserDefaults.standard
+    private var doesUserWantSafeSearch: Bool = false
+    private var favoriteSubreddits: [String] = []
 
-    var postsArray: [RedditPostData] = []
+    private var postsArray: [RedditPostData] = []
     var subredditName: String = ""
 
-    @IBAction func backButtonTapped(_ sender: Any) {
+    @IBAction private func backButtonTapped(_ sender: Any) {
         performSegue(withIdentifier: "toHomeScreen", sender: self)
     }
 
     // This function is used to add or remove a subreddit from the favoriteSubreddits array.
-    @IBAction func favoriteButtonTapped(_ sender: Any) {
+    @IBAction private func favoriteButtonTapped(_ sender: Any) {
         if favoriteSubreddits.contains(subredditName) {// If the subreddit is already in the array, remove it.
             favoriteSubreddits.removeAll(where: {$0 == subredditName})
             favoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
@@ -66,7 +66,7 @@ final class PostsScreenVC: UIViewController {
     }
     // This function is used to make the API call to get the posts of a subreddit.
     private func makeAPICall() {
-        redditAPI.getRedditPostsFromSubreddit(subredditName: subredditName,
+        networkManager.getRedditPostsFromSubreddit(subredditName: subredditName,
                                               safeSearch: doesUserWantSafeSearch,
                                               onlyPostsWithImages: false) { [weak self] (posts, error) in
             guard let self = self else { return }
@@ -103,7 +103,7 @@ extension PostsScreenVC: UITableViewDataSource, UITableViewDelegate {
         let post = postsArray[indexPath.row]
 
         if let imageURL = URL(string: post.imageURL) {
-            redditAPI.getPostImage(from: imageURL) { image, error in
+            networkManager.getPostImage(from: imageURL) { image, error in
                 guard let image = image, error == nil else {
                     print("Error downloading image: \(error!)")
                     return
