@@ -8,7 +8,7 @@
 import Foundation
 import Alamofire
 
-class RedditAPI {
+class NetworkManager {
     // This function is used to get the posts from a subreddit.
     func getRedditPostsFromSubreddit(subredditName: String,
                                      safeSearch: Bool,
