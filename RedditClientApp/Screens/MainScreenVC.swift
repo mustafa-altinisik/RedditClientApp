@@ -185,9 +185,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             }
             let post = trendingPosts[indexPath.row]
 
-            cell.trendingPostLabel.text = post.title
-            cell.trendingPostImage.image = nil // clear the image to avoid flickering
-            cell.trendingPostImage.contentMode = .scaleAspectFill
+            cell.configureCell(title: post.title, image: nil)
 
             guard let imageURL = URL(string: post.imageURL) else {
                 return cell // Return a valid cell in case of a URL issue
@@ -196,7 +194,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             networkManager.getPostImage(from: imageURL) { (image, error) in
                 if let image = image {
                     DispatchQueue.main.async {
-                        cell.trendingPostImage.image = image
+                        cell.configureCell(title: post.title, image: image)
                     }
                 } else if let error = error {
                     print("Error loading post image: \(error.localizedDescription)")
@@ -218,9 +216,9 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
 
             // If the subreddit is in the favoriteSubreddits array, add a star symbol to the end of the subreddit name.
             if favoriteSubreddits.contains(subreddit) {
-                cell.trendingSubredditLabel.text = "⭐️ " + subreddit
+                cell.configureCell(title: "⭐️ " + subreddit, image: nil)
             } else {
-                cell.trendingSubredditLabel.text = subreddit
+                cell.configureCell(title: subreddit, image: nil)
             }
 
             // It keeps picking a random system image until it finds one that is not in the pickedIcons array.
@@ -235,11 +233,12 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
                 }
             } while systemImage == nil
 
-            cell.trendingSubredditImage.image = systemImage
+            cell.configureCell(title: cell.getSubredditLabel() ?? "", image: systemImage)
 
             return cell
         }
     }
+
 
     // This function returns the size of the cells in the collection views.
     func collectionView(_ collectionView: UICollectionView,
@@ -339,7 +338,9 @@ extension MainScreenVC: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteSubredditCell", for: indexPath) as? FavoriteSubredditTableViewCell else {
             fatalError("Unable to dequeue FavoriteSubredditCell")
         }
-        cell.favoriteSubredditLabel.text = "r/" + favoriteSubreddits[indexPath.row]
+
+        let subreddit = "r/" + favoriteSubreddits[indexPath.row]
+        cell.configureCell(subreddit: subreddit)
 
         return cell
     }

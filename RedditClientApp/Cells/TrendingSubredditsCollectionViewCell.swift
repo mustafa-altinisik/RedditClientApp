@@ -11,10 +11,19 @@ import UIKit
 // Each cell displays a single trending subreddit.
 final class TrendingSubredditsCollectionViewCell: UICollectionViewCell {
 
-    @IBOutlet weak var trendingSubredditImage: UIImageView!
-    @IBOutlet weak var trendingSubredditLabel: UILabel!
+    @IBOutlet private weak var trendingSubredditImage: UIImageView!
+    @IBOutlet private weak var trendingSubredditLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    func configureCell(title: String, image: UIImage?) {
+        trendingSubredditImage.image = image
+        trendingSubredditLabel.text = title
+    }
+    
+    func getSubredditLabel() -> String? {
+        return trendingSubredditLabel.text
     }
 }
