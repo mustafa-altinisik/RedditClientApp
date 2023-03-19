@@ -90,7 +90,7 @@ final class MainScreenVC: UIViewController {
     private func setupTrendingPosts() {
         trendingPostsCollectionView.dataSource = self
         trendingPostsCollectionView.delegate = self
-        trendingPostsCollectionView.register(UINib(nibName: "TrendingPostCVC",bundle: nil),forCellWithReuseIdentifier: "trendingPostCell")
+        trendingPostsCollectionView.register(UINib(nibName: "TrendingPostCollectionViewCell",bundle: nil),forCellWithReuseIdentifier: "trendingPostCell")
 
         redditAPI.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: true) { [weak self] (posts, error) in
             guard let self = self else { return }
@@ -113,7 +113,7 @@ final class MainScreenVC: UIViewController {
     private func setupTrendingSubreddits() {
         trendingSubredditsCollectionView.dataSource = self
         trendingSubredditsCollectionView.delegate = self
-        trendingSubredditsCollectionView.register(UINib(nibName: "TrendingSubredditsCVC", bundle: nil), forCellWithReuseIdentifier: "trendingSubredditCell")
+        trendingSubredditsCollectionView.register(UINib(nibName: "TrendingSubredditsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "trendingSubredditCell")
 
         redditAPI.getTopSubredditsFromPopularPosts { [weak self] (subreddits, error) in
             guard let self = self else { return }
@@ -131,7 +131,7 @@ final class MainScreenVC: UIViewController {
     private func setupFavoriteSubreddits() {
         favoriteSubredditsTableView.dataSource = self
         favoriteSubredditsTableView.delegate = self
-        favoriteSubredditsTableView.register(UINib(nibName: "FavoriteSubredditTVC", bundle: nil), forCellReuseIdentifier: "FavoriteSubredditCell")
+        favoriteSubredditsTableView.register(UINib(nibName: "FavoriteSubredditTableViewCell", bundle: nil), forCellReuseIdentifier: "FavoriteSubredditCell")
     }
 
     private func reloadFavoriteSubreddits() {
@@ -184,8 +184,8 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath)-> UICollectionViewCell {
         if collectionView == trendingPostsCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingPostCell", for: indexPath) as? TrendingPostCVC else {
-                fatalError("Unable to dequeue TrendingPostCVC")
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingPostCell", for: indexPath) as? TrendingPostCollectionViewCell else {
+                fatalError("Unable to dequeue TrendingPostCollectionViewCell")
             }
             let post = trendingPosts[indexPath.row]
 
@@ -214,8 +214,8 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
                 pickedIcons.removeAll()
             }
 
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingSubredditCell", for: indexPath) as? TrendingSubredditsCVC else {
-                fatalError("Unable to dequeue TrendingSubredditsCVC")
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingSubredditCell", for: indexPath) as? TrendingSubredditsCollectionViewCell else {
+                fatalError("Unable to dequeue TrendingSubredditsCollectionViewCell")
             }
 
             let subreddit = Array(topSubreddits.keys)[indexPath.row]
@@ -340,7 +340,7 @@ extension MainScreenVC: UITableViewDataSource, UITableViewDelegate {
 
     // This function is used to display the favorite subreddits in the favoriteSubredditsTableView.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteSubredditCell", for: indexPath) as? FavoriteSubredditTVC else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteSubredditCell", for: indexPath) as? FavoriteSubredditTableViewCell else {
             fatalError("Unable to dequeue FavoriteSubredditCell")
         }
         cell.favoriteSubredditLabel.text = "r/" + favoriteSubreddits[indexPath.row]

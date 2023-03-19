@@ -96,8 +96,8 @@ extension PostsScreenVC: UITableViewDataSource, UITableViewDelegate {
 
     // This function puts the data of the posts into the cells of the posts screen
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = postsTable.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as? PostsTVC else {
-            fatalError("Unable to dequeue PostsTVC")
+        guard let cell = postsTable.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as? PostsTableViewCell else {
+            fatalError("Unable to dequeue PostsTableViewCell")
         }
 
         let post = postsArray[indexPath.row]
