@@ -27,7 +27,11 @@ final class PostsScreenViewContoller: UIViewController {
     var subredditName: String = ""
     
     @IBAction private func backButtonTapped(_ sender: Any) {
-        performSegue(withIdentifier: "toHomeScreen", sender: self)
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let mainScreenVC = mainStoryboard.instantiateViewController(withIdentifier: "mainScreen")
+        mainScreenVC.modalPresentationStyle = .fullScreen
+        present(mainScreenVC, animated: false, completion: nil)
+        
     }
     
     // This function is used to add or remove a subreddit from the favoriteSubreddits array.
@@ -46,7 +50,7 @@ final class PostsScreenViewContoller: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         // Load the variables from the device.
         if let savedSubreddits = UserDefaults.standard.stringArray(forKey: "favoriteSubreddits") {
             favoriteSubreddits = savedSubreddits
@@ -56,8 +60,8 @@ final class PostsScreenViewContoller: UIViewController {
         doesUserWantPostsWithImagesOnly = defaults.bool(forKey: "postsWithImages")
         
         makeAPICall()
-
-
+        
+        
         if favoriteSubreddits.contains(subredditName) {
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
