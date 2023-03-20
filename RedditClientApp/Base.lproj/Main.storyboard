@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Ef5-45-QWc">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -10,16 +11,16 @@
         <!--Main Screen-->
         <scene sceneID="SBd-qu-YA0">
             <objects>
-                <viewController title="Main Screen" id="Ef5-45-QWc" userLabel="Main Screen" customClass="MainScreenViewContoller" customModule="RedditClientApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mainScreen" title="Main Screen" id="Ef5-45-QWc" userLabel="Main Screen" customClass="MainScreenViewContoller" customModule="RedditClientApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="k5X-Z5-jsd">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Gwa-of-Rl1">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="56"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="56"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nhb-Kc-HNW" userLabel="Side Menu Button">
-                                        <rect key="frame" x="0.0" y="19" width="237" height="18"/>
+                                        <rect key="frame" x="0.0" y="19" width="30" height="18"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" image="line.3.horizontal" catalog="system"/>
                                         <connections>
@@ -27,7 +28,7 @@
                                         </connections>
                                     </button>
                                     <searchBar contentMode="redraw" placeholder="enter a subreddit" translatesAutoresizingMaskIntoConstraints="NO" id="iac-X8-kM2">
-                                        <rect key="frame" x="237" y="0.0" width="363" height="56"/>
+                                        <rect key="frame" x="30" y="0.0" width="363" height="56"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                         <connections>
                                             <outlet property="delegate" destination="Ef5-45-QWc" id="hpS-WK-GpF"/>
@@ -36,10 +37,10 @@
                                 </subviews>
                             </stackView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bsS-e8-KdC">
-                                <rect key="frame" x="0.0" y="70" width="600" height="530"/>
+                                <rect key="frame" x="0.0" y="129" width="393" height="723"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kXP-5T-d5b" userLabel="Content View">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="909"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="393" height="909"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trending Posts" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uON-15-3Ya">
                                                 <rect key="frame" x="8.0000000000000071" y="7.9999999999999982" width="113.66666666666669" height="20.333333333333329"/>
@@ -48,7 +49,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="eek-aj-xrY" userLabel="TrendingPostsCV">
-                                                <rect key="frame" x="8" y="36.333333333333314" width="584" height="200"/>
+                                                <rect key="frame" x="8" y="36.333333333333343" width="377" height="200"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="200" id="HlH-fR-8QP"/>
@@ -68,7 +69,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="prN-1j-NRc" userLabel="TrendingSubredditsCV">
-                                                <rect key="frame" x="8" y="272.66666666666669" width="584" height="200"/>
+                                                <rect key="frame" x="8" y="272.66666666666669" width="377" height="200"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="200" id="Wrp-yU-WOd"/>
@@ -88,7 +89,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="bLe-Bi-Q1g">
-                                                <rect key="frame" x="8" y="509" width="584" height="400"/>
+                                                <rect key="frame" x="8" y="509" width="377" height="400"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="400" id="ptq-J0-ZQo"/>
@@ -158,22 +159,22 @@
             <objects>
                 <viewController storyboardIdentifier="postsScreen" title="Posts Screen" id="mVU-gP-Trs" customClass="PostsScreenViewContoller" customModule="RedditClientApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Vkj-YG-Rd8">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="TLR-fh-J6O">
-                                <rect key="frame" x="0.0" y="74" width="600" height="526"/>
+                                <rect key="frame" x="0.0" y="133" width="393" height="685"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="postCell" rowHeight="100" id="w0g-cb-qpK" customClass="PostsTableViewCell" customModule="RedditClientApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="600" height="100"/>
+                                        <rect key="frame" x="0.0" y="50" width="393" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="w0g-cb-qpK" id="cjI-8T-R8z">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P4Z-hZ-Bfs" userLabel="Post View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="100"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="393" height="100"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1Yo-eG-eN3" userLabel="postImage">
                                                             <rect key="frame" x="8" y="5.6666666666666643" width="89" height="89"/>
@@ -183,13 +184,13 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zic-lU-wZN" userLabel="postTitle">
-                                                            <rect key="frame" x="105" y="8" width="487" height="18"/>
+                                                            <rect key="frame" x="105" y="8" width="280" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Xu-Qu-pcv" userLabel="postDescription">
-                                                            <rect key="frame" x="105" y="36" width="487" height="64"/>
+                                                            <rect key="frame" x="105" y="36" width="280" height="64"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -227,7 +228,7 @@
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IxB-nq-7OS" userLabel="backButton">
-                                <rect key="frame" x="10" y="1" width="51" height="34"/>
+                                <rect key="frame" x="10" y="60" width="51" height="34"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="arrowshape.backward" catalog="system"/>
                                 <connections>
@@ -235,13 +236,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Za0-ES-BJp">
-                                <rect key="frame" x="265" y="8" width="70" height="21"/>
+                                <rect key="frame" x="161.66666666666666" y="67" width="70" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="07a-td-zC1" userLabel="favoriteButton">
-                                <rect key="frame" x="532" y="0.0" width="52" height="34"/>
+                                <rect key="frame" x="325" y="59" width="52" height="34"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="star" catalog="system"/>
                                 <connections>
@@ -271,7 +272,6 @@
                         <outlet property="favoriteButton" destination="07a-td-zC1" id="l9u-7J-5OU"/>
                         <outlet property="postsTable" destination="TLR-fh-J6O" id="JjM-H2-YH1"/>
                         <outlet property="subredditLabel" destination="Za0-ES-BJp" id="pAW-vS-yPq"/>
-                        <segue destination="Ef5-45-QWc" kind="custom" identifier="toHomeScreen" customClass="toHomeScreen" customModule="RedditClientApp" customModuleProvider="target" id="qfr-ej-0ug"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s0X-Ka-rIK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
