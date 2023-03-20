@@ -20,6 +20,7 @@ final class PostsScreenVC: UIViewController {
     // Defalults is used to store data in the device.
     private let defaults = UserDefaults.standard
     private var doesUserWantSafeSearch: Bool = false
+    private var doesUserWantPostsWithImagesOnly = false
     private var favoriteSubreddits: [String] = []
     
     private var postsArray: [RedditPostData] = []
@@ -45,16 +46,18 @@ final class PostsScreenVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        makeAPICall()
-        
+                
         // Load the variables from the device.
         if let savedSubreddits = UserDefaults.standard.stringArray(forKey: "favoriteSubreddits") {
             favoriteSubreddits = savedSubreddits
         }
         
         doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
+        doesUserWantPostsWithImagesOnly = defaults.bool(forKey: "postsWithImages")
         
+        makeAPICall()
+
+
         if favoriteSubreddits.contains(subredditName) {
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
@@ -68,7 +71,7 @@ final class PostsScreenVC: UIViewController {
     private func makeAPICall() {
         networkManager.getRedditPostsFromSubreddit(subredditName: subredditName,
                                                    safeSearch: doesUserWantSafeSearch,
-                                                   onlyPostsWithImages: false) { [weak self] (posts, error) in
+                                                   onlyPostsWithImages: doesUserWantPostsWithImagesOnly) { [weak self] (posts, error) in
             guard let self = self else { return }
             if let error = error {
                 print("Error retrieving Reddit posts: \(error.localizedDescription)")
