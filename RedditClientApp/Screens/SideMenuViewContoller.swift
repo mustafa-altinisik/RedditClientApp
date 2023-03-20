@@ -1,12 +1,12 @@
 //
-//  SideMenuVC.swift
+//  SideMenuViewContoller.swift
 //  RedditClientApp
 //
 //  Created by Asım Altınışık on 15.03.2023.
 //
 
 import UIKit
-final class SideMenuVC: UITableViewController {
+final class SideMenuViewContoller: UITableViewController {
     
     private let neworkManager = NetworkManager()
     
@@ -21,7 +21,6 @@ final class SideMenuVC: UITableViewController {
     ]
     
     private let defaults = UserDefaults.standard
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,14 +87,6 @@ final class SideMenuVC: UITableViewController {
         return false
     }
     
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
-    }
-    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
@@ -108,7 +99,7 @@ final class SideMenuVC: UITableViewController {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if let vc = storyboard.instantiateViewController(withIdentifier: "postsScreen") as? PostsScreenVC {
+            if let vc = storyboard.instantiateViewController(withIdentifier: "postsScreen") as? PostsScreenViewContoller {
                 vc.subredditName = subredditToBeDisplayed
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)
@@ -119,28 +110,6 @@ final class SideMenuVC: UITableViewController {
     // Handle value change of safeSearchSwitch
     @objc func safeSearchSwitchValueChanged(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: "safeSearch")
-
-//        // Call the API again with the updated safe search option
-//        neworkManager.getRedditPostsFromSubreddit(subredditName: "popular",
-//                                              safeSearch: sender.isOn,
-//                                              onlyPostsWithImages: true) { (posts, error) in
-//            if let error = error {
-//                print("Error retrieving Reddit posts: \(error.localizedDescription)")
-//                return
-//            }
-//
-//            guard let posts = posts else {
-//                print("No posts retrieved")
-//                return
-//            }
-//
-//            self.trendingPosts = posts
-//
-//            DispatchQueue.main.async {
-//                self.trendingPostsCollectionView.reloadData()
-//            }
-//        }
-
     }
     
     // Handle value change of imagesOnlySwitch

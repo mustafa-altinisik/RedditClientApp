@@ -7,7 +7,7 @@
 
 import UIKit
 
-// This class is used for the cells in the postsTable in the PostsScreenVC.
+// This class is used for the cells in the postsTable in the PostsScreenViewContoller.
 // Each cell displays a single Reddit post.
 final class PostsTableViewCell: UITableViewCell {
 

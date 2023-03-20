@@ -1,5 +1,5 @@
 //
-//  MainScreenVC.swift
+//  MainScreenViewContoller.swift
 //  RedditClientApp
 //
 //  Created by Asım Altınışık on 6.03.2023.
@@ -9,7 +9,7 @@ import UIKit
 import SDWebImage
 import SideMenu
 
-final class MainScreenVC: UIViewController {
+final class MainScreenViewContoller: UIViewController {
     @IBOutlet private weak var sideMenuButton: UIButton!
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var trendingPostsCollectionView: UICollectionView!
@@ -17,7 +17,7 @@ final class MainScreenVC: UIViewController {
     @IBOutlet private weak var favoriteSubredditsTableView: UITableView!
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private weak var tableViewHeightConstraint: NSLayoutConstraint!
-    private var menu = SideMenuNavigationController(rootViewController: SideMenuVC())
+    private var menu = SideMenuNavigationController(rootViewController: SideMenuViewContoller())
 
     private var networkManager = NetworkManager()
 
@@ -83,7 +83,7 @@ final class MainScreenVC: UIViewController {
     }
 
     // This function handles all tasks related to the trendingPostsCV.
-    private func setupTrendingPosts() {
+    func setupTrendingPosts() {
         trendingPostsCollectionView.dataSource = self
         trendingPostsCollectionView.delegate = self
         trendingPostsCollectionView.register(UINib(nibName: "TrendingPostCollectionViewCell",bundle: nil),forCellWithReuseIdentifier: "trendingPostCell")
@@ -135,11 +135,11 @@ final class MainScreenVC: UIViewController {
         tableViewHeightConstraint.constant = CGFloat(favoriteSubreddits.count) * favoriteSubredditsTableView.rowHeight
     }
 
-    // This function shows the PostsScreenVC when a subreddit is selected.
+    // This function shows the PostsScreenViewContoller when a subreddit is selected.
     private func showPostsScreen(subredditToBeDisplayed: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            if let vc = self.storyboard?.instantiateViewController(withIdentifier: "postsScreen") as? PostsScreenVC {
+            if let vc = self.storyboard?.instantiateViewController(withIdentifier: "postsScreen") as? PostsScreenViewContoller {
                 vc.subredditName = subredditToBeDisplayed
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)
@@ -155,8 +155,8 @@ final class MainScreenVC: UIViewController {
     }
 }
 
-// This extension is used to handle the search bar in the MainScreenVC.
-extension MainScreenVC: UISearchBarDelegate {
+// This extension is used to handle the search bar in the MainScreenViewContoller.
+extension MainScreenViewContoller: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // Remove trimming characters.
         guard var subreddit = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines), !subreddit.isEmpty else {
@@ -172,7 +172,7 @@ extension MainScreenVC: UISearchBarDelegate {
 
 
 // This extension contains functions related to two collection views: trendingPostsCV and trendingSubredditsCV.
-extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MainScreenViewContoller: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     // This function returns the number of items in the collection views.
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -336,8 +336,8 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
 }
 
 
-// This extension is used to handle the favoriteSubredditsTableView in the MainScreenVC.
-extension MainScreenVC: UITableViewDataSource, UITableViewDelegate {
+// This extension is used to handle the favoriteSubredditsTableView in the MainScreenViewContoller.
+extension MainScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favoriteSubreddits.count
