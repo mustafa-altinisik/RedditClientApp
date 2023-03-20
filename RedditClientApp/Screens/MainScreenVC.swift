@@ -68,7 +68,7 @@ final class MainScreenVC: UIViewController {
     @IBAction private func sideMenuButtonTapped(_ sender: Any) {
         present(menu, animated: true)
     }
-    
+
     // This function is used to set the side menu.
     private func setupSideMenu() {
         menu.leftSide = true
@@ -91,11 +91,11 @@ final class MainScreenVC: UIViewController {
         networkManager.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: true) { [weak self] (posts, error) in
             guard let self = self else { return }
             if let error = error {
-                print("Error retrieving Reddit posts: \(error.localizedDescription)")
+                self.displayAlertMessage(message: "Error retrieving Reddit posts: \(error.localizedDescription)")
                 return
             }
             guard let posts = posts else {
-                print("No posts retrieved")
+                self.displayAlertMessage(message: "No posts retrieved")
                 return
             }
             self.trendingPosts = posts
@@ -118,7 +118,7 @@ final class MainScreenVC: UIViewController {
                 self.topSubreddits = subreddits
                 self.trendingSubredditsCollectionView.reloadData()
             } else if let error = error {
-                print("Error getting top subreddits: \(error)")
+                self.displayAlertMessage(message: "Error getting top subreddits: \(error)")
             }
         }
     }
@@ -145,6 +145,13 @@ final class MainScreenVC: UIViewController {
                 self.present(vc, animated: true)
             }
         }
+    }
+    
+    private func displayAlertMessage(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
     }
 }
 
@@ -181,8 +188,10 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
                         cellForItemAt indexPath: IndexPath)-> UICollectionViewCell {
         if collectionView == trendingPostsCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingPostCell", for: indexPath) as? TrendingPostCollectionViewCell else {
-                fatalError("Unable to dequeue TrendingPostCollectionViewCell")
+                self.displayAlertMessage(message: "Unable to dequeue TrendingPostCollectionViewCell")
+                return UICollectionViewCell()
             }
+            
             let post = trendingPosts[indexPath.row]
 
             cell.configureCell(title: post.title, image: nil)
@@ -197,7 +206,7 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
                         cell.configureCell(title: post.title, image: image)
                     }
                 } else if let error = error {
-                    print("Error loading post image: \(error.localizedDescription)")
+                    self.displayAlertMessage(message: "Error loading post image: \(error.localizedDescription)")
                 }
             }
             return cell
@@ -209,7 +218,8 @@ extension MainScreenVC: UICollectionViewDataSource, UICollectionViewDelegateFlow
             }
 
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingSubredditCell", for: indexPath) as? TrendingSubredditsCollectionViewCell else {
-                fatalError("Unable to dequeue TrendingSubredditsCollectionViewCell")
+                self.displayAlertMessage(message: "Unable to dequeue TrendingSubredditsCollectionViewCell")
+                return UICollectionViewCell()
             }
 
             let subreddit = Array(topSubreddits.keys)[indexPath.row]
@@ -336,7 +346,8 @@ extension MainScreenVC: UITableViewDataSource, UITableViewDelegate {
     // This function is used to display the favorite subreddits in the favoriteSubredditsTableView.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteSubredditCell", for: indexPath) as? FavoriteSubredditTableViewCell else {
-            fatalError("Unable to dequeue FavoriteSubredditCell")
+            self.displayAlertMessage(message: "Unable to dequeue FavoriteSubredditCell")
+            return UITableViewCell()
         }
 
         let subreddit = "r/" + favoriteSubreddits[indexPath.row]
