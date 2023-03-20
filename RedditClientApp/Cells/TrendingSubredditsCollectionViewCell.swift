@@ -14,10 +14,6 @@ final class TrendingSubredditsCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var trendingSubredditImage: UIImageView!
     @IBOutlet private weak var trendingSubredditLabel: UILabel!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
     func configureCell(title: String, image: UIImage?) {
         trendingSubredditImage.image = image
         trendingSubredditLabel.text = title

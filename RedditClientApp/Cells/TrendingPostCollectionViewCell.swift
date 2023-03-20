@@ -14,10 +14,6 @@ final class TrendingPostCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var trendingPostImage: UIImageView!
     @IBOutlet private weak var trendingPostLabel: UILabel!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
     func configureCell(title: String, image: UIImage?) {
         trendingPostImage.image = image
         trendingPostLabel.text = title
