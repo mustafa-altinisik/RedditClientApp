@@ -30,12 +30,12 @@ struct RedditPostData: Codable {
     
     enum CodingKeys: String, CodingKey {
         case imageURL = "thumbnail"
-        case title = "title"
+        case title
         case description = "selftext"
-        case permalink = "permalink"
+        case permalink
         case isOver18 = "over_18"
-        case subreddit = "subreddit"
-        case id = "id"
+        case subreddit
+        case id
     }
     
     init(imageURL: String, title: String, description: String, permalink: String, isOver18: Bool, subreddit: String?, id: String) {
