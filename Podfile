@@ -9,6 +9,8 @@ target 'RedditClientApp' do
   pod 'Alamofire'
   pod 'SDWebImage'
   pod 'SideMenu'
+  pod 'lottie-ios'
+
 
   target 'RedditClientAppTests' do
     inherit! :search_paths
