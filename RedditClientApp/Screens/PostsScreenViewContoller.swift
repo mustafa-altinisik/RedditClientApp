@@ -5,8 +5,8 @@
 //  Created by Asım Altınışık on 17.02.2023.
 //
 
-import Foundation
 import UIKit
+import Lottie
 
 // This class is used to display the posts of a subreddit
 final class PostsScreenViewContoller: UIViewController {
@@ -16,6 +16,10 @@ final class PostsScreenViewContoller: UIViewController {
     @IBOutlet private weak var favoriteButton: UIButton!
     
     private var networkManager = NetworkManager()
+    private var baseClass = BaseViewController()
+    //123123 bakarsin
+    private var animationView: LottieAnimationView?
+
     
     // Defalults is used to store data in the device.
     private let defaults = UserDefaults.standard
@@ -27,11 +31,7 @@ final class PostsScreenViewContoller: UIViewController {
     var subredditName: String = ""
     
     @IBAction private func backButtonTapped(_ sender: Any) {
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let mainScreenVC = mainStoryboard.instantiateViewController(withIdentifier: "mainScreen")
-        mainScreenVC.modalPresentationStyle = .fullScreen
-        present(mainScreenVC, animated: false, completion: nil)
-        
+        self.dismiss(animated: false)
     }
     
     // This function is used to add or remove a subreddit from the favoriteSubreddits array.
@@ -59,6 +59,7 @@ final class PostsScreenViewContoller: UIViewController {
         doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
         doesUserWantPostsWithImagesOnly = defaults.bool(forKey: "postsWithImages")
         
+                
         makeAPICall()
         
         
@@ -73,6 +74,9 @@ final class PostsScreenViewContoller: UIViewController {
     }
     // This function is used to make the API call to get the posts of a subreddit.
     private func makeAPICall() {
+        let redditAnimation = baseClass.displayRedditLogoAnimation()
+        postsTable.addSubview(redditAnimation)
+        
         networkManager.getRedditPostsFromSubreddit(subredditName: subredditName,
                                                    safeSearch: doesUserWantSafeSearch,
                                                    onlyPostsWithImages: doesUserWantPostsWithImagesOnly) { [weak self] (posts, error) in
@@ -87,6 +91,7 @@ final class PostsScreenViewContoller: UIViewController {
             }
             self.postsArray = posts
             DispatchQueue.main.async {
+                self.baseClass.hideRedditLogoAnimation(redditAnimation)
                 self.postsTable.reloadData()
             }
         }
@@ -132,4 +137,9 @@ extension PostsScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
             }
         }
     }
+    
+    //123123 xib olusturduktan sonra acarsin
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableView.automaticDimension
+//    }
 }
