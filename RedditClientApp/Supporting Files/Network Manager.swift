@@ -7,6 +7,7 @@
 
 import Foundation
 import Alamofire
+import Lottie
 
 class NetworkManager {
     // This function is used to get the posts from a subreddit.
@@ -31,6 +32,7 @@ class NetworkManager {
                     for child in redditResponse.data.children {
                         if let imageURL = URL(string: child.data.imageURL),
                             onlyPostsWithImages && self.isImageURL(imageURL.absoluteString) {
+                            //123123 ayni islemi yapmis direk donmeli
                             redditPosts.append(child.data)
                         } else if !onlyPostsWithImages {
                             redditPosts.append(child.data)
@@ -52,6 +54,7 @@ class NetworkManager {
             .validate()
             .responseDecodable(of: RedditResponse.self) { response in
                 switch response.result {
+                    //123123 response direk yolla diger tarafta hsndle edersin
                 case .success(let redditResponse):
                     let posts = redditResponse.data.children.map { $0.data }
                     var subredditCounts: [String: Int] = [:]

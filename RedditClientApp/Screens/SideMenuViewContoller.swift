@@ -6,9 +6,11 @@
 //
 
 import UIKit
+
 final class SideMenuViewContoller: UITableViewController {
     
     private let neworkManager = NetworkManager()
+    private let baseClass = BaseViewController()
     
     private let categoriesWithSystemImageNames: [(category: String, systemImageName: String)] = [
         ("Science", "atom"),
@@ -19,6 +21,17 @@ final class SideMenuViewContoller: UITableViewController {
         ("Politics", "person.2"),
         ("World", "globe")
     ]
+    //123123 yapabilirsin
+    struct asdasd {
+        let image: String
+        let cat: String
+        let sectionType:sideMenuSection = .cate
+    }
+    
+    enum sideMenuSection {
+        case cate
+        case set
+    }
     
     private let defaults = UserDefaults.standard
     
@@ -103,6 +116,7 @@ final class SideMenuViewContoller: UITableViewController {
                 vc.subredditName = subredditToBeDisplayed
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)
+                //12312 present push iki farkli yok dismiss pop
             }
         }
     }

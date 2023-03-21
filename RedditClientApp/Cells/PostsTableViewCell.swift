@@ -10,7 +10,7 @@ import UIKit
 // This class is used for the cells in the postsTable in the PostsScreenViewContoller.
 // Each cell displays a single Reddit post.
 final class PostsTableViewCell: UITableViewCell {
-
+//123123 view xib dosyasini olustur
     @IBOutlet private weak var postTitle: UILabel!
     @IBOutlet private weak var postImage: UIImageView!
     @IBOutlet private weak var postView: UIView!
