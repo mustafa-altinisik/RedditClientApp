@@ -218,19 +218,13 @@
                                                 <constraint firstItem="P4Z-hZ-Bfs" firstAttribute="leading" secondItem="cjI-8T-R8z" secondAttribute="leading" id="Ptz-gf-FLt"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="postDescription" destination="6Xu-Qu-pcv" id="bBC-L0-fd4"/>
-                                            <outlet property="postImage" destination="1Yo-eG-eN3" id="ox1-DW-pNK"/>
-                                            <outlet property="postTitle" destination="Zic-lU-wZN" id="NLK-zB-xY5"/>
-                                            <outlet property="postView" destination="P4Z-hZ-Bfs" id="5XD-hj-Sxj"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IxB-nq-7OS" userLabel="backButton">
                                 <rect key="frame" x="10" y="60" width="51" height="34"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="arrowshape.backward" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" image="arrowshape.turn.up.left" catalog="system"/>
                                 <connections>
                                     <action selector="backButtonTapped:" destination="mVU-gP-Trs" eventType="touchUpInside" id="rnv-XB-mXf"/>
                                 </connections>
@@ -278,9 +272,67 @@
             </objects>
             <point key="canvasLocation" x="-36" y="-2"/>
         </scene>
+        <!--Web Screen-->
+        <scene sceneID="6YB-Dx-t18">
+            <objects>
+                <viewController storyboardIdentifier="webScreen" title="Web Screen" id="sfq-Kg-EzX" customClass="WebScreenViewController" customModule="RedditClientApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kZQ-x9-WDu">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IST-SI-k8P">
+                                <rect key="frame" x="0.0" y="102" width="393" height="716"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTN-0M-MGB" userLabel="postTitle">
+                                <rect key="frame" x="59" y="59" width="318" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="frg-s0-f26"/>
+                                    <constraint firstAttribute="width" constant="318" id="njs-gK-Dvy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZMf-WF-tdk" userLabel="backButton">
+                                <rect key="frame" x="16" y="59" width="35" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="35" id="Gqu-GE-2S3"/>
+                                    <constraint firstAttribute="height" constant="35" id="MCL-rV-Wq5"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="arrowshape.turn.up.left" catalog="system"/>
+                                <connections>
+                                    <action selector="backButtonTapped:" destination="sfq-Kg-EzX" eventType="touchUpInside" id="qBR-Zb-Fyd"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Ifx-Y6-ZIP"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="oTN-0M-MGB" firstAttribute="top" secondItem="Ifx-Y6-ZIP" secondAttribute="top" id="3ae-dS-p42"/>
+                            <constraint firstItem="ZMf-WF-tdk" firstAttribute="leading" secondItem="Ifx-Y6-ZIP" secondAttribute="leading" constant="16" id="TzA-Cw-e4r"/>
+                            <constraint firstItem="Ifx-Y6-ZIP" firstAttribute="trailing" secondItem="oTN-0M-MGB" secondAttribute="trailing" constant="16" id="X2W-WS-bqN"/>
+                            <constraint firstItem="ZMf-WF-tdk" firstAttribute="top" secondItem="Ifx-Y6-ZIP" secondAttribute="top" id="Yfc-SD-cXt"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="postTitleLabel" destination="oTN-0M-MGB" id="SU1-EK-lzq"/>
+                        <outlet property="webView" destination="IST-SI-k8P" id="v3v-Qd-ktk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Rz-45-QLr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="704.58015267175574" y="-2.1126760563380285"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="arrowshape.backward" catalog="system" width="128" height="104"/>
+        <image name="arrowshape.turn.up.left" catalog="system" width="128" height="104"/>
         <image name="line.3.horizontal" catalog="system" width="128" height="65"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <systemColor name="systemBackgroundColor">
