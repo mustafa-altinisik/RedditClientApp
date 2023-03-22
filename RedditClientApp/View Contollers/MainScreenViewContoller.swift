@@ -59,6 +59,7 @@ final class MainScreenViewContoller: BaseViewController {
         
         doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
         doesUserWantPostsWithImagesOnly = defaults.bool(forKey: "postsWithImages")
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,11 +101,11 @@ final class MainScreenViewContoller: BaseViewController {
     
     private func makeAPICallForTrendingPostsCollectionView(){
         
-        let redditAnimation = displayRedditLogoAnimation()
+        let (animationView, overlayView) = displayRedditLogoAnimation()
         
         networkManager.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: true) { [weak self] (posts, error) in
             guard let self = self else { return }
-
+            
             if let error = error {
                 self.displayAlertMessage(message: "Error retrieving Reddit posts: \(error.localizedDescription)")
                 return
@@ -116,12 +117,8 @@ final class MainScreenViewContoller: BaseViewController {
             self.trendingPosts = posts
             DispatchQueue.main.async {
                 self.trendingPostsCollectionView.reloadData()
+                self.hideRedditLogoAnimation(animation: (animationView, overlayView))
             }
-        }
-        isTrendingsPostsSet = true
-        
-        if isTrendingsPostsSet && isTrendingSubredditsSet {
-            hideRedditLogoAnimation(redditAnimation)
         }
     }
     
@@ -134,23 +131,18 @@ final class MainScreenViewContoller: BaseViewController {
     
     private func makeAPICallForTrendingSubredditsCollectionView(){
         
-        let redditAnimation = displayRedditLogoAnimation()
-
+        let (animationView, overlayView) = displayRedditLogoAnimation()
+        
         networkManager.getTopSubredditsFromPopularPosts { [weak self] (subreddits, error) in
             guard let self = self else { return }
             
             if let subreddits = subreddits {
                 self.topSubreddits = subreddits
                 self.trendingSubredditsCollectionView.reloadData()
+                self.hideRedditLogoAnimation(animation: (animationView, overlayView))
             } else if let error = error {
                 self.displayAlertMessage(message: "Error getting top subreddits: \(error)")
             }
-        }
-        
-        isTrendingSubredditsSet = true
-        
-        if isTrendingsPostsSet && isTrendingSubredditsSet {
-            hideRedditLogoAnimation(redditAnimation)
         }
     }
     
@@ -352,8 +344,8 @@ extension MainScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
     // This function is used to display the favorite subreddits in the favoriteSubredditsTableView.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteSubredditCell", for: indexPath) as? FavoriteSubredditTableViewCell else {
-                self.displayAlertMessage(message: "Unable to dequeue FavoriteSubredditCell")
-                return UITableViewCell()
+            self.displayAlertMessage(message: "Unable to dequeue FavoriteSubredditCell")
+            return UITableViewCell()
         }
         
         let subreddit = "r/" + favoriteSubreddits[indexPath.row]
