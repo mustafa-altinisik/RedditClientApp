@@ -10,6 +10,8 @@ import UIKit
 import Lottie
 
 class BaseViewController: UIViewController{
+    let animationView = LottieAnimationView(name: "redditAnimation")
+    
     // This function shows the PostsScreenViewContoller when a subreddit is selected.
     func showPostsScreen(subredditToBeDisplayed: String) {
         DispatchQueue.main.async { [weak self] in
@@ -31,7 +33,6 @@ class BaseViewController: UIViewController{
     
     // Function to display the animation
     func displayRedditLogoAnimation() -> LottieAnimationView {
-        let animationView = LottieAnimationView(name: "redditAnimation")
         animationView.loopMode = .loop
         animationView.play()
         
@@ -40,19 +41,26 @@ class BaseViewController: UIViewController{
         
         // Set the frame of the animation view
         animationView.frame = CGRect(origin: .zero, size: size)
+        animationView.center = self.view.center
         
-        // Center the animation view in its superview
-        if let superview = animationView.superview {
-            animationView.center = superview.center
-        }
-        
+        self.view.addSubview(animationView)
         return animationView
     }
-
 
     // Function to hide the animation
     func hideRedditLogoAnimation(_ animationView: LottieAnimationView) {
         animationView.stop()
         animationView.removeFromSuperview()
+    }
+    
+    func displayRedditPost(postToBeDisplayed: RedditPostData){
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "webScreen") as? WebScreenViewController {
+            if let permalink = postToBeDisplayed.permalink.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+               let url = URL(string: "https://www.reddit.com/\(permalink)") {
+                vc.setPostDetails(urlOfThePost: url, titleOfThePost: postToBeDisplayed.title)
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: false)
+            }
+        }
     }
 }
