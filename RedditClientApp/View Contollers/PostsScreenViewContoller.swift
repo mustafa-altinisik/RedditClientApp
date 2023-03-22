@@ -9,17 +9,13 @@ import UIKit
 import Lottie
 
 // This class is used to display the posts of a subreddit
-final class PostsScreenViewContoller: UIViewController {
+final class PostsScreenViewContoller: BaseViewController {
     
     @IBOutlet private weak var subredditLabel: UILabel!
     @IBOutlet private weak var postsTable: UITableView!
     @IBOutlet private weak var favoriteButton: UIButton!
     
     private var networkManager = NetworkManager()
-    private var baseClass = BaseViewController()
-    //123123 bakarsin
-    private var animationView: LottieAnimationView?
-
     
     // Defalults is used to store data in the device.
     private let defaults = UserDefaults.standard
@@ -59,9 +55,7 @@ final class PostsScreenViewContoller: UIViewController {
         doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
         doesUserWantPostsWithImagesOnly = defaults.bool(forKey: "postsWithImages")
         
-                
         makeAPICall()
-        
         
         if favoriteSubreddits.contains(subredditName) {
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
@@ -71,28 +65,30 @@ final class PostsScreenViewContoller: UIViewController {
         
         postsTable.dataSource = self
         postsTable.delegate = self
+        
+        postsTable.register(UINib(nibName: "PostsTableViewCell", bundle: nil), forCellReuseIdentifier: "postCell")
+        postsTable.rowHeight = UITableView.automaticDimension
     }
     // This function is used to make the API call to get the posts of a subreddit.
     private func makeAPICall() {
-        let redditAnimation = baseClass.displayRedditLogoAnimation()
-        postsTable.addSubview(redditAnimation)
+        let redditAnimation = displayRedditLogoAnimation()
         
         networkManager.getRedditPostsFromSubreddit(subredditName: subredditName,
                                                    safeSearch: doesUserWantSafeSearch,
                                                    onlyPostsWithImages: doesUserWantPostsWithImagesOnly) { [weak self] (posts, error) in
             guard let self = self else { return }
             if let error = error {
-                print("Error retrieving Reddit posts: \(error.localizedDescription)")
+                self.displayAlertMessage(message: "Error retrieving Reddit posts: \(error.localizedDescription)")
                 return
             }
             guard let posts = posts else {
-                print("No posts retrieved")
+                self.displayAlertMessage(message: "No posts retrieved")
                 return
             }
             self.postsArray = posts
             DispatchQueue.main.async {
-                self.baseClass.hideRedditLogoAnimation(redditAnimation)
                 self.postsTable.reloadData()
+                self.hideRedditLogoAnimation(redditAnimation)
             }
         }
     }
@@ -131,15 +127,11 @@ extension PostsScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let post = postsArray[indexPath.row]
         if post.permalink != ""{
-            if let permalink = post.permalink.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-               let url = URL(string: "https://www.reddit.com/\(permalink)") {
-                UIApplication.shared.open(url)
-            }
+            displayRedditPost(postToBeDisplayed: post)
         }
     }
     
-    //123123 xib olusturduktan sonra acarsin
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
 }
