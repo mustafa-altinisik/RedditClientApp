@@ -101,7 +101,6 @@ class NetworkManager {
             let ext = url.pathExtension.lowercased()
             return ["jpg", "jpeg", "png", "gif"].contains(ext)
         }
-
         return false
     }
 }
