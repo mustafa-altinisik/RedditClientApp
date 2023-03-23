@@ -19,6 +19,7 @@ final class MainScreenViewContoller: BaseViewController {
     @IBOutlet private weak var tableViewHeightConstraint: NSLayoutConstraint!
     private var menu = SideMenuNavigationController(rootViewController: SideMenuViewContoller())
     
+    // Create an instance of NetworkManager class to call networking functions.
     private var networkManager = NetworkManager()
     
     // Defaults are used to store data locally on the device, there are two variables stored in defaults.
@@ -27,6 +28,7 @@ final class MainScreenViewContoller: BaseViewController {
     private var doesUserWantPostsWithImagesOnly = false
     private var favoriteSubreddits: [String] = []
     
+    // Variables below are used to strore the data retrieved from the API calls.
     private var topSubreddits: [String: Int] = [:]
     private var trendingPosts: [RedditPostData] = []
     
@@ -37,9 +39,6 @@ final class MainScreenViewContoller: BaseViewController {
     private var isScrollingBackwards = false
     private var freezeTime: TimeInterval = 2
     private var scrollTimer: Timer?
-    
-    var isTrendingsPostsSet: Bool = false
-    var isTrendingSubredditsSet: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,13 +61,14 @@ final class MainScreenViewContoller: BaseViewController {
         
     }
     
+    // This function is triggered when the view is about to appear, and it is used to start the timer for the trending posts's auto-scrolling feature.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // Start the timer for the trending posts's auto-scrolling feature.
         startScrollTimer()
         reloadFavoriteSubreddits()
     }
     
+    // This function is triggered when the view is about to disappear, and it is used to invalidate the timer for the trending posts's auto-scrolling feature.
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         scrollTimer?.invalidate()
@@ -99,6 +99,7 @@ final class MainScreenViewContoller: BaseViewController {
         trendingPostsCollectionView.register(UINib(nibName: "TrendingPostCollectionViewCell",bundle: nil),forCellWithReuseIdentifier: "trendingPostCell")
     }
     
+    // This function is used to make the API call for the trending posts.
     private func makeAPICallForTrendingPostsCollectionView(){
         
         let (animationView, overlayView) = displayRedditLogoAnimation()
@@ -129,6 +130,7 @@ final class MainScreenViewContoller: BaseViewController {
         trendingSubredditsCollectionView.register(UINib(nibName: "TrendingSubredditsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "trendingSubredditCell")
     }
     
+    // This function is used to make the API call for the trending subreddits.
     private func makeAPICallForTrendingSubredditsCollectionView(){
         
         let (animationView, overlayView) = displayRedditLogoAnimation()
@@ -153,6 +155,7 @@ final class MainScreenViewContoller: BaseViewController {
         favoriteSubredditsTableView.register(UINib(nibName: "FavoriteSubredditTableViewCell", bundle: nil), forCellReuseIdentifier: "FavoriteSubredditCell")
     }
     
+    // This function is used to reload the favoriteSubredditsTV after the user adds or removes a subreddit from the favorites.
     private func reloadFavoriteSubreddits() {
         if let savedSubreddits = UserDefaults.standard.stringArray(forKey: "favoriteSubreddits") {
             favoriteSubreddits = savedSubreddits

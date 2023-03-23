@@ -14,6 +14,7 @@ final class TrendingPostCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var trendingPostImage: UIImageView!
     @IBOutlet private weak var trendingPostLabel: UILabel!
 
+    // This function is used to configure the cell.
     func configureCell(title: String, image: UIImage?) {
         trendingPostImage.image = image
         trendingPostLabel.text = title

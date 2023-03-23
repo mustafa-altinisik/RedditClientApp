@@ -15,6 +15,7 @@ final class PostsTableViewCell: UITableViewCell {
     @IBOutlet private weak var postImage: UIImageView!
     @IBOutlet private weak var postDescription: UILabel!
 
+    // This function is used to configure the cell.
     func configureCell(title: String, image: UIImage?, description: String) {
         postTitle.text = title
         postImage.image = image

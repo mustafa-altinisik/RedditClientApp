@@ -11,6 +11,7 @@ import UIKit
 final class FavoriteSubredditTableViewCell: UITableViewCell {
     @IBOutlet private weak var favoriteSubredditLabel: UILabel!
     
+    // This function is used to configure the cell.
     func configureCell(subreddit: String) {
         favoriteSubredditLabel.text = subreddit
     }

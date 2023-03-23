@@ -32,14 +32,13 @@ final class PostsScreenViewContoller: BaseViewController {
     
     // This function is used to add or remove a subreddit from the favoriteSubreddits array.
     @IBAction private func favoriteButtonTapped(_ sender: Any) {
-        if favoriteSubreddits.contains(subredditName) {// If the subreddit is already in the array, remove it.
+        if favoriteSubreddits.contains(subredditName) {
             favoriteSubreddits.removeAll(where: {$0 == subredditName})
             favoriteButton.setImage(UIImage(systemName: "star"), for: .normal)
-        } else {// If the subreddit is not in the array, add it.
+        } else {
             favoriteSubreddits.append(subredditName)
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
-        // Save the favoriteSubreddits array to the device.
         defaults.set(favoriteSubreddits, forKey: "favoriteSubreddits")
         defaults.synchronize()
     }
@@ -69,6 +68,7 @@ final class PostsScreenViewContoller: BaseViewController {
         postsTable.register(UINib(nibName: "PostsTableViewCell", bundle: nil), forCellReuseIdentifier: "postCell")
         postsTable.rowHeight = UITableView.automaticDimension
     }
+    
     // This function is used to make the API call to get the posts of a subreddit.
     private func makeAPICall() {
         let (animationView, overlayView) = displayRedditLogoAnimation()

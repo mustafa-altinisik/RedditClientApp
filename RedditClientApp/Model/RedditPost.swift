@@ -18,7 +18,7 @@ struct RedditData: Codable {
 struct RedditChild: Codable {
     let data: RedditPostData
 }
-
+// This function is the base struct for the posts.
 struct RedditPostData: Codable {
     let imageURL: String
     let title: String

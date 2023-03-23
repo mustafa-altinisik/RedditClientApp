@@ -12,9 +12,10 @@ final class SideMenuViewContoller: UITableViewController {
     private let neworkManager = NetworkManager()
     private let baseClass = BaseViewController()
     
+    // This array contains the categories with their icons that are displayed in the side menu.
     private let categoriesWithSystemImageNames: [(category: String, systemImageName: String)] = [
         ("Science", "atom"),
-        ("Sport", "sportscourt"),
+        ("Sports", "sportscourt"),
         ("Technology", "iphone"),
         ("Photography", "camera"),
         ("News", "newspaper"),
@@ -84,7 +85,6 @@ final class SideMenuViewContoller: UITableViewController {
         }
     }
     
-    // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return false
     }

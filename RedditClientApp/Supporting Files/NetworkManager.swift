@@ -32,7 +32,6 @@ class NetworkManager {
                     for child in redditResponse.data.children {
                         if let imageURL = URL(string: child.data.imageURL),
                             onlyPostsWithImages && self.isImageURL(imageURL.absoluteString) {
-                            //123123 ayni islemi yapmis direk donmeli
                             redditPosts.append(child.data)
                         } else if !onlyPostsWithImages {
                             redditPosts.append(child.data)
@@ -49,12 +48,10 @@ class NetworkManager {
     // I've implemented this function becasuse Reddit API doesn't have a way to get the top subreddits.
     func getTopSubredditsFromPopularPosts(completion: @escaping ([String: Int]?, Error?) -> Void) {
         let url = "https://www.reddit.com/r/all/new.json"
-
         AF.request(url)
             .validate()
             .responseDecodable(of: RedditResponse.self) { response in
                 switch response.result {
-                    //123123 response direk yolla diger tarafta hsndle edersin
                 case .success(let redditResponse):
                     let posts = redditResponse.data.children.map { $0.data }
                     var subredditCounts: [String: Int] = [:]
@@ -70,7 +67,6 @@ class NetworkManager {
                         topSubreddits[subredditCount.key] = subredditCount.value
                     }
                     completion(topSubreddits, nil)
-
                 case .failure(let error):
                     completion(nil, error)
                 }
