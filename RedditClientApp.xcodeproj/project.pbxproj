@@ -153,14 +153,14 @@
 		162BFFA0299D233400D5923D /* RedditClientApp */ = {
 			isa = PBXGroup;
 			children = (
-				1616DB4F29C84E01003674D3 /* Supporting Files */,
 				162BFFA7299D233400D5923D /* Main.storyboard */,
-				16BC9C6029C84FAD001C887F /* Assets */,
 				162BFFAC299D233500D5923D /* LaunchScreen.storyboard */,
 				162BFFAF299D233500D5923D /* Info.plist */,
 				166E938029AF6E9F006C9F2D /* View Contollers */,
-				166E937F29AF6E4C006C9F2D /* Model */,
 				166E937E29AF6E2E006C9F2D /* Cells */,
+				1616DB4F29C84E01003674D3 /* Supporting Files */,
+				16BC9C6029C84FAD001C887F /* Assets */,
+				166E937F29AF6E4C006C9F2D /* Model */,
 			);
 			path = RedditClientApp;
 			sourceTree = "<group>";
