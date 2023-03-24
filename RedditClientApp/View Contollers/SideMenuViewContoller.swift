@@ -8,10 +8,10 @@
 import UIKit
 
 final class SideMenuViewContoller: UITableViewController {
-    
+
     private let neworkManager = NetworkManager()
     private let baseClass = BaseViewController()
-    
+
     // This array contains the categories with their icons that are displayed in the side menu.
     private let categoriesWithSystemImageNames: [(category: String, systemImageName: String)] = [
         ("Science", "atom"),
@@ -22,18 +22,18 @@ final class SideMenuViewContoller: UITableViewController {
         ("Politics", "person.2"),
         ("World", "globe")
     ]
-    
+
     private let defaults = UserDefaults.standard
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(SideMenuPredefinedCategoryTVC.self, forCellReuseIdentifier: "predefinedCategoryCell")
     }
-    
+
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
-    
+
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return "Categories"
@@ -42,8 +42,7 @@ final class SideMenuViewContoller: UITableViewController {
         }
         return nil
     }
-    
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return categoriesWithSystemImageNames.count
@@ -52,16 +51,18 @@ final class SideMenuViewContoller: UITableViewController {
         }
         return 0
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "predefinedCategoryCell", for: indexPath) as! SideMenuPredefinedCategoryTVC
-            
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "predefinedCategoryCell", for: indexPath) as? SideMenuPredefinedCategoryTVC else {
+                return UITableViewCell()
+            }
+
             let categoryWithImage = categoriesWithSystemImageNames[indexPath.row]
-            
+
             cell.categoryButton.setTitle(categoryWithImage.category, for: .normal)
             cell.categoryButton.setImage(UIImage(systemName: categoryWithImage.systemImageName), for: .normal)
-            
+
             return cell
         } else if indexPath.section == 1 {
             let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
@@ -84,19 +85,19 @@ final class SideMenuViewContoller: UITableViewController {
             return UITableViewCell()
         }
     }
-    
+
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return false
     }
-    
+
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         showPostsScreen(subredditToBeDisplayed: categoriesWithSystemImageNames[indexPath.row].category)
     }
-    
+
     func showPostsScreen(subredditToBeDisplayed: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -108,12 +109,12 @@ final class SideMenuViewContoller: UITableViewController {
             }
         }
     }
-    
+
     // Handle value change of safeSearchSwitch
     @objc func safeSearchSwitchValueChanged(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: "safeSearch")
     }
-    
+
     // Handle value change of imagesOnlySwitch
     @objc func imagesOnlySwitchValueChanged(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: "postsWithImages")
