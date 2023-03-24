@@ -1,0 +1,33 @@
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "07a-td-zC1"; */
+"07a-td-zC1.normalTitle" = "Buton";
+
+/* Class = "UIViewController"; title = "Main Screen"; ObjectID = "Ef5-45-QWc"; */
+"Ef5-45-QWc.title" = "Ana Ekran";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "IxB-nq-7OS"; */
+"IxB-nq-7OS.normalTitle" = "Buton";
+
+/* Class = "UILabel"; text = "Favorites"; ObjectID = "OJw-4V-OWT"; */
+"OJw-4V-OWT.text" = "Favoriler";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "ZMf-WF-tdk"; */
+"ZMf-WF-tdk.normalTitle" = "Buton";
+
+/* Class = "UILabel"; text = "Category"; ObjectID = "Za0-ES-BJp"; */
+"Za0-ES-BJp.text" = "Kategori";
+
+/* Class = "UISearchBar"; placeholder = "enter a subreddit"; ObjectID = "iac-X8-kM2"; */
+"iac-X8-kM2.placeholder" = "bir alt Reddit girin";
+
+/* Class = "UILabel"; text = "Trending Subreddits"; ObjectID = "kWT-lC-eQG"; */
+"kWT-lC-eQG.text" = "Yükselen Alt Redditler";
+
+/* Class = "UIViewController"; title = "Posts Screen"; ObjectID = "mVU-gP-Trs"; */
+"mVU-gP-Trs.title" = "Gönderiler Ekranı";
+
+/* Class = "UIViewController"; title = "Web Screen"; ObjectID = "sfq-Kg-EzX"; */
+"sfq-Kg-EzX.title" = "Web Ekranı";
+
+/* Class = "UILabel"; text = "Trending Posts"; ObjectID = "uON-15-3Ya"; */
+"uON-15-3Ya.text" = "Yükselen Gönderiler";
