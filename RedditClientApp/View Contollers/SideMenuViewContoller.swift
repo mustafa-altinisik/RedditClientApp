@@ -11,18 +11,27 @@ final class SideMenuViewContoller: UITableViewController {
 
     private let neworkManager = NetworkManager()
     private let baseClass = BaseViewController()
+    
+    struct categoriesWithSystemImageNamesStruct {
+        var categoryName: String
+        var categoryIcon: String
+        var sectionNumber: Int
+    }
+    
+    struct settingsStruct {
+        var settingName: String
+        var defaultsValue: String
+        var sectionNumber: Int
+    }
 
-    // This array contains the categories with their icons that are displayed in the side menu.
-    private let categoriesWithSystemImageNames: [(category: String, systemImageName: String)] = [
-        ("Science", "atom"),
-        ("Sports", "sportscourt"),
-        ("Technology", "iphone"),
-        ("Photography", "camera"),
-        ("News", "newspaper"),
-        ("Politics", "person.2"),
-        ("World", "globe")
-    ]
-
+    let categoriesArray = [categoriesWithSystemImageNamesStruct(categoryName: "Science", categoryIcon: "atom", sectionNumber: 1),
+                           categoriesWithSystemImageNamesStruct(categoryName: "Sports", categoryIcon: "sportscourt", sectionNumber: 1),
+                           categoriesWithSystemImageNamesStruct(categoryName: "Technology", categoryIcon: "iphone", sectionNumber: 1),
+                           categoriesWithSystemImageNamesStruct(categoryName: "Photography", categoryIcon: "camera", sectionNumber: 1),
+                           categoriesWithSystemImageNamesStruct(categoryName: "News", categoryIcon: "newspaper", sectionNumber: 1),
+                           categoriesWithSystemImageNamesStruct(categoryName: "Politics", categoryIcon: "person.2", sectionNumber: 1),
+                           categoriesWithSystemImageNamesStruct(categoryName: "World", categoryIcon: "globe", sectionNumber: 1)]
+    
     private let defaults = UserDefaults.standard
 
     override func viewDidLoad() {
@@ -45,7 +54,7 @@ final class SideMenuViewContoller: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return categoriesWithSystemImageNames.count
+            return categoriesArray.count
         } else if section == 1 {
             return 2
         }
@@ -58,10 +67,10 @@ final class SideMenuViewContoller: UITableViewController {
                 return UITableViewCell()
             }
 
-            let categoryWithImage = categoriesWithSystemImageNames[indexPath.row]
+            let categoryWithImage = categoriesArray[indexPath.row]
 
-            cell.categoryButton.setTitle(categoryWithImage.category, for: .normal)
-            cell.categoryButton.setImage(UIImage(systemName: categoryWithImage.systemImageName), for: .normal)
+            cell.categoryButton.setTitle(categoryWithImage.categoryName, for: .normal)
+            cell.categoryButton.setImage(UIImage(systemName: categoryWithImage.categoryIcon), for: .normal)
 
             return cell
         } else if indexPath.section == 1 {
@@ -95,7 +104,7 @@ final class SideMenuViewContoller: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        showPostsScreen(subredditToBeDisplayed: categoriesWithSystemImageNames[indexPath.row].category)
+        showPostsScreen(subredditToBeDisplayed: categoriesArray[indexPath.row].categoryName)
     }
 
     func showPostsScreen(subredditToBeDisplayed: String) {
