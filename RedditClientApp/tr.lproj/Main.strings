@@ -21,7 +21,7 @@
 "iac-X8-kM2.placeholder" = "bir alt Reddit girin";
 
 /* Class = "UILabel"; text = "Trending Subreddits"; ObjectID = "kWT-lC-eQG"; */
-"kWT-lC-eQG.text" = "Yükselen Alt Redditler";
+"kWT-lC-eQG.text" = "Popüler Alt Redditler";
 
 /* Class = "UIViewController"; title = "Posts Screen"; ObjectID = "mVU-gP-Trs"; */
 "mVU-gP-Trs.title" = "Gönderiler Ekranı";
@@ -30,4 +30,4 @@
 "sfq-Kg-EzX.title" = "Web Ekranı";
 
 /* Class = "UILabel"; text = "Trending Posts"; ObjectID = "uON-15-3Ya"; */
-"uON-15-3Ya.text" = "Yükselen Gönderiler";
+"uON-15-3Ya.text" = "Popüler Gönderiler";
