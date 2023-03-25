@@ -9,28 +9,23 @@ import UIKit
 
 final class SideMenuViewContoller: UITableViewController {
 
-    private let neworkManager = NetworkManager()
     private let baseClass = BaseViewController()
     
     struct categoriesWithSystemImageNamesStruct {
-        var categoryName: String
+        var categoryRequestName: String
+        var categoryNameToBeDisplayed: String
         var categoryIcon: String
         var sectionNumber: Int
     }
     
-    struct settingsStruct {
-        var settingName: String
-        var defaultsValue: String
-        var sectionNumber: Int
-    }
-
-    let categoriesArray = [categoriesWithSystemImageNamesStruct(categoryName: "Science", categoryIcon: "atom", sectionNumber: 1),
-                           categoriesWithSystemImageNamesStruct(categoryName: "Sports", categoryIcon: "sportscourt", sectionNumber: 1),
-                           categoriesWithSystemImageNamesStruct(categoryName: "Technology", categoryIcon: "iphone", sectionNumber: 1),
-                           categoriesWithSystemImageNamesStruct(categoryName: "Photography", categoryIcon: "camera", sectionNumber: 1),
-                           categoriesWithSystemImageNamesStruct(categoryName: "News", categoryIcon: "newspaper", sectionNumber: 1),
-                           categoriesWithSystemImageNamesStruct(categoryName: "Politics", categoryIcon: "person.2", sectionNumber: 1),
-                           categoriesWithSystemImageNamesStruct(categoryName: "World", categoryIcon: "globe", sectionNumber: 1)]
+    // Section number might be used in tableView function in future.
+    let categoriesArray = [categoriesWithSystemImageNamesStruct(categoryRequestName: "science", categoryNameToBeDisplayed: NSLocalizedString("science_string", comment: ""), categoryIcon: "atom", sectionNumber: 1),
+                           categoriesWithSystemImageNamesStruct(categoryRequestName: "sports", categoryNameToBeDisplayed: NSLocalizedString("sports_string", comment: ""), categoryIcon: "sportscourt", sectionNumber: 1),
+                           categoriesWithSystemImageNamesStruct(categoryRequestName: "technology", categoryNameToBeDisplayed: NSLocalizedString("technology_string", comment: ""), categoryIcon: "iphone", sectionNumber: 1),
+                           categoriesWithSystemImageNamesStruct(categoryRequestName: "photography", categoryNameToBeDisplayed: NSLocalizedString("photography_string", comment: ""), categoryIcon: "camera", sectionNumber: 1),
+                           categoriesWithSystemImageNamesStruct(categoryRequestName: "news", categoryNameToBeDisplayed: NSLocalizedString("news_string", comment: ""), categoryIcon: "newspaper", sectionNumber: 1),
+                           categoriesWithSystemImageNamesStruct(categoryRequestName: "politics", categoryNameToBeDisplayed: NSLocalizedString("politics_string", comment: ""), categoryIcon: "person.2", sectionNumber: 1),
+                           categoriesWithSystemImageNamesStruct(categoryRequestName: "global", categoryNameToBeDisplayed: NSLocalizedString("world_string", comment: ""), categoryIcon: "globe", sectionNumber: 1)]
     
     private let defaults = UserDefaults.standard
 
@@ -45,9 +40,9 @@ final class SideMenuViewContoller: UITableViewController {
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Categories"
+            return NSLocalizedString("categories_string", comment: "")
         } else if section == 1 {
-            return "Settings"
+            return NSLocalizedString("settings_string", comment: "")
         }
         return nil
     }
@@ -69,23 +64,23 @@ final class SideMenuViewContoller: UITableViewController {
 
             let categoryWithImage = categoriesArray[indexPath.row]
 
-            cell.categoryButton.setTitle(categoryWithImage.categoryName, for: .normal)
+            cell.categoryButton.setTitle(categoryWithImage.categoryNameToBeDisplayed, for: .normal)
             cell.categoryButton.setImage(UIImage(systemName: categoryWithImage.categoryIcon), for: .normal)
 
             return cell
         } else if indexPath.section == 1 {
             let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
             if indexPath.row == 0 {
-                cell.textLabel?.text = "Safe Search"
+                cell.textLabel?.text = NSLocalizedString("SafeSearch_string", comment: "")
                 let safeSearchSwitch = UISwitch()
-                safeSearchSwitch.isOn = defaults.bool(forKey: "safeSearch")
+                safeSearchSwitch.isOn = defaults.bool(forKey: UserDefaultsKeys.safeSearch)
                 safeSearchSwitch.addTarget(self, action: #selector(safeSearchSwitchValueChanged(_:)), for: .valueChanged)
                 cell.accessoryView = safeSearchSwitch
             } else if indexPath.row == 1 {
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Posts with Images Only"
+                cell.textLabel?.text = NSLocalizedString("PostswithImagesOnly_string", comment: "")
                 let imagesOnlySwitch = UISwitch()
-                imagesOnlySwitch.isOn = defaults.bool(forKey: "postsWithImages")
+                imagesOnlySwitch.isOn = defaults.bool(forKey: UserDefaultsKeys.postsWithImages)
                 imagesOnlySwitch.addTarget(self, action: #selector(imagesOnlySwitchValueChanged(_:)), for: .valueChanged)
                 cell.accessoryView = imagesOnlySwitch
             }
@@ -104,7 +99,7 @@ final class SideMenuViewContoller: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        showPostsScreen(subredditToBeDisplayed: categoriesArray[indexPath.row].categoryName)
+        showPostsScreen(subredditToBeDisplayed: categoriesArray[indexPath.row].categoryRequestName)
     }
 
     func showPostsScreen(subredditToBeDisplayed: String) {
@@ -121,11 +116,11 @@ final class SideMenuViewContoller: UITableViewController {
 
     // Handle value change of safeSearchSwitch
     @objc func safeSearchSwitchValueChanged(_ sender: UISwitch) {
-        UserDefaults.standard.set(sender.isOn, forKey: "safeSearch")
+        UserDefaults.standard.set(sender.isOn, forKey: UserDefaultsKeys.safeSearch)
     }
 
     // Handle value change of imagesOnlySwitch
     @objc func imagesOnlySwitchValueChanged(_ sender: UISwitch) {
-        UserDefaults.standard.set(sender.isOn, forKey: "postsWithImages")
+        UserDefaults.standard.set(sender.isOn, forKey: UserDefaultsKeys.postsWithImages)
     }
 }
