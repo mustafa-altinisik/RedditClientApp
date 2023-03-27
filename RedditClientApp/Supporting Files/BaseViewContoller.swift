@@ -42,7 +42,7 @@ class BaseViewController: UIViewController{
         
         let size = CGSize(width: 150, height: 150)
         animationView.frame = CGRect(origin: .zero, size: size)
-        animationView.center = self.view.center        
+        animationView.center = self.view.center
         overlayView.addSubview(animationView)
         
         return (animationView, overlayView)

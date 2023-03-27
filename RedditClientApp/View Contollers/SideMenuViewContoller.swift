@@ -19,7 +19,7 @@ final class SideMenuViewContoller: UITableViewController {
     }
     
     // Section number might be used in tableView function in future.
-    let categoriesArray = [categoriesWithSystemImageNamesStruct(categoryRequestName: "science", categoryNameToBeDisplayed: NSLocalizedString("science_string", comment: ""), categoryIcon: "atom", sectionNumber: 1),
+    let categoriesArray = [categoriesWithSystemImageNamesStruct(categoryRequestName: "science", categoryNameToBeDisplayed: NSLocalizedString("science_string", comment: ""),                            categoryIcon: "atom", sectionNumber: 1),
                            categoriesWithSystemImageNamesStruct(categoryRequestName: "sports", categoryNameToBeDisplayed: NSLocalizedString("sports_string", comment: ""), categoryIcon: "sportscourt", sectionNumber: 1),
                            categoriesWithSystemImageNamesStruct(categoryRequestName: "technology", categoryNameToBeDisplayed: NSLocalizedString("technology_string", comment: ""), categoryIcon: "iphone", sectionNumber: 1),
                            categoriesWithSystemImageNamesStruct(categoryRequestName: "photography", categoryNameToBeDisplayed: NSLocalizedString("photography_string", comment: ""), categoryIcon: "camera", sectionNumber: 1),

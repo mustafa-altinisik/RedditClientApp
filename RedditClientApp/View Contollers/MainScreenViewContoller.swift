@@ -19,9 +19,6 @@ final class MainScreenViewContoller: BaseViewController {
     @IBOutlet private weak var tableViewHeightConstraint: NSLayoutConstraint!
     private var menu = SideMenuNavigationController(rootViewController: SideMenuViewContoller())
 
-    // Create an instance of NetworkManager class to call networking functions.
-    private var networkManager = NetworkManager()
-
     // Defaults are used to store data locally on the device, there are two variables stored in defaults.
     private let defaults = UserDefaults.standard
     private var doesUserWantSafeSearch: Bool = false
@@ -56,8 +53,8 @@ final class MainScreenViewContoller: BaseViewController {
 
         reloadFavoriteSubreddits()
 
-        doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
-        doesUserWantPostsWithImagesOnly = defaults.bool(forKey: "postsWithImages")
+        doesUserWantSafeSearch = defaults.bool(forKey: UserDefaultsKeys.safeSearch)
+        doesUserWantPostsWithImagesOnly = defaults.bool(forKey: UserDefaultsKeys.postsWithImages)
     }
 
     // This function is triggered when the view is about to appear, and it is used to start the timer for the trending posts's auto-scrolling feature.
@@ -65,6 +62,7 @@ final class MainScreenViewContoller: BaseViewController {
         super.viewWillAppear(animated)
         startScrollTimer()
         reloadFavoriteSubreddits()
+        trendingSubredditsCollectionView.reloadData()
     }
 
     // This function is triggered when the view is about to disappear, and it is used to invalidate the timer for the trending posts's auto-scrolling feature.
@@ -103,7 +101,7 @@ final class MainScreenViewContoller: BaseViewController {
 
         let (animationView, overlayView) = displayRedditLogoAnimation()
 
-        networkManager.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: true) { [weak self] (posts, error) in
+        NetworkManager.shared.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: true) { [weak self] (posts, error) in
             guard let self = self else { return }
 
             if let error = error {
@@ -134,7 +132,7 @@ final class MainScreenViewContoller: BaseViewController {
 
         let (animationView, overlayView) = displayRedditLogoAnimation()
 
-        networkManager.getTopSubredditsFromPopularPosts { [weak self] (subreddits, error) in
+        NetworkManager.shared.getTopSubredditsFromPopularPosts { [weak self] (subreddits, error) in
             guard let self = self else { return }
 
             if let subreddits = subreddits {
@@ -156,7 +154,7 @@ final class MainScreenViewContoller: BaseViewController {
 
     // This function is used to reload the favoriteSubredditsTV after the user adds or removes a subreddit from the favorites.
     private func reloadFavoriteSubreddits() {
-        if let savedSubreddits = UserDefaults.standard.stringArray(forKey: "favoriteSubreddits") {
+        if let savedSubreddits = UserDefaults.standard.stringArray(forKey: UserDefaultsKeys.favoriteSubreddits) {
             favoriteSubreddits = savedSubreddits
         }
         favoriteSubredditsTableView.reloadData()
@@ -207,7 +205,7 @@ extension MainScreenViewContoller: UICollectionViewDataSource, UICollectionViewD
                 return cell // Return a valid cell in case of a URL issue
             }
 
-            networkManager.getPostImage(from: imageURL) { (image, error) in
+            NetworkManager.shared.getPostImage(from: imageURL) { (image, error) in
                 if let image = image {
                     DispatchQueue.main.async {
                         cell.configureCell(title: post.title, image: image)
@@ -365,8 +363,7 @@ extension MainScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, completion) in
             let deletedSubreddit = self.favoriteSubreddits[indexPath.row]
             self.favoriteSubreddits.remove(at: indexPath.row)
-            self.defaults.set(self.favoriteSubreddits, forKey: "favoriteSubreddits")
-            self.defaults.synchronize()
+            self.defaults.set(self.favoriteSubreddits, forKey: UserDefaultsKeys.favoriteSubreddits)
 
             tableView.deleteRows(at: [indexPath], with: .automatic)
 

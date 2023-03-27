@@ -17,10 +17,6 @@ final class WebScreenViewController: BaseViewController, WKNavigationDelegate {
     private var redditPostURL = URL(string: "https://www.reddit.com")
     private var postsTitle: String = ""
 
-    // Variables below are used for the animation.
-    private var animationView = LottieAnimationView(name: "redditAnimation")
-    private var overlayView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-
     private var timer: Timer?
     private var isWebViewLoaded: Bool = false
 

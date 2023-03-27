@@ -15,8 +15,6 @@ final class PostsScreenViewContoller: BaseViewController {
     @IBOutlet private weak var postsTable: UITableView!
     @IBOutlet private weak var favoriteButton: UIButton!
 
-    private var networkManager = NetworkManager()
-
     // Defalults is used to store data in the device.
     private let defaults = UserDefaults.standard
     private var doesUserWantSafeSearch: Bool = false
@@ -39,20 +37,19 @@ final class PostsScreenViewContoller: BaseViewController {
             favoriteSubreddits.append(subredditName)
             favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
         }
-        defaults.set(favoriteSubreddits, forKey: "favoriteSubreddits")
-        defaults.synchronize()
+        defaults.set(favoriteSubreddits, forKey: UserDefaultsKeys.favoriteSubreddits)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Load the variables from the device.
-        if let savedSubreddits = UserDefaults.standard.stringArray(forKey: "favoriteSubreddits") {
+        if let savedSubreddits = UserDefaults.standard.stringArray(forKey: UserDefaultsKeys.favoriteSubreddits) {
             favoriteSubreddits = savedSubreddits
         }
 
-        doesUserWantSafeSearch = defaults.bool(forKey: "safeSearch")
-        doesUserWantPostsWithImagesOnly = defaults.bool(forKey: "postsWithImages")
+        doesUserWantSafeSearch = defaults.bool(forKey: UserDefaultsKeys.safeSearch)
+        doesUserWantPostsWithImagesOnly = defaults.bool(forKey: UserDefaultsKeys.postsWithImages)
 
         makeAPICall()
 
@@ -71,11 +68,13 @@ final class PostsScreenViewContoller: BaseViewController {
     // This function is used to make the API call to get the posts of a subreddit.
     private func makeAPICall() {
         let (animationView, overlayView) = displayRedditLogoAnimation()
-
-        networkManager.getRedditPostsFromSubreddit(subredditName: subredditName,
-                                                   safeSearch: doesUserWantSafeSearch,
-                                                   onlyPostsWithImages: doesUserWantPostsWithImagesOnly) { [weak self] (posts, error) in
-            guard let self = self else { return }
+        
+        NetworkManager.shared.getRedditPostsFromSubreddit(
+            subredditName: subredditName,
+            safeSearch: doesUserWantSafeSearch,
+            onlyPostsWithImages: doesUserWantPostsWithImagesOnly
+        ) { [weak self] (posts, error) in
+            guard let self else { return }
             if let error = error {
                 self.displayAlertMessage(message: "Error retrieving Reddit posts: \(error.localizedDescription)")
                 return
@@ -109,7 +108,7 @@ extension PostsScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
         let post = postsArray[indexPath.row]
 
         if let imageURL = URL(string: post.imageURL) {
-            networkManager.getPostImage(from: imageURL) { image, _ in
+            NetworkManager.shared.getPostImage(from: imageURL) { image, _ in
                 DispatchQueue.main.async {
                     cell.configureCell(title: post.title, image: image, description: post.description)
                 }
