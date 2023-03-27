@@ -24,7 +24,9 @@
 		1657DC1029B60DF9002B0CD8 /* MainScreenViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657DC0F29B60DF9002B0CD8 /* MainScreenViewContoller.swift */; };
 		1657DC1529B62F5F002B0CD8 /* TrendingSubredditsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1657DC1329B62F5F002B0CD8 /* TrendingSubredditsCollectionViewCell.swift */; };
 		1657DC1629B62F5F002B0CD8 /* TrendingSubredditsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1657DC1429B62F5F002B0CD8 /* TrendingSubredditsCollectionViewCell.xib */; };
+		16661A8829CEE70100C26C96 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16661A8729CEE70100C26C96 /* UserDefaultKeys.swift */; };
 		1697499029CAE0EE00699FB2 /* PostsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1697498F29CAE0EE00699FB2 /* PostsTableViewCell.xib */; };
+		16A046AE29CECB4D00BBE7B7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 16A046AD29CECB4D00BBE7B7 /* Localizable.strings */; };
 		16ABC8D529CAF12C00D6A546 /* WebScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ABC8D429CAF12C00D6A546 /* WebScreenViewController.swift */; };
 		16B2A64F29BB795600E42BAC /* FavoriteSubredditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B2A64D29BB795600E42BAC /* FavoriteSubredditTableViewCell.swift */; };
 		16B2A65029BB795600E42BAC /* FavoriteSubredditTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 16B2A64E29BB795600E42BAC /* FavoriteSubredditTableViewCell.xib */; };
@@ -76,7 +78,11 @@
 		1657DC0F29B60DF9002B0CD8 /* MainScreenViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewContoller.swift; sourceTree = "<group>"; };
 		1657DC1329B62F5F002B0CD8 /* TrendingSubredditsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingSubredditsCollectionViewCell.swift; sourceTree = "<group>"; };
 		1657DC1429B62F5F002B0CD8 /* TrendingSubredditsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TrendingSubredditsCollectionViewCell.xib; sourceTree = "<group>"; };
+		16661A8729CEE70100C26C96 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
 		1697498F29CAE0EE00699FB2 /* PostsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostsTableViewCell.xib; sourceTree = "<group>"; };
+		16A046A929CE48C400BBE7B7 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Main.strings; sourceTree = "<group>"; };
+		16A046AA29CE48C400BBE7B7 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		16A046AD29CECB4D00BBE7B7 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		16ABC8D429CAF12C00D6A546 /* WebScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebScreenViewController.swift; sourceTree = "<group>"; };
 		16B2A64D29BB795600E42BAC /* FavoriteSubredditTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteSubredditTableViewCell.swift; sourceTree = "<group>"; };
 		16B2A64E29BB795600E42BAC /* FavoriteSubredditTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoriteSubredditTableViewCell.xib; sourceTree = "<group>"; };
@@ -126,6 +132,7 @@
 				162BFFA1299D233400D5923D /* AppDelegate.swift */,
 				162BFFA3299D233400D5923D /* SceneDelegate.swift */,
 				16BC9C6129C9CE66001C887F /* BaseViewContoller.swift */,
+				16661A8729CEE70100C26C96 /* UserDefaultKeys.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -133,6 +140,7 @@
 		162BFF95299D233400D5923D = {
 			isa = PBXGroup;
 			children = (
+				16A046AD29CECB4D00BBE7B7 /* Localizable.strings */,
 				162BFFA0299D233400D5923D /* RedditClientApp */,
 				162BFF9F299D233400D5923D /* Products */,
 				F6AE7AF518E2A0AAF043C298 /* Pods */,
@@ -341,6 +349,7 @@
 			knownRegions = (
 				en,
 				Base,
+				tr,
 			);
 			mainGroup = 162BFF95299D233400D5923D;
 			productRefGroup = 162BFF9F299D233400D5923D /* Products */;
@@ -360,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				16BC9C5F29C84FA3001C887F /* redditAnimation.json in Resources */,
+				16A046AE29CECB4D00BBE7B7 /* Localizable.strings in Resources */,
 				162BFFAE299D233500D5923D /* LaunchScreen.storyboard in Resources */,
 				162BFFAB299D233500D5923D /* Assets.xcassets in Resources */,
 				1697499029CAE0EE00699FB2 /* PostsTableViewCell.xib in Resources */,
@@ -518,6 +528,7 @@
 				1657DC1029B60DF9002B0CD8 /* MainScreenViewContoller.swift in Sources */,
 				1649179729C21182003DEDEE /* SideMenuPredefinedCategoryTableViewCell.swift in Sources */,
 				162BFFA2299D233400D5923D /* AppDelegate.swift in Sources */,
+				16661A8829CEE70100C26C96 /* UserDefaultKeys.swift in Sources */,
 				1657DC0D29B604C9002B0CD8 /* TrendingPostCollectionViewCell.swift in Sources */,
 				162BFFE2299FAC5C00D5923D /* RedditPost.swift in Sources */,
 				162BFFE0299FABFE00D5923D /* PostsTableViewCell.swift in Sources */,
@@ -564,6 +575,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				162BFFA8299D233400D5923D /* Base */,
+				16A046A929CE48C400BBE7B7 /* tr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -572,6 +584,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				162BFFAD299D233500D5923D /* Base */,
+				16A046AA29CE48C400BBE7B7 /* tr */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -583,6 +596,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -643,6 +657,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
