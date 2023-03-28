@@ -15,7 +15,7 @@ final class TrendingSubredditsCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var trendingSubredditLabel: UILabel!
 
     // This function is used to configure the cell.
-    func configureCell(title: String, image: UIImage?) {
+    func configureCell(title: String, image: UIImage?) {  
         trendingSubredditImage.image = image
         trendingSubredditLabel.text = title
     }

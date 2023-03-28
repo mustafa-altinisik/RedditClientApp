@@ -15,8 +15,21 @@ final class TrendingPostCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var trendingPostLabel: UILabel!
 
     // This function is used to configure the cell.
-    func configureCell(title: String, image: UIImage?) {
-        trendingPostImage.image = image
+    func configureCell(title: String, imageURL: String?) {
         trendingPostLabel.text = title
+        guard let isUrl = imageURL?.isImageURL(), isUrl else {
+            trendingPostImage.image = UIImage(named: "no-image")
+            return
+        }
+        guard let imageURL = URL(string: imageURL ?? "") else { return }
+        DispatchQueue.main.async {
+            NetworkManager.shared.getPostImage(from: imageURL) { (image, error) in
+                if let image = image {
+                    self.trendingPostImage.image = image
+                } else if error != nil {
+                    self.trendingPostImage.image = UIImage(named: "no-image")
+                }
+            }
+        }
     }
 }
