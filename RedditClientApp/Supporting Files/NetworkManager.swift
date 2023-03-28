@@ -16,35 +16,16 @@ class NetworkManager {
     private init() {}
 
     // This function is used to get the posts from a subreddit.
-    func getRedditPostsFromSubreddit(subredditName: String,
-                                     safeSearch: Bool,
-                                     onlyPostsWithImages: Bool,
-                                     completion: @escaping ([RedditPostData]?, Error?) -> Void) {
+    func getRedditPostsFromSubreddit(subredditName: String, completion: @escaping (Result<RedditResponse, Error>) -> Void) {
         let url = "https://www.reddit.com/r/\(subredditName)/.json"
-
-        var parameters: Parameters = [:]
-        if safeSearch {
-            parameters["include_categories"] = 1
-            parameters["include_over_18"] = 0
-        }
-
-        AF.request(url, parameters: parameters)
+        AF.request(url)
             .validate()
             .responseDecodable(of: RedditResponse.self) { response in
                 switch response.result {
                 case .success(let redditResponse):
-                    var redditPosts = [RedditPostData]()
-                    for child in redditResponse.data.children {
-                        if let imageURL = URL(string: child.data.imageURL),
-                            onlyPostsWithImages && self.isImageURL(imageURL.absoluteString) {
-                            redditPosts.append(child.data)
-                        } else if !onlyPostsWithImages {
-                            redditPosts.append(child.data)
-                        }
-                    }
-                    completion(redditPosts, nil)
+                    completion(.success(redditResponse))
                 case .failure(let error):
-                    completion(nil, error)
+                    completion(.failure(error))
                 }
             }
     }
@@ -90,18 +71,5 @@ class NetworkManager {
                 completion(image, nil)
             }
         }.resume()
-    }
-
-    // This function is used to check if a URL is an image URL.
-    func isImageURL(_ string: String) -> Bool {
-        guard let url = URL(string: string) else {
-            return false
-        }
-
-        if url.scheme == "http" || url.scheme == "https" {
-            let ext = url.pathExtension.lowercased()
-            return ["jpg", "jpeg", "png", "gif"].contains(ext)
-        }
-        return false
     }
 }

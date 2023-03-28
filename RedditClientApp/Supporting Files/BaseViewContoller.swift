@@ -66,4 +66,24 @@ class BaseViewController: UIViewController{
             }
         }
     }
+    
+    func fetchRedditPosts(subredditName: String, safeSearch: Bool, onlyPostsWithImages: Bool, completion: @escaping (Result<[RedditPostData], Error>) -> Void) {
+        NetworkManager.shared.getRedditPostsFromSubreddit(subredditName: subredditName) { result in
+            switch result {
+            case .success(let redditResponse):
+                // Create an array of RedditPostData objects from the RedditResponse data.
+                var redditPosts = redditResponse.data.children.map { $0.data }
+                // Apply the safeSearch and onlyPostsWithImages filters.
+                if safeSearch {
+                    redditPosts = redditPosts.filter { !$0.isOver18 }
+                }
+                if onlyPostsWithImages {
+                    redditPosts = redditPosts.filter { $0.imageURL.isImageURL() }
+                }
+                completion(.success(redditPosts))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
 }
