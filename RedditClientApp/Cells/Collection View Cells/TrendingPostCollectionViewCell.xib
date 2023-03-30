@@ -34,10 +34,10 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="BHI-FC-lUz" firstAttribute="leading" secondItem="0We-oq-ArR" secondAttribute="leading" id="K3h-ZA-KL0"/>
-                            <constraint firstAttribute="trailing" secondItem="BHI-FC-lUz" secondAttribute="trailing" id="KDa-6x-BR9"/>
-                            <constraint firstAttribute="bottom" secondItem="BHI-FC-lUz" secondAttribute="bottom" id="R3m-RQ-8lq"/>
-                            <constraint firstItem="BHI-FC-lUz" firstAttribute="top" secondItem="0We-oq-ArR" secondAttribute="top" id="h8w-R2-e0m"/>
+                            <constraint firstAttribute="trailing" secondItem="BHI-FC-lUz" secondAttribute="trailing" id="3vN-tS-5o8"/>
+                            <constraint firstItem="BHI-FC-lUz" firstAttribute="top" secondItem="0We-oq-ArR" secondAttribute="top" id="JoE-rW-Z1B"/>
+                            <constraint firstAttribute="bottom" secondItem="BHI-FC-lUz" secondAttribute="bottom" id="nmd-lj-rUH"/>
+                            <constraint firstItem="BHI-FC-lUz" firstAttribute="leading" secondItem="0We-oq-ArR" secondAttribute="leading" id="z1x-Rh-zhu"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -45,9 +45,13 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="0We-oq-ArR" secondAttribute="trailing" id="4Kd-Mb-6is"/>
+                <constraint firstAttribute="trailing" secondItem="0We-oq-ArR" secondAttribute="trailing" id="FME-W6-aHm"/>
+                <constraint firstItem="0We-oq-ArR" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Kd4-mw-tng"/>
                 <constraint firstItem="0We-oq-ArR" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="YCJ-Os-sFN"/>
                 <constraint firstAttribute="bottom" secondItem="0We-oq-ArR" secondAttribute="bottom" id="auk-nF-Bdm"/>
                 <constraint firstItem="0We-oq-ArR" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="jrK-Bt-EfQ"/>
+                <constraint firstAttribute="bottom" secondItem="0We-oq-ArR" secondAttribute="bottom" id="szr-Dc-d7Y"/>
+                <constraint firstItem="0We-oq-ArR" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="wwD-Kh-AAV"/>
             </constraints>
             <size key="customSize" width="377" height="200"/>
             <connections>

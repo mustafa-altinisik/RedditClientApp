@@ -98,24 +98,17 @@ final class MainScreenViewContoller: BaseViewController {
 
     // This function is used to make the API call for the trending posts.
     private func makeAPICallForTrendingPostsCollectionView() {
-
         let (animationView, overlayView) = displayRedditLogoAnimation()
-
-        NetworkManager.shared.getRedditPostsFromSubreddit(subredditName: "popular", safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: true) { [weak self] (posts, error) in
-            guard let self = self else { return }
-
-            if let error = error {
-                self.displayAlertMessage(message: "Error retrieving Reddit posts: \(error.localizedDescription)")
-                return
-            }
-            guard let posts = posts else {
-                self.displayAlertMessage(message: "No posts retrieved")
-                return
-            }
-            self.trendingPosts = posts
-            DispatchQueue.main.async {
-                self.trendingPostsCollectionView.reloadData()
-                self.hideRedditLogoAnimation(animation: (animationView, overlayView))
+        fetchRedditPosts(subredditName: "popular", safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: true) { result in
+            switch result {
+            case .success(let redditPosts):
+                self.trendingPosts = redditPosts
+                DispatchQueue.main.async {
+                    self.trendingPostsCollectionView.reloadData()
+                    self.hideRedditLogoAnimation(animation: (animationView, overlayView))
+                }
+            case .failure(let error):
+                print("Error fetching Reddit posts:", error.localizedDescription)
             }
         }
     }
@@ -196,27 +189,10 @@ extension MainScreenViewContoller: UICollectionViewDataSource, UICollectionViewD
                 self.displayAlertMessage(message: "Unable to dequeue TrendingPostCollectionViewCell")
                 return UICollectionViewCell()
             }
-
             let post = trendingPosts[indexPath.row]
-
-            cell.configureCell(title: post.title, image: nil)
-
-            guard let imageURL = URL(string: post.imageURL) else {
-                return cell // Return a valid cell in case of a URL issue
-            }
-
-            NetworkManager.shared.getPostImage(from: imageURL) { (image, error) in
-                if let image = image {
-                    DispatchQueue.main.async {
-                        cell.configureCell(title: post.title, image: image)
-                    }
-                } else if let error = error {
-                    self.displayAlertMessage(message: "Error loading post image: \(error.localizedDescription)")
-                }
-            }
+            cell.configureCell(title: post.title, imageURLToBeSet: post.imageURL)
             return cell
         } else {
-            // Removes the whole array if it is full to avoid a crash.
             if pickedIcons.count >= iconsToBePicked.count {
                 pickedIcons.removeAll()
             }
@@ -291,8 +267,10 @@ extension MainScreenViewContoller: UICollectionViewDataSource, UICollectionViewD
             return
         }
         let indexPath = IndexPath(item: Int(nextIndex), section: 0)
-        trendingPostsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-
+        
+        DispatchQueue.main.async {
+            self.trendingPostsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        }
         startScrollTimer()
     }
 
@@ -320,7 +298,9 @@ extension MainScreenViewContoller: UICollectionViewDataSource, UICollectionViewD
             }
 
             let indexPath = IndexPath(item: Int(nextIndex), section: 0)
-            self.trendingPostsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            DispatchQueue.main.async {
+                self.trendingPostsCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            }
         })
     }
 

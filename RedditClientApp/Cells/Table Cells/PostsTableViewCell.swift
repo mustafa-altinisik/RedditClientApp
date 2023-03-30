@@ -16,21 +16,21 @@ final class PostsTableViewCell: UITableViewCell {
     @IBOutlet private weak var postDescription: UILabel!
 
     // This function is used to configure the cell.
-    func configureCell(title: String, imageURL: String?, description: String) {
+    func configureCell(title: String, imageURLToBeSet: String?, description: String) {
         postTitle.text = title
         postDescription.text = description
-        guard let isUrl = imageURL?.isImageURL(), isUrl else {
-            postImage.image = UIImage(named: "no-image-square")
+        guard let isUrl = imageURLToBeSet?.isImageURL(), isUrl else {
+            postImage.image = UIImage(named: NSLocalizedString("no-image-square-path", comment: ""))
             return
         }
         
-        guard let imageURL = URL(string: imageURL ?? "") else { return }
+        guard let imageURL = URL(string: imageURLToBeSet ?? "") else { return }
         DispatchQueue.main.async {
             NetworkManager.shared.getPostImage(from: imageURL) { (image, error) in
                 if let image = image {
                     self.postImage.image = image
                 } else if error != nil {
-                    self.postImage.image = UIImage(named: "no-image-square")
+                    self.postImage.image = UIImage(named: NSLocalizedString("no-image-square-path", comment: ""))
                 }
             }
         }

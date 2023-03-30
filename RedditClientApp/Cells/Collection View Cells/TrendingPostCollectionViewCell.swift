@@ -15,19 +15,19 @@ final class TrendingPostCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var trendingPostLabel: UILabel!
 
     // This function is used to configure the cell.
-    func configureCell(title: String, imageURL: String?) {
+    func configureCell(title: String, imageURLToBeSet: String?) {
         trendingPostLabel.text = title
-        guard let isUrl = imageURL?.isImageURL(), isUrl else {
-            trendingPostImage.image = UIImage(named: "no-image")
+        guard let isUrl = imageURLToBeSet?.isImageURL(), isUrl else {
+            trendingPostImage.image = UIImage(named: NSLocalizedString("no-image-rectangle-path", comment: ""))
             return
         }
-        guard let imageURL = URL(string: imageURL ?? "") else { return }
+        guard let imageURL = URL(string: imageURLToBeSet ?? "") else { return }
         DispatchQueue.main.async {
             NetworkManager.shared.getPostImage(from: imageURL) { (image, error) in
                 if let image = image {
                     self.trendingPostImage.image = image
                 } else if error != nil {
-                    self.trendingPostImage.image = UIImage(named: "no-image")
+                    self.trendingPostImage.image = UIImage(named: NSLocalizedString("no-image-rectangle-path", comment: ""))
                 }
             }
         }

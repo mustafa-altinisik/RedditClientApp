@@ -1,4 +1,4 @@
-/* 
+/*
   Localizable.strings
   RedditClientApp
 
@@ -10,7 +10,6 @@
 "SafeSearch_string" = "Safe Search";
 "PostswithImagesOnly_string" = "Posts with Images Only";
 
-
 "science_string" = "Science";
 "sports_string" = "Sports";
 "technology_string" = "Technology";
@@ -19,19 +18,6 @@
 "politics_string" = "Politics";
 "world_string" = "World";
 
-
- /* Turkish */
-"categories_string" = "Kategoriler";
-"settings_string" = "Ayarlar";
-
-"SafeSearch_string" = "Güvenli Gezinti";
-"PostswithImagesOnly_string" = "Yalnızca Görüntülü Postlar";
-
-"science_string" = "Bilim";
-"sports_string" = "Spor";
-"technology_string" = "Teknoloji";
-"photography_string" = "Fotoğrafçılık";
-"news_string" = "Haberler";
-"politics_string" = "Politika";
-"world_string" = "Dünya";
+"no-image-square-path" = "no-image-square";
+"no-image-rectangle-path" = "no-image-rectangle";
 */

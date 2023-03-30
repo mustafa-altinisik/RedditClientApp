@@ -1,0 +1,33 @@
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "07a-td-zC1"; */
+"07a-td-zC1.normalTitle" = "Button";
+
+/* Class = "UIViewController"; title = "Main Screen"; ObjectID = "Ef5-45-QWc"; */
+"Ef5-45-QWc.title" = "Main Screen";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "IxB-nq-7OS"; */
+"IxB-nq-7OS.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Favorites"; ObjectID = "OJw-4V-OWT"; */
+"OJw-4V-OWT.text" = "Favorites";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "ZMf-WF-tdk"; */
+"ZMf-WF-tdk.normalTitle" = "Button";
+
+/* Class = "UILabel"; text = "Category"; ObjectID = "Za0-ES-BJp"; */
+"Za0-ES-BJp.text" = "Category";
+
+/* Class = "UISearchBar"; placeholder = "enter a subreddit"; ObjectID = "iac-X8-kM2"; */
+"iac-X8-kM2.placeholder" = "enter a subreddit";
+
+/* Class = "UILabel"; text = "Trending Subreddits"; ObjectID = "kWT-lC-eQG"; */
+"kWT-lC-eQG.text" = "Trending Subreddits";
+
+/* Class = "UIViewController"; title = "Posts Screen"; ObjectID = "mVU-gP-Trs"; */
+"mVU-gP-Trs.title" = "Posts Screen";
+
+/* Class = "UIViewController"; title = "Web Screen"; ObjectID = "sfq-Kg-EzX"; */
+"sfq-Kg-EzX.title" = "Web Screen";
+
+/* Class = "UILabel"; text = "Trending Posts"; ObjectID = "uON-15-3Ya"; */
+"uON-15-3Ya.text" = "Trending Posts";

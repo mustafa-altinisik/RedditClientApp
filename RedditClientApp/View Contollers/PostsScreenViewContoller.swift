@@ -68,25 +68,16 @@ final class PostsScreenViewContoller: BaseViewController {
     // This function is used to make the API call to get the posts of a subreddit.
     private func makeAPICall() {
         let (animationView, overlayView) = displayRedditLogoAnimation()
-        
-        NetworkManager.shared.getRedditPostsFromSubreddit(
-            subredditName: subredditName,
-            safeSearch: doesUserWantSafeSearch,
-            onlyPostsWithImages: doesUserWantPostsWithImagesOnly
-        ) { [weak self] (posts, error) in
-            guard let self else { return }
-            if let error = error {
-                self.displayAlertMessage(message: "Error retrieving Reddit posts: \(error.localizedDescription)")
-                return
-            }
-            guard let posts = posts else {
-                self.displayAlertMessage(message: "No posts retrieved")
-                return
-            }
-            self.postsArray = posts
-            DispatchQueue.main.async {
-                self.postsTable.reloadData()
-                self.hideRedditLogoAnimation(animation: (animationView, overlayView))
+        fetchRedditPosts(subredditName: subredditName, safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: doesUserWantPostsWithImagesOnly) { result in
+            switch result {
+            case .success(let redditPosts):
+                self.postsArray = redditPosts
+                DispatchQueue.main.async {
+                    self.postsTable.reloadData()
+                    self.hideRedditLogoAnimation(animation: (animationView, overlayView))
+                }
+            case .failure(let error):
+                print("Error fetching Reddit posts:", error.localizedDescription)
             }
         }
     }
@@ -106,17 +97,7 @@ extension PostsScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
         }
 
         let post = postsArray[indexPath.row]
-
-        if let imageURL = URL(string: post.imageURL) {
-            NetworkManager.shared.getPostImage(from: imageURL) { image, _ in
-                DispatchQueue.main.async {
-                    cell.configureCell(title: post.title, image: image, description: post.description)
-                }
-            }
-        } else {
-            cell.configureCell(title: post.title, image: nil, description: post.description)
-        }
-
+        cell.configureCell(title: post.title, imageURLToBeSet: post.imageURL, description: post.description)
         return cell
     }
 

@@ -1,0 +1,23 @@
+/*
+  Localizable.strings
+  RedditClientApp
+
+  Created by Asım Altınışık on 25.03.2023.
+ /* Turkish */
+"categories_string" = "Kategoriler";
+"settings_string" = "Ayarlar";
+
+"SafeSearch_string" = "Güvenli Gezinti";
+"PostswithImagesOnly_string" = "Yalnızca Görüntülü Postlar";
+
+"science_string" = "Bilim";
+"sports_string" = "Spor";
+"technology_string" = "Teknoloji";
+"photography_string" = "Fotoğrafçılık";
+"news_string" = "Haberler";
+"politics_string" = "Politika";
+"world_string" = "Dünya";
+
+"no-image-square-path" = "no-image-square-turkish";
+"no-image-rectangle-path" = "no-image-rectangle-turkish";
+*/
