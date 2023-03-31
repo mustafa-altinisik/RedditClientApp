@@ -19,6 +19,10 @@ final class WebScreenViewController: BaseViewController, WKNavigationDelegate {
 
     private var timer: Timer?
     private var isWebViewLoaded: Bool = false
+    
+    var animationView = LottieAnimationView(name: "redditAnimation")
+    var overlayView = UIView(frame: UIScreen.main.bounds)
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,24 +41,12 @@ final class WebScreenViewController: BaseViewController, WKNavigationDelegate {
     }
 
     private func openRedditPost(urlOfThePost: URL) {
-        let (animationView, overlayView) = displayRedditLogoAnimation()
+        (animationView, overlayView) = displayRedditLogoAnimation()
         let request = URLRequest(url: urlOfThePost)
         webView.load(request)
-
-        // Start the timer to check if the web view is loaded
-        timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-
-            if self.isWebViewLoaded {
-                self.hideRedditLogoAnimation(animation: (animationView, overlayView))
-                self.timer?.invalidate()
-                self.timer = nil
-            }
-        }
     }
 
-    // This function sets the boolean variable to true when the web view is loaded.
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        isWebViewLoaded = true
+        hideRedditLogoAnimation(animation: (animationView, overlayView))
     }
 }
