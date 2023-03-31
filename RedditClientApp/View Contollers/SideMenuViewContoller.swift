@@ -7,9 +7,14 @@
 
 import UIKit
 
-final class SideMenuViewContoller: UITableViewController {
+protocol SideMenuActionDelegate: AnyObject {
+    func safeSearchChanged(isOn: Bool)
+    func searchForImagesData(isOn: Bool)
+}
 
-    private let baseClass = BaseViewController()
+final class SideMenuViewContoller: UITableViewController {
+    
+    weak var sideMenuDelegate: SideMenuActionDelegate?
     
     struct categoriesWithSystemImageNamesStruct {
         var categoryRequestName: String
@@ -117,10 +122,12 @@ final class SideMenuViewContoller: UITableViewController {
     // Handle value change of safeSearchSwitch
     @objc func safeSearchSwitchValueChanged(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: UserDefaultsKeys.safeSearch)
+        sideMenuDelegate?.safeSearchChanged(isOn: sender.isOn)
     }
 
     // Handle value change of imagesOnlySwitch
     @objc func imagesOnlySwitchValueChanged(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: UserDefaultsKeys.postsWithImages)
+        sideMenuDelegate?.searchForImagesData(isOn: sender.isOn)
     }
 }

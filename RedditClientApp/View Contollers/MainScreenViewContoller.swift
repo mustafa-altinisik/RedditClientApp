@@ -27,6 +27,7 @@ final class MainScreenViewContoller: BaseViewController {
 
     // Variables below are used to strore the data retrieved from the API calls.
     private var topSubreddits: [String: Int] = [:]
+    private var unfilteredTrendingPosts: [RedditPostData] = []
     private var trendingPosts: [RedditPostData] = []
 
     private var pickedIcons = [String]()
@@ -61,8 +62,8 @@ final class MainScreenViewContoller: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         startScrollTimer()
-        reloadFavoriteSubreddits()
         trendingSubredditsCollectionView.reloadData()
+        reloadFavoriteSubreddits()
     }
 
     // This function is triggered when the view is about to disappear, and it is used to invalidate the timer for the trending posts's auto-scrolling feature.
@@ -73,6 +74,9 @@ final class MainScreenViewContoller: BaseViewController {
     }
 
     @IBAction private func sideMenuButtonTapped(_ sender: Any) {
+        guard let sideMenuVC = menu.viewControllers.first as? SideMenuViewContoller
+        else { return }
+        sideMenuVC.sideMenuDelegate = self
         present(menu, animated: true)
     }
 
@@ -99,10 +103,12 @@ final class MainScreenViewContoller: BaseViewController {
     // This function is used to make the API call for the trending posts.
     private func makeAPICallForTrendingPostsCollectionView() {
         let (animationView, overlayView) = displayRedditLogoAnimation()
-        fetchRedditPosts(subredditName: "popular", safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: true) { result in
+        fetchRedditPosts(subredditName: "popular") { result in
             switch result {
-            case .success(let redditPosts):
-                self.trendingPosts = redditPosts
+            case .success(let posts):
+                self.unfilteredTrendingPosts = posts
+                let filteredPosts = self.filterRedditPosts(posts: posts, safeSearch: self.doesUserWantSafeSearch, onlyPostsWithImages: true)
+                self.trendingPosts = filteredPosts
                 DispatchQueue.main.async {
                     self.trendingPostsCollectionView.reloadData()
                     self.hideRedditLogoAnimation(animation: (animationView, overlayView))
@@ -152,6 +158,18 @@ final class MainScreenViewContoller: BaseViewController {
         }
         favoriteSubredditsTableView.reloadData()
         tableViewHeightConstraint.constant = CGFloat(favoriteSubreddits.count) * favoriteSubredditsTableView.rowHeight
+    }
+    
+    func refreshTrendingPostsCollectionView(){
+        loadViewIfNeeded()
+        self.trendingPosts = self.filterRedditPosts(posts: unfilteredTrendingPosts, safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: true)
+        if let collectionView = self.trendingPostsCollectionView {
+            DispatchQueue.main.async {
+                collectionView.reloadData()
+            }
+        } else {
+            print("Error: The trendingPostsCollectionView is nil.")
+        }
     }
 }
 
@@ -362,5 +380,17 @@ extension MainScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
         configuration.performsFirstActionWithFullSwipe = true
 
         return configuration
+    }
+}
+
+extension MainScreenViewContoller: SideMenuNavigationControllerDelegate, SideMenuActionDelegate {
+    
+    func safeSearchChanged(isOn: Bool) {
+        doesUserWantSafeSearch = defaults.bool(forKey: UserDefaultsKeys.safeSearch)
+        refreshTrendingPostsCollectionView()
+    }
+    
+    func searchForImagesData(isOn: Bool) {
+        doesUserWantPostsWithImagesOnly = defaults.bool(forKey: UserDefaultsKeys.postsWithImages)
     }
 }

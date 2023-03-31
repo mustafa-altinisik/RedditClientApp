@@ -68,10 +68,11 @@ final class PostsScreenViewContoller: BaseViewController {
     // This function is used to make the API call to get the posts of a subreddit.
     private func makeAPICall() {
         let (animationView, overlayView) = displayRedditLogoAnimation()
-        fetchRedditPosts(subredditName: subredditName, safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: doesUserWantPostsWithImagesOnly) { result in
+        fetchRedditPosts(subredditName: subredditName) { result in
             switch result {
-            case .success(let redditPosts):
-                self.postsArray = redditPosts
+            case .success(let posts):
+                let filteredPosts = self.filterRedditPosts(posts: posts, safeSearch: self.doesUserWantSafeSearch, onlyPostsWithImages: self.doesUserWantPostsWithImagesOnly)
+                self.postsArray = filteredPosts
                 DispatchQueue.main.async {
                     self.postsTable.reloadData()
                     self.hideRedditLogoAnimation(animation: (animationView, overlayView))
