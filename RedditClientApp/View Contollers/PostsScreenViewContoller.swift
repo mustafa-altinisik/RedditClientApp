@@ -23,7 +23,35 @@ final class PostsScreenViewContoller: BaseViewController {
 
     private var postsArray: [RedditPostData] = []
     var subredditName: String = ""
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
+        // Load the variables from the device.
+        if let savedSubreddits = UserDefaults.standard.stringArray(forKey: UserDefaultsKeys.favoriteSubreddits) {
+            favoriteSubreddits = savedSubreddits
+        }
+
+        doesUserWantSafeSearch = defaults.bool(forKey: UserDefaultsKeys.safeSearch)
+        doesUserWantPostsWithImagesOnly = defaults.bool(forKey: UserDefaultsKeys.postsWithImages)
+
+        makeAPICall()
+
+        // If the subreddit is in the favoriteSubreddits array, the star button will be filled.
+        if favoriteSubreddits.contains(subredditName) {
+            favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        }
+
+        subredditLabel.text = "r/" + subredditName
+
+        postsTable.dataSource = self
+        postsTable.delegate = self
+
+        postsTable.register(UINib(nibName: "PostsTableViewCell", bundle: nil), forCellReuseIdentifier: "postCell")
+        postsTable.rowHeight = UITableView.automaticDimension
+    }
+
+    // The posts screen will be dismissed when the user taps on the back button.
     @IBAction private func backButtonTapped(_ sender: Any) {
         self.dismiss(animated: false)
     }
@@ -40,31 +68,6 @@ final class PostsScreenViewContoller: BaseViewController {
         defaults.set(favoriteSubreddits, forKey: UserDefaultsKeys.favoriteSubreddits)
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Load the variables from the device.
-        if let savedSubreddits = UserDefaults.standard.stringArray(forKey: UserDefaultsKeys.favoriteSubreddits) {
-            favoriteSubreddits = savedSubreddits
-        }
-
-        doesUserWantSafeSearch = defaults.bool(forKey: UserDefaultsKeys.safeSearch)
-        doesUserWantPostsWithImagesOnly = defaults.bool(forKey: UserDefaultsKeys.postsWithImages)
-
-        makeAPICall()
-
-        if favoriteSubreddits.contains(subredditName) {
-            favoriteButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
-        }
-
-        subredditLabel.text = "r/" + subredditName
-
-        postsTable.dataSource = self
-        postsTable.delegate = self
-
-        postsTable.register(UINib(nibName: "PostsTableViewCell", bundle: nil), forCellReuseIdentifier: "postCell")
-        postsTable.rowHeight = UITableView.automaticDimension
-    }
     // This function is used to make the API call to get the posts of a subreddit.
     private func makeAPICall() {
         let (animationView, overlayView) = displayRedditLogoAnimation()
@@ -86,6 +89,7 @@ final class PostsScreenViewContoller: BaseViewController {
 
 // This extension is used to handle the postsTable in the PostsScreenViewContoller.
 extension PostsScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
+    
     // This function returns the number of posts that will be displayed on the posts screen
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return postsArray.count
@@ -110,6 +114,7 @@ extension PostsScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
+    // This function is used to make the cells of the posts screen dynamic.
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }

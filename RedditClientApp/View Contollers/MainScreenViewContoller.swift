@@ -31,7 +31,7 @@ final class MainScreenViewContoller: BaseViewController {
     private var trendingPosts: [RedditPostData] = []
 
     private var pickedIcons = [String]()
-    private let iconsToBePicked = ["circle", "rectangle", "triangle", "square", "rhombus", "hexagon", "pentagon", "octagon", "star", "sun.max", "moon", "cloud", "cloud.sun", "cloud.rain", "cloud.snow", "tornado", "hurricane", "bolt", "umbrella", "flame", "drop", "waveform.path.ecg.rectangle"]
+    private let iconsToBePicked = ["circle", "rectangle", "triangle", "square", "rhombus", "hexagon", "pentagon", "octagon", "star", "sun.max", "moon", "cloud", "cloud.sun", "cloud.rain", "cloud.snow", "tornado", "hurricane", "bolt", "umbrella", "flame", "drop"]
 
     // These variables are used to keep track of the timer for auto-scrolling feature of the trending posts.
     private var isScrollingBackwards = false
@@ -58,6 +58,13 @@ final class MainScreenViewContoller: BaseViewController {
         doesUserWantPostsWithImagesOnly = defaults.bool(forKey: UserDefaultsKeys.postsWithImages)
     }
 
+    @IBAction private func sideMenuButtonTapped(_ sender: Any) {
+        guard let sideMenuVC = menu.viewControllers.first as? SideMenuViewContoller
+        else { return }
+        sideMenuVC.sideMenuDelegate = self
+        present(menu, animated: true)
+    }
+    
     // This function is triggered when the view is about to appear, and it is used to start the timer for the trending posts's auto-scrolling feature.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -71,13 +78,6 @@ final class MainScreenViewContoller: BaseViewController {
         super.viewWillDisappear(animated)
         scrollTimer?.invalidate()
         scrollTimer = nil
-    }
-
-    @IBAction private func sideMenuButtonTapped(_ sender: Any) {
-        guard let sideMenuVC = menu.viewControllers.first as? SideMenuViewContoller
-        else { return }
-        sideMenuVC.sideMenuDelegate = self
-        present(menu, animated: true)
     }
 
     // This function is used to set the side menu.
@@ -103,7 +103,7 @@ final class MainScreenViewContoller: BaseViewController {
     // This function is used to make the API call for the trending posts.
     private func makeAPICallForTrendingPostsCollectionView() {
         let (animationView, overlayView) = displayRedditLogoAnimation()
-        fetchRedditPosts(subredditName: "popular") { result in
+        fetchRedditPosts(subredditName: NSLocalizedString("trending-posts-collection-view-subreddit", comment: "")) { result in
             switch result {
             case .success(let posts):
                 self.unfilteredTrendingPosts = posts
@@ -116,6 +116,19 @@ final class MainScreenViewContoller: BaseViewController {
             case .failure(let error):
                 print("Error fetching Reddit posts:", error.localizedDescription)
             }
+        }
+    }
+    
+    // This function is used to refresh the trendingPostsCollectionView, called when the user changes the preferences. 
+    func refreshTrendingPostsCollectionView(){
+        loadViewIfNeeded()
+        self.trendingPosts = self.filterRedditPosts(posts: unfilteredTrendingPosts, safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: doesUserWantPostsWithImagesOnly)
+        if let collectionView = self.trendingPostsCollectionView {
+            DispatchQueue.main.async {
+                collectionView.reloadData()
+            }
+        } else {
+            print("Error: The trendingPostsCollectionView is nil.")
         }
     }
 
@@ -159,18 +172,6 @@ final class MainScreenViewContoller: BaseViewController {
         favoriteSubredditsTableView.reloadData()
         tableViewHeightConstraint.constant = CGFloat(favoriteSubreddits.count) * favoriteSubredditsTableView.rowHeight
     }
-    
-    func refreshTrendingPostsCollectionView(){
-        loadViewIfNeeded()
-        self.trendingPosts = self.filterRedditPosts(posts: unfilteredTrendingPosts, safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: doesUserWantPostsWithImagesOnly)
-        if let collectionView = self.trendingPostsCollectionView {
-            DispatchQueue.main.async {
-                collectionView.reloadData()
-            }
-        } else {
-            print("Error: The trendingPostsCollectionView is nil.")
-        }
-    }
 }
 
 // This extension is used to handle the search bar in the MainScreenViewContoller.
@@ -184,6 +185,7 @@ extension MainScreenViewContoller: UISearchBarDelegate {
         subreddit = subreddit.components(separatedBy: .whitespaces).enumerated().map { (index, word) in
             return index == 0 ? word : word.capitalized
         }.joined()
+        searchBar.text = ""
         showPostsScreen(subredditToBeDisplayed: subreddit)
     }
 }
@@ -383,6 +385,7 @@ extension MainScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// This extension contains the functions to handle the preference changes made in the SideMenuViewController.
 extension MainScreenViewContoller: SideMenuNavigationControllerDelegate, SideMenuActionDelegate {
 
     func safeSearchValueChanged(isOn: Bool) {

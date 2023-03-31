@@ -7,6 +7,7 @@
 
 import UIKit
 
+// This protocol is used to trigger the functions in the PostsScreenViewContoller class.
 protocol SideMenuActionDelegate: AnyObject {
     func safeSearchValueChanged(isOn: Bool)
     func postsWithImagesOnlyValueChanged(isOn: Bool)
@@ -14,8 +15,10 @@ protocol SideMenuActionDelegate: AnyObject {
 
 final class SideMenuViewContoller: UITableViewController {
     
+    // The delegate variable is used to trigger the functions in the PostsScreenViewContoller class.
     weak var sideMenuDelegate: SideMenuActionDelegate?
     
+    // This struct is used to store the predefined category names and their system image names.
     struct categoriesWithSystemImageNamesStruct {
         var categoryRequestName: String
         var categoryNameToBeDisplayed: String
@@ -39,10 +42,12 @@ final class SideMenuViewContoller: UITableViewController {
         tableView.register(SideMenuPredefinedCategoryTVC.self, forCellReuseIdentifier: "predefinedCategoryCell")
     }
 
+    // This function is used to determine the number of sections in the table view.
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
+    // This function is used to determine the title of the sections in the table view.
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
             return NSLocalizedString("categories_string", comment: "")
@@ -52,6 +57,7 @@ final class SideMenuViewContoller: UITableViewController {
         return nil
     }
 
+    // This function is used to determine the number of rows in each section.
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return categoriesArray.count
@@ -61,6 +67,7 @@ final class SideMenuViewContoller: UITableViewController {
         return 0
     }
 
+    // This function is used to populate the table view cells.
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "predefinedCategoryCell", for: indexPath) as? SideMenuPredefinedCategoryTVC else {
@@ -99,14 +106,17 @@ final class SideMenuViewContoller: UITableViewController {
         return false
     }
 
+    // This function is used to determine the height of the table view cells.
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
 
+    // This function displays the posts screen with the selected category.
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         showPostsScreen(subredditToBeDisplayed: categoriesArray[indexPath.row].categoryRequestName)
     }
 
+    // This function is used to display the posts screen.
     func showPostsScreen(subredditToBeDisplayed: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }

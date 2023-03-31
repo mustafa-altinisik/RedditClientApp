@@ -48,6 +48,7 @@ final class WebScreenViewController: BaseViewController, WKNavigationDelegate {
             if self.isWebViewLoaded {
                 self.hideRedditLogoAnimation(animation: (animationView, overlayView))
                 self.timer?.invalidate()
+                self.timer = nil
             }
         }
     }
