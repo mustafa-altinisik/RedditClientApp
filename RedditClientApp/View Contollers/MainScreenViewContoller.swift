@@ -107,7 +107,7 @@ final class MainScreenViewContoller: BaseViewController {
             switch result {
             case .success(let posts):
                 self.unfilteredTrendingPosts = posts
-                let filteredPosts = self.filterRedditPosts(posts: posts, safeSearch: self.doesUserWantSafeSearch, onlyPostsWithImages: true)
+                let filteredPosts = self.filterRedditPosts(posts: posts, safeSearch: self.doesUserWantSafeSearch, onlyPostsWithImages: self.doesUserWantPostsWithImagesOnly)
                 self.trendingPosts = filteredPosts
                 DispatchQueue.main.async {
                     self.trendingPostsCollectionView.reloadData()
@@ -162,7 +162,7 @@ final class MainScreenViewContoller: BaseViewController {
     
     func refreshTrendingPostsCollectionView(){
         loadViewIfNeeded()
-        self.trendingPosts = self.filterRedditPosts(posts: unfilteredTrendingPosts, safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: true)
+        self.trendingPosts = self.filterRedditPosts(posts: unfilteredTrendingPosts, safeSearch: doesUserWantSafeSearch, onlyPostsWithImages: doesUserWantPostsWithImagesOnly)
         if let collectionView = self.trendingPostsCollectionView {
             DispatchQueue.main.async {
                 collectionView.reloadData()
@@ -384,13 +384,14 @@ extension MainScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
 }
 
 extension MainScreenViewContoller: SideMenuNavigationControllerDelegate, SideMenuActionDelegate {
-    
-    func safeSearchChanged(isOn: Bool) {
+
+    func safeSearchValueChanged(isOn: Bool) {
         doesUserWantSafeSearch = defaults.bool(forKey: UserDefaultsKeys.safeSearch)
         refreshTrendingPostsCollectionView()
     }
     
-    func searchForImagesData(isOn: Bool) {
+    func postsWithImagesOnlyValueChanged(isOn: Bool) {
         doesUserWantPostsWithImagesOnly = defaults.bool(forKey: UserDefaultsKeys.postsWithImages)
+        refreshTrendingPostsCollectionView()
     }
 }

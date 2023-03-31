@@ -8,8 +8,8 @@
 import UIKit
 
 protocol SideMenuActionDelegate: AnyObject {
-    func safeSearchChanged(isOn: Bool)
-    func searchForImagesData(isOn: Bool)
+    func safeSearchValueChanged(isOn: Bool)
+    func postsWithImagesOnlyValueChanged(isOn: Bool)
 }
 
 final class SideMenuViewContoller: UITableViewController {
@@ -86,7 +86,7 @@ final class SideMenuViewContoller: UITableViewController {
                 cell.textLabel?.text = NSLocalizedString("PostswithImagesOnly_string", comment: "")
                 let imagesOnlySwitch = UISwitch()
                 imagesOnlySwitch.isOn = defaults.bool(forKey: UserDefaultsKeys.postsWithImages)
-                imagesOnlySwitch.addTarget(self, action: #selector(imagesOnlySwitchValueChanged(_:)), for: .valueChanged)
+                imagesOnlySwitch.addTarget(self, action: #selector(postsWithImagesSwitchValueChanged(_:)), for: .valueChanged)
                 cell.accessoryView = imagesOnlySwitch
             }
             return cell
@@ -122,12 +122,12 @@ final class SideMenuViewContoller: UITableViewController {
     // Handle value change of safeSearchSwitch
     @objc func safeSearchSwitchValueChanged(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: UserDefaultsKeys.safeSearch)
-        sideMenuDelegate?.safeSearchChanged(isOn: sender.isOn)
+        sideMenuDelegate?.safeSearchValueChanged(isOn: sender.isOn)
     }
 
     // Handle value change of imagesOnlySwitch
-    @objc func imagesOnlySwitchValueChanged(_ sender: UISwitch) {
+    @objc func postsWithImagesSwitchValueChanged(_ sender: UISwitch) {
         UserDefaults.standard.set(sender.isOn, forKey: UserDefaultsKeys.postsWithImages)
-        sideMenuDelegate?.searchForImagesData(isOn: sender.isOn)
+        sideMenuDelegate?.postsWithImagesOnlyValueChanged(isOn: sender.isOn)
     }
 }
