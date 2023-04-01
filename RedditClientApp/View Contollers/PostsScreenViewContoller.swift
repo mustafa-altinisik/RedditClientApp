@@ -120,9 +120,12 @@ extension PostsScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
     // This function opens the post on the reddit website when the user taps on a post
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let post = postsArray[indexPath.row]
-        if post.permalink != ""{
+        if post.permalink != "" {
             displayRedditPost(postToBeDisplayed: post)
+        } else {
+            displayAlertMessage(message: "The post does not have a valid link.")
         }
+        tableView.deselectRow(at: indexPath, animated: true) // Deselect the selected row.
     }
 
     // This function is used to make the cells of the posts screen dynamic.
