@@ -11,6 +11,7 @@ import Lottie
 
 final class MainScreenViewContoller: BaseViewController {
     @IBOutlet private weak var sideMenuButton: UIButton!
+    @IBOutlet private weak var searchBarStack: UIStackView!
     @IBOutlet private weak var searchBar: UISearchBar!
     @IBOutlet private weak var trendingPostsCollectionView: UICollectionView!
     @IBOutlet private weak var trendingSubredditsCollectionView: UICollectionView!
@@ -65,6 +66,13 @@ final class MainScreenViewContoller: BaseViewController {
         present(menu, animated: true)
     }
     
+    @objc func handleSwipeGesture(_ gesture: UISwipeGestureRecognizer) {
+        if gesture.direction == .right {
+            sideMenuButtonTapped(UIButton.self)
+        }
+    }
+
+    
     // This function is triggered when the view is about to appear, and it is used to start the timer for the trending posts's auto-scrolling feature.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -85,12 +93,18 @@ final class MainScreenViewContoller: BaseViewController {
         menu.leftSide = true
         menu.setNavigationBarHidden(true, animated: false)
         sideMenuButton.tintColor = .black
+        
+        let sideMenuSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(_:)))
+        sideMenuSwipeGesture.direction = .right
+        view.addGestureRecognizer(sideMenuSwipeGesture)
     }
 
     // This function handles all tasks related to the searchBar.
     private func setupSearchBar() {
         searchBar.delegate = self
         searchBar.autocapitalizationType = .none
+        searchBarStack.layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        searchBarStack.isLayoutMarginsRelativeArrangement = true
     }
 
     // This function handles all tasks related to the trendingPostsCV.
@@ -179,6 +193,7 @@ extension MainScreenViewContoller: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         // Remove trimming characters.
         guard var subreddit = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines), !subreddit.isEmpty else {
+            searchBar.resignFirstResponder() // Dismiss the keyboard.
             return
         }
         // Capitalize each word except the first one for camel casing.
@@ -188,6 +203,7 @@ extension MainScreenViewContoller: UISearchBarDelegate {
         searchBar.text = ""
         showPostsScreen(subredditToBeDisplayed: subreddit)
     }
+
 }
 
 // This extension contains functions related to two collection views: trendingPostsCV and trendingSubredditsCV.

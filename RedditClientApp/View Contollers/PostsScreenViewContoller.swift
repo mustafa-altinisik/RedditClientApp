@@ -49,6 +49,10 @@ final class PostsScreenViewContoller: BaseViewController {
 
         postsTable.register(UINib(nibName: "PostsTableViewCell", bundle: nil), forCellReuseIdentifier: "postCell")
         postsTable.rowHeight = UITableView.automaticDimension
+        
+        let dismissScreenSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(_:)))
+        dismissScreenSwipeGesture.direction = .right
+        view.addGestureRecognizer(dismissScreenSwipeGesture)
     }
 
     // The posts screen will be dismissed when the user taps on the back button.
@@ -67,6 +71,13 @@ final class PostsScreenViewContoller: BaseViewController {
         }
         defaults.set(favoriteSubreddits, forKey: UserDefaultsKeys.favoriteSubreddits)
     }
+    
+    @objc func handleSwipeGesture(_ gesture: UISwipeGestureRecognizer) {
+        if gesture.direction == .right {
+            backButtonTapped(UIButton.self)
+        }
+    }
+
 
     // This function is used to make the API call to get the posts of a subreddit.
     private func makeAPICall() {

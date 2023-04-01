@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Ef5-45-QWc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Ef5-45-QWc">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -144,6 +145,7 @@
                         <outlet property="contentView" destination="kXP-5T-d5b" id="umd-M8-Ys2"/>
                         <outlet property="favoriteSubredditsTableView" destination="bLe-Bi-Q1g" id="dee-Du-0c2"/>
                         <outlet property="searchBar" destination="iac-X8-kM2" id="VUJ-ap-0PI"/>
+                        <outlet property="searchBarStack" destination="Gwa-of-Rl1" id="CxV-aY-bQv"/>
                         <outlet property="sideMenuButton" destination="nhb-Kc-HNW" id="pRN-PS-zMU"/>
                         <outlet property="tableViewHeightConstraint" destination="ptq-J0-ZQo" id="gbp-AD-z83"/>
                         <outlet property="trendingPostsCollectionView" destination="eek-aj-xrY" id="zHq-2S-scP"/>
