@@ -31,7 +31,7 @@ final class MainScreenViewContoller: BaseViewController {
     private var unfilteredTrendingPosts: [RedditPostData] = []
     private var trendingPosts: [RedditPostData] = []
 
-    private var pickedIcons = [String]()
+    private var pickedIcons = [(iconName: String, subreddit: String)]()
     private let iconsToBePicked = ["circle", "rectangle", "triangle", "square", "rhombus", "hexagon", "pentagon", "octagon", "star", "sun.max", "moon", "cloud", "cloud.sun", "cloud.rain", "cloud.snow", "tornado", "hurricane", "bolt", "umbrella", "flame", "drop"]
 
     // These variables are used to keep track of the timer for auto-scrolling feature of the trending posts.
@@ -53,7 +53,7 @@ final class MainScreenViewContoller: BaseViewController {
 
         setupFavoriteSubredditsTableView()
 
-        reloadFavoriteSubreddits()
+        refreshFavoriteSubreddits()
 
         doesUserWantSafeSearch = defaults.bool(forKey: UserDefaultsKeys.safeSearch)
         doesUserWantPostsWithImagesOnly = defaults.bool(forKey: UserDefaultsKeys.postsWithImages)
@@ -78,7 +78,7 @@ final class MainScreenViewContoller: BaseViewController {
         super.viewWillAppear(animated)
         startScrollTimer()
         trendingSubredditsCollectionView.reloadData()
-        reloadFavoriteSubreddits()
+        refreshFavoriteSubreddits()
     }
 
     // This function is triggered when the view is about to disappear, and it is used to invalidate the timer for the trending posts's auto-scrolling feature.
@@ -127,8 +127,8 @@ final class MainScreenViewContoller: BaseViewController {
                     self.trendingPostsCollectionView.reloadData()
                     self.hideRedditLogoAnimation(animation: (animationView, overlayView))
                 }
-            case .failure(let error):
-                print("Error fetching Reddit posts:", error.localizedDescription)
+            case .failure(_):
+                self.displayAlertMessage(message: "Trending posts could not be loaded.")
             }
         }
     }
@@ -165,8 +165,8 @@ final class MainScreenViewContoller: BaseViewController {
                 self.topSubreddits = subreddits
                 self.trendingSubredditsCollectionView.reloadData()
                 self.hideRedditLogoAnimation(animation: (animationView, overlayView))
-            } else if let error = error {
-                self.displayAlertMessage(message: "Error getting top subreddits: \(error)")
+            } else if error != nil {
+                displayAlertMessage(message: "Trending subreddits could not be loaded.")
             }
         }
     }
@@ -179,7 +179,7 @@ final class MainScreenViewContoller: BaseViewController {
     }
 
     // This function is used to reload the favoriteSubredditsTV after the user adds or removes a subreddit from the favorites.
-    private func reloadFavoriteSubreddits() {
+    private func refreshFavoriteSubreddits() {
         if let savedSubreddits = UserDefaults.standard.stringArray(forKey: UserDefaultsKeys.favoriteSubreddits) {
             favoriteSubreddits = savedSubreddits
         }
@@ -203,7 +203,6 @@ extension MainScreenViewContoller: UISearchBarDelegate {
         searchBar.text = ""
         showPostsScreen(subredditToBeDisplayed: subreddit)
     }
-
 }
 
 // This extension contains functions related to two collection views: trendingPostsCV and trendingSubredditsCV.
@@ -222,8 +221,7 @@ extension MainScreenViewContoller: UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == trendingPostsCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingPostCell", for: indexPath) as? TrendingPostCollectionViewCell else {
-                self.displayAlertMessage(message: "Unable to dequeue TrendingPostCollectionViewCell")
-                return UICollectionViewCell()
+                fatalError("Unable to dequeue TrendingPostCollectionViewCell")
             }
             let post = trendingPosts[indexPath.row]
             cell.configureCell(title: post.title, imageURLToBeSet: post.imageURL)
@@ -234,8 +232,7 @@ extension MainScreenViewContoller: UICollectionViewDataSource, UICollectionViewD
             }
 
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "trendingSubredditCell", for: indexPath) as? TrendingSubredditsCollectionViewCell else {
-                self.displayAlertMessage(message: "Unable to dequeue TrendingSubredditsCollectionViewCell")
-                return UICollectionViewCell()
+                fatalError("Unable to dequeue TrendingSubredditsCollectionViewCell")
             }
 
             let subreddit = Array(topSubreddits.keys)[indexPath.row]
@@ -246,18 +243,31 @@ extension MainScreenViewContoller: UICollectionViewDataSource, UICollectionViewD
             } else {
                 cell.configureCell(title: subreddit, image: nil)
             }
-
-            // It keeps picking a random system image until it finds one that is not in the pickedIcons array.
-            var systemImage: UIImage?
-            repeat {
-                let randomIndex = Int.random(in: 0..<iconsToBePicked.count)
-                let iconName = iconsToBePicked[randomIndex]
-                if !pickedIcons.contains(iconName) {
-                    pickedIcons.append(iconName)
-                    systemImage = UIImage(systemName: iconName)
+            
+            var indexToBeUsed: Int?
+            
+            for (index, (pickedIconName, pickedSubreddit)) in pickedIcons.enumerated() {
+                if pickedSubreddit == subreddit {
+                    indexToBeUsed = index
                     break
                 }
-            } while systemImage == nil
+            }
+            
+            // It keeps picking a random system image until it finds one that is not in the pickedIcons array.
+            var systemImage: UIImage?
+            if let index = indexToBeUsed {
+                systemImage = UIImage(systemName: pickedIcons[index].iconName)
+            } else {
+                repeat {
+                    let randomIndex = Int.random(in: 0..<iconsToBePicked.count)
+                    let iconName = iconsToBePicked[randomIndex]
+                    if !pickedIcons.contains(where: { $0.iconName == iconName }) {
+                        pickedIcons.append((iconName: iconName, subreddit: subreddit))
+                        systemImage = UIImage(systemName: iconName)
+                        break
+                    }
+                } while systemImage == nil
+            }
 
             cell.configureCell(title: cell.getSubredditLabel() ?? "", image: systemImage)
 
@@ -357,8 +367,7 @@ extension MainScreenViewContoller: UITableViewDataSource, UITableViewDelegate {
     // This function is used to display the favorite subreddits in the favoriteSubredditsTableView.
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "FavoriteSubredditCell", for: indexPath) as? FavoriteSubredditTableViewCell else {
-            self.displayAlertMessage(message: "Unable to dequeue FavoriteSubredditCell")
-            return UITableViewCell()
+            fatalError("Unable to dequeue FavoriteSubredditCell")
         }
 
         let subreddit = "r/" + favoriteSubreddits[indexPath.row]
