@@ -1,5 +1,6 @@
 ![RedditClientApp](https://user-images.githubusercontent.com/8038008/222705261-30699891-c92e-4fec-9bf8-83475b30ff25.gif)
 ![Simulator Screen Recording - iPhone 14 Pro - 2023-05-11 at 12 12 00 (1)](https://github.com/mustafa-altinisik/RedditClientApp/assets/8038008/be119dfe-5a88-48fa-a1e4-f62e3cd6c8b0)
+![Simulator Screen Recording - iPhone 14 Pro - 2023-05-11 at 12 12 00 (1) (1)](https://github.com/mustafa-altinisik/RedditClientApp/assets/8038008/8e0dbcc4-0cf9-4ead-9f33-2a0c4b805cb4)
 
 This project is an Reddit app written in swift. I developed this app as a part of my internship in Innova.
 
