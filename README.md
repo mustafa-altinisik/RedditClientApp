@@ -1,7 +1,8 @@
 ![RedditAppScreenRecord](https://github.com/mustafa-altinisik/RedditClientApp/assets/8038008/e1aff776-6c6a-4a38-9d78-681a0a87b40f)
+
 This project is an Reddit app written in swift. I developed this app as a part of my internship in Innova.
 
-Project includes two screens: Home Screen and Posts Screen:
+Project includes three screens: Home Screen, Posts Screen and Web Screen.
 
 <b>Home screen</b> has the following UI elements:
 
