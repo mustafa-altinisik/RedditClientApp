@@ -1,4 +1,4 @@
-![Simulator Screen Recording - iPhone 14 Pro - 2023-05-11 at 12 12 00 (1) (1)](https://github.com/mustafa-altinisik/RedditClientApp/assets/8038008/8b999b4b-4948-4146-aedc-2f3e5b5290b5)
+![RedditAppScreenRecord](https://github.com/mustafa-altinisik/RedditClientApp/assets/8038008/e1aff776-6c6a-4a38-9d78-681a0a87b40f)
 This project is an Reddit app written in swift. I developed this app as a part of my internship in Innova.
 
 Project includes two screens: Home Screen and Posts Screen:
